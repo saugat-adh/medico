@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:medico/log_in.dart';
+import 'button_and_text.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -36,12 +38,24 @@ class _HomePageState extends State<HomePage> {
               txtFile: 'Summed up in one place',
             ),
             Buttons(
-              colour: Color(0xff009B15),
+              colour: Color(0xff52912E),
               dim: EdgeInsets.fromLTRB(0, 200, 0, 0),
+              txt: 'Sign In',
+              click: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return LogIn();
+                }));
+              },
             ),
             Buttons(
               colour: Color(0xff444444),
               dim: EdgeInsets.fromLTRB(0, 20, 0, 40),
+              txt: 'Sign Up',
+              click: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return LogIn();
+                }));
+              },
             )
           ],
         ),
@@ -50,80 +64,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class Buttons extends StatelessWidget {
-  Buttons({@required this.colour,@required this.dim})  ;
 
-  final Color colour;
-  final EdgeInsets dim;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: dim,
-      width: 350,
-      child: ElevatedButton(
-        onPressed: (){
-
-        },
-        child: Text(
-          'Log In',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 20,
-            color: Colors.white,
-          ),
-        ),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(colour),
-          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class TopText extends StatelessWidget {
-  TopText({this.txtFile});
-
-  final String txtFile;
-
-  Widget build(BuildContext context) {
-    return Text(
-      txtFile,
-      style: TextStyle(
-        fontSize: 40,
-        fontWeight: FontWeight.bold,
-        fontFamily: 'Roboto',
-
-      ),
-    );
-  }
-}
-
-class MidText extends StatelessWidget {
-  MidText({this.txtFile, this.dime});
-  final String txtFile;
-  final EdgeInsets dime;
-
-  Widget build(BuildContext context) {
-    return Container(
-      margin: dime,
-      child: Text(
-        txtFile,
-        style: TextStyle(
-          fontSize: 17,
-          fontFamily: 'RobotoReg',
-
-        ),
-      ),
-    );
-  }
-}
 
 
