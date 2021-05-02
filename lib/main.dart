@@ -13,7 +13,12 @@ class MedicoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/' : (context) => HomePage(),
+        '/signIn': (context) => LogIn(),
+        '/signUp': (context) => SignUp(),
+      },
     );
   }
 }

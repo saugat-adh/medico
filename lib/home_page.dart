@@ -42,19 +42,15 @@ class _HomePageState extends State<HomePage> {
               dim: EdgeInsets.fromLTRB(0, 200, 0, 0),
               txt: 'Sign In',
               click: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return LogIn();
-                }));
+                Navigator.pushNamed(context, '/signIn');
               },
             ),
             Buttons(
-              colour: Color(0xff444444),
+              colour: Color(0xff000000),
               dim: EdgeInsets.fromLTRB(0, 20, 0, 40),
               txt: 'Sign Up',
               click: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return LogIn();
-                }));
+                Navigator.pushNamed(context, '/signUp');
               },
             )
           ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'button_and_text.dart';
+import 'forms.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -44,22 +45,7 @@ class _LogInState extends State<LogIn> {
   }
 }
 
-class InForm extends StatelessWidget {
-  InForm({this.childNote});
 
-  final Widget childNote;
-
-  Widget build(BuildContext context) {
-    return Container(
-      child: childNote,
-      margin: EdgeInsets.fromLTRB(20, 50, 20, 20),
-      decoration: BoxDecoration(
-        color: Color(0xffffffff),
-        borderRadius: BorderRadius.circular(20),
-      ),
-    );
-  }
-}
 
 
 
