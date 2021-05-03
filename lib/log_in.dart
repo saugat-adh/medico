@@ -28,6 +28,7 @@ class _LogInState extends State<LogIn> {
             children: [
               TopText(
                 txtFile: 'Sign In',
+                colour: Colors.white,
               ),
               Center(
                 child: InForm(

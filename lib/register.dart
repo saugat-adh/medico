@@ -31,6 +31,7 @@ class _SignUpState extends State<SignUp> {
                     padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                     child: TopText(
                       txtFile: 'Sign Up',
+                      colour: Colors.white,
                     ),
                   )
               ),
