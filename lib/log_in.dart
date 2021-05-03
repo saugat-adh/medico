@@ -12,6 +12,10 @@ class _LogInState extends State<LogIn> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xff56AC81),
+          elevation: 0,
+        ),
         backgroundColor: Color(0xff444444),
         body: Container(
           decoration: BoxDecoration(
@@ -22,20 +26,18 @@ class _LogInState extends State<LogIn> {
           ),
           child: Column(
             children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                  child: TopText(
-                    txtFile: 'Sign In',
-                  ),
-                )
+              TopText(
+                txtFile: 'Sign In',
               ),
               Center(
                 child: InForm(
                   childNote: Padding(
                     padding: const EdgeInsets.all(50.0),
                     child: Text(
-                      'Form Goes Here',
+                      'Form Goes Here\n'
+                          'Asdf\n'
+                          'ffg\n'
+                          'adsdsddsfdadfasdassdadasdas\n',
                       style: TextStyle(
                         color: Colors.black,
                       ),
@@ -43,8 +45,14 @@ class _LogInState extends State<LogIn> {
                   ),
                 ),
               ),
-              Buttons(colour: Color(0xff52912E), dim: EdgeInsets.fromLTRB(0, 20, 0, 20), txt: 'Continue'),
-              Buttons(colour: Color(0xff000000), dim: EdgeInsets.fromLTRB(0, 0, 0, 0), txt: 'Back', click: (){ Navigator.pop(context); })
+              Buttons(
+                colour: Color(0xff52912E),
+                dim: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                txt: 'Sign In',
+                click: (){
+                  Navigator.pushReplacementNamed(context, '/dash');
+                },
+              ),
             ],
           ),
         ),
