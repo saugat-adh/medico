@@ -76,3 +76,10 @@ class MidText extends StatelessWidget {
     );
   }
 }
+
+class NavIconButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}

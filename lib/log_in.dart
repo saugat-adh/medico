@@ -47,7 +47,7 @@ class _LogInState extends State<LogIn> {
                 ),
               ),
               Buttons(
-                colour: Color(0xff52912E),
+                colour: Color(0xff56AC81),
                 dim: EdgeInsets.fromLTRB(0, 20, 0, 20),
                 txt: 'Sign In',
                 click: (){

@@ -48,7 +48,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-              Buttons(colour: Color(0xff52912E), dim: EdgeInsets.fromLTRB(0, 20, 0, 20), txt: 'Continue'),
+              Buttons(colour: Color(0xff56AC81), dim: EdgeInsets.fromLTRB(0, 20, 0, 20), txt: 'Continue'),
             ],
           ),
         ),

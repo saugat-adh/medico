@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:medico/button_and_text.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 ButtonStyle popUpButton = ButtonStyle(
     foregroundColor: MaterialStateProperty.all<Color>(Color(0xff52912E)),
@@ -14,6 +15,11 @@ class BotNavBar extends StatefulWidget {
 
 class _BotNavBarState extends State<BotNavBar> {
   int _selectedIndex = 0;
+  final iconList = [
+   Icon(Icons.dashboard_outlined),
+    Icon(Icons.medical_services_outlined),
+    Icon(Icons.shopping_basket_outlined),
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -73,33 +79,18 @@ class _BotNavBarState extends State<BotNavBar> {
           backgroundColor: Colors.white,
           bottomNavigationBar: Theme(
             data: Theme.of(context).copyWith(
-                canvasColor: Colors.white,
+              canvasColor: Color(0xff56AC81),
             ),
-            child: BottomNavigationBar(
+            child: CurvedNavigationBar(
+              backgroundColor: Colors.white,
               items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.dashboard_outlined),
-                  label: '',
-                  activeIcon: Icon(Icons.dashboard),
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.medical_services_outlined),
-                    label: '',
-                  activeIcon: Icon(Icons.medical_services),
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.shopping_basket_outlined),
-                    label: '',
-                  activeIcon: Icon(Icons.shopping_basket),
-                ),
-                //BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ''),
+                Icon(Icons.dashboard_outlined, color: Colors.white, size: 30,),
+                Icon(Icons.medical_services_outlined, color: Colors.white, size: 30,),
+                Icon(Icons.shopping_basket_outlined, color: Colors.white, size: 30,),
               ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: Color(0xff56AC81),
-              unselectedItemColor: Color(0xff2c6b4c),
-              elevation: 0,
               onTap: _onItemTapped,
-              iconSize: 30,
+              buttonBackgroundColor: Color(0xff56AC81),
+              color: Color(0xff56AC81),
             ),
           ),
         ),
@@ -141,33 +132,3 @@ class _buildPopupDialog extends StatelessWidget {
 }
 
 
-// Widget _buildPopupDialog(BuildContext context) {
-//   return new AlertDialog(
-//     title: const Text(''),
-//     content: new Column(
-//       mainAxisSize: MainAxisSize.min,
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: <Widget>[
-//         Text("Do you really want to Sign Out?"),
-//       ],
-//     ),
-//     actions: <Widget>[
-//       new FlatButton(
-//         onPressed: () {
-//           Navigator.of(context).pop();
-//         },
-//         textColor: Theme.of(context).primaryColor,
-//         child: const Text('No'),
-//       ),
-//       new FlatButton(
-//         onPressed: (){
-//           setState((){
-//            
-//           })
-//         },
-//         textColor: Theme.of(context).primaryColor,
-//         child: const Text('Yes'),
-//       ),
-//     ],
-//   );
-// }
