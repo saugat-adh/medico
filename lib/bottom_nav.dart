@@ -3,6 +3,9 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:medico/button_and_text.dart';
 
+ButtonStyle popUpButton = ButtonStyle(
+    foregroundColor: MaterialStateProperty.all<Color>(Color(0xff52912E)),
+);
 
 class BotNavBar extends StatefulWidget {
   @override
@@ -33,7 +36,6 @@ class _BotNavBarState extends State<BotNavBar> {
     ),
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,7 +44,11 @@ class _BotNavBarState extends State<BotNavBar> {
             leading: IconButton(
               icon: Icon(Icons.clear_all),
               onPressed: (){
-                Navigator.pop(context);
+                //Navigator.pop(context);
+                showDialog(
+                    context: this.context,
+                    builder: (BuildContext context) => _buildPopupDialog(),
+                );
               },
               splashRadius: 18,
             ),
@@ -100,3 +106,68 @@ class _BotNavBarState extends State<BotNavBar> {
     );
   }
 }
+
+class _buildPopupDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text(''),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Do you really want to Sign Out?"),
+        ],
+      ),
+      actions: <Widget>[
+        new TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style: popUpButton ,
+          child: const Text('No'),
+        ),
+        new TextButton(
+          onPressed: (){
+            int count = 0;
+            Navigator.of(context).popUntil((_) => count++ >= 2);
+          },
+          style: popUpButton,
+          child: const Text('Yes'),
+        ),
+      ],
+    );
+  }
+}
+
+
+// Widget _buildPopupDialog(BuildContext context) {
+//   return new AlertDialog(
+//     title: const Text(''),
+//     content: new Column(
+//       mainAxisSize: MainAxisSize.min,
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: <Widget>[
+//         Text("Do you really want to Sign Out?"),
+//       ],
+//     ),
+//     actions: <Widget>[
+//       new FlatButton(
+//         onPressed: () {
+//           Navigator.of(context).pop();
+//         },
+//         textColor: Theme.of(context).primaryColor,
+//         child: const Text('No'),
+//       ),
+//       new FlatButton(
+//         onPressed: (){
+//           setState((){
+//            
+//           })
+//         },
+//         textColor: Theme.of(context).primaryColor,
+//         child: const Text('Yes'),
+//       ),
+//     ],
+//   );
+// }
