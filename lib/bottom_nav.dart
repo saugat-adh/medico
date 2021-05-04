@@ -5,7 +5,7 @@ import 'package:medico/button_and_text.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 ButtonStyle popUpButton = ButtonStyle(
-    foregroundColor: MaterialStateProperty.all<Color>(Color(0xff52912E)),
+    foregroundColor: MaterialStateProperty.all<Color>(Color(0xff56AC81)),
 );
 
 class BotNavBar extends StatefulWidget {
@@ -91,6 +91,7 @@ class _BotNavBarState extends State<BotNavBar> {
               onTap: _onItemTapped,
               buttonBackgroundColor: Color(0xff56AC81),
               color: Color(0xff56AC81),
+              animationDuration: Duration(milliseconds: 200),
             ),
           ),
         ),
