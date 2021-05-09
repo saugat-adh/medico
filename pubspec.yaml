@@ -15,6 +15,7 @@ dependencies:
   material_floating_search_bar: ^0.3.4
   flutter_feather_icons: ^2.0.0
   curved_navigation_bar: ^0.3.7
+  salomon_bottom_bar: ^3.0.0
 
 dev_dependencies:
   flutter_test:

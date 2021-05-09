@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+ButtonStyle popUpButton = ButtonStyle(
+  foregroundColor: MaterialStateProperty.all<Color>(Color(0xff56AC81)),
+);
+
+
 class Buttons extends StatelessWidget {
   Buttons({@required this.colour,@required this.dim, @required this.txt, this.click})  ;
 
@@ -83,3 +88,56 @@ class NavIconButton extends StatelessWidget {
     return Container();
   }
 }
+
+class ReusableCard extends StatelessWidget {
+  ReusableCard({this.colour, this.cardChild});
+  final Color colour;
+  final Widget cardChild;
+
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Center(child: cardChild),
+      margin: EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: colour,
+        borderRadius: BorderRadius.circular(10)
+      ),
+    );
+  }
+}
+
+class BuildPopupDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text(''),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Do you really want to Sign Out?"),
+        ],
+      ),
+      actions: <Widget>[
+        new TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style: popUpButton ,
+          child: const Text('No'),
+        ),
+        new TextButton(
+          onPressed: (){
+            int count = 0;
+            Navigator.of(context).popUntil((_) => count++ >= 2);
+          },
+          style: popUpButton,
+          child: const Text('Yes'),
+        ),
+      ],
+    );
+  }
+}
+
+

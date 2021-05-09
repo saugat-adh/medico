@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medico/log_in.dart';
 import 'button_and_text.dart';
 
 class HomePage extends StatefulWidget {
