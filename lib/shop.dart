@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'button_and_text.dart';
+//import 'button_and_text.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class Dash3 extends StatefulWidget {
@@ -10,23 +10,12 @@ class Dash3 extends StatefulWidget {
 class _Dash3State extends State<Dash3> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
+    return Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.clear_all),
-              onPressed: (){
-                showDialog(
-                  context: this.context,
-                  builder: (BuildContext context) => BuildPopupDialog(),
-                );
-              },
-              splashRadius: 18,
-            ),
+            title: Text('Shop'),
             backgroundColor: Colors.transparent,
             elevation: 0,
-            actions: [
+            actions: <Widget>[
               IconButton(
                 onPressed: (){
 
@@ -35,10 +24,31 @@ class _Dash3State extends State<Dash3> {
                 splashRadius: 18,
               ),
             ],
-            automaticallyImplyLeading: false,
+            //automaticallyImplyLeading: false,
+          ),
+          drawer: new Drawer(
+            child: new ListView(
+              children: <Widget>[
+                new UserAccountsDrawerHeader(
+                    accountName: Text('Tyra'),
+                    accountEmail: Text('tyra@mug.com'),
+                decoration: BoxDecoration(
+                  color: Colors.green
+                ),
+                currentAccountPicture: GestureDetector(
+                  child: new CircleAvatar(
+                    backgroundColor: Colors.greenAccent,
+                  ),
+                ) ,)
+              ],
+            ),
           ),
           backgroundColor: Colors.teal,
 
-    ),],);
+    );
   }
+
 }
+
+
+
