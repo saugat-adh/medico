@@ -8,26 +8,20 @@ class DashIcons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ToggleButtons(
+        constraints: BoxConstraints(
+          maxHeight: 100,
+          maxWidth: 100,
+          minHeight: 80,
+          minWidth: 80,
+        ),
         selectedBorderColor: Colors.teal,
         renderBorder: false,
         fillColor: Colors.transparent,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Icon(FeatherIcons.settings, size: 27,),
-          ),
-          Padding(
-          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Icon(FeatherIcons.bell, size: 27),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Icon(FeatherIcons.logOut, size: 27),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Icon(FeatherIcons.paperclip, size: 27),
-          ),
+          Icon(FeatherIcons.settings),
+          Icon(FeatherIcons.shoppingCart),
+          Icon(FeatherIcons.bell),
+          Icon(FeatherIcons.logOut),
         ],
         isSelected: isSelekted,
       ),
