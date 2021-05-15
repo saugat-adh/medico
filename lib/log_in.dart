@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'button_and_text.dart';
-import 'forms.dart';
+import 'Wizards/text.dart';
+import 'Wizards/forms.dart';
+import 'Wizards/buttons.dart';
 
 class LogIn extends StatefulWidget {
   @override

@@ -41,17 +41,17 @@ class _BotNavBarState extends State<BotNavBar> {
               SalomonBottomBarItem(
                 icon: Icon(Icons.dashboard_outlined),
                 title: Text("Dashboard "),
-                selectedColor: Colors.purple,
+                selectedColor: Colors.teal,
               ),
               SalomonBottomBarItem(
                 icon: Icon(Icons.medical_services_outlined),
                 title: Text("Appointments"),
-                selectedColor: Colors.pink,
+                selectedColor: Color(0xff8f3d3c),
               ),
               SalomonBottomBarItem(
                 icon: Icon(Icons.shopping_basket_outlined),
                 title: Text("Shop"),
-                selectedColor: Colors.teal,
+                selectedColor: Colors.purple,
               ),
             ],
           ),

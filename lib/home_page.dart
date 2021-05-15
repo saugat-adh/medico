@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'button_and_text.dart';
+import 'Wizards/text.dart';
+import 'Wizards/buttons.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -42,17 +43,19 @@ class _HomePageState extends State<HomePage> {
               dime: EdgeInsets.fromLTRB(0, 0, 0, 100),
             ),
             Buttons(
-              colour: Color(0xff56AC81),
+              colour: Colors.white,
               dim: EdgeInsets.fromLTRB(0, 200, 0, 0),
               txt: 'Sign In',
+              col: Color(0xff56AC81),
               click: (){
                 Navigator.pushNamed(context, '/signIn');
               },
             ),
             Buttons(
-              colour: Color(0xff000000),
+              colour: Colors.white,
               dim: EdgeInsets.fromLTRB(0, 20, 0, 40),
               txt: 'Sign Up',
+              col: Color(0xff000000),
               click: (){
                 Navigator.pushNamed(context, '/signUp');
               },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'button_and_text.dart';
-import 'forms.dart';
+import 'Wizards/text.dart';
+import 'Wizards/forms.dart';
+import 'Wizards/buttons.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -48,7 +49,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-              Buttons(colour: Color(0xff56AC81), dim: EdgeInsets.fromLTRB(0, 20, 0, 20), txt: 'Continue'),
+              Buttons(colour: Color(0xff56AC81), dim: EdgeInsets.fromLTRB(0, 20, 0, 20), txt: 'Continue', col: Colors.white,),
             ],
           ),
         ),
