@@ -16,7 +16,6 @@ class _HomePageState extends State<HomePage> {
             image: DecorationImage(
               image: AssetImage('images/background.png'),
               fit: BoxFit.cover,
-              //colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
             )
         ),
         child: Column(
@@ -42,24 +41,21 @@ class _HomePageState extends State<HomePage> {
                 colour: Colors.white,
               dime: EdgeInsets.fromLTRB(0, 0, 0, 100),
             ),
+            SizedBox(height: 200,),
             Buttons(
-              colour: Colors.white,
-              dim: EdgeInsets.fromLTRB(0, 200, 0, 0),
               txt: 'Sign In',
-              col: Color(0xff56AC81),
               click: (){
                 Navigator.pushNamed(context, '/signIn');
               },
             ),
+            SizedBox(height: 20,),
             Buttons(
-              colour: Colors.white,
-              dim: EdgeInsets.fromLTRB(0, 20, 0, 40),
               txt: 'Sign Up',
-              col: Color(0xff000000),
               click: (){
                 Navigator.pushNamed(context, '/signUp');
               },
-            )
+            ),
+            SizedBox(height: 50,),
           ],
         ),
       ),

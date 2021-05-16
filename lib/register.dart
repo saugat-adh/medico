@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Wizards/text.dart';
-import 'Wizards/forms.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'Wizards/buttons.dart';
 
 class SignUp extends StatefulWidget {
@@ -12,50 +11,112 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff56AC81),
-          elevation: 0,
-        ),
-        backgroundColor: Color(0xff444444),
-        body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('images/form.png'),
-                fit: BoxFit.cover,
-              )
-          ),
-          child: Column(
-            children: [
-              Center(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                    child: TopText(
-                      txtFile: 'Sign Up',
-                      colour: Colors.white,
-                    ),
-                  )
-              ),
-              Center(
-                child: InForm(
-                  childNote: Padding(
-                    padding: const EdgeInsets.all(50.0),
-                    child: Text(
-                      'Form Goes Here',
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
+      child: Stack(children: [
+        Scaffold(
+            backgroundColor: Colors.white,
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Stack(
+                    clipBehavior: Clip.none,
+                    alignment: AlignmentDirectional.topCenter,
+                    children: [
+                      _buildBackgroundCover(),
+                      _buildBackIcon(),
+                      _buildTextData(),
+                      _buildFormContainer(),
+                    ],
                   ),
-                ),
+                  SizedBox(
+                    height: 130.0,
+                  ),
+                  Buttons(
+                    txt: 'Continue',
+                    click: (){
+
+                    },
+                  )
+                ],
               ),
-              Buttons(colour: Color(0xff56AC81), dim: EdgeInsets.fromLTRB(0, 20, 0, 20), txt: 'Continue', col: Colors.white,),
-            ],
+            )),
+      ]),
+    );
+  }
+
+  _buildBackIcon() {
+    return Positioned(
+        left: -13,
+        child: IconButton(
+          icon: Icon(FeatherIcons.arrowLeft),
+          color: Colors.white,
+          constraints: BoxConstraints(
+            maxHeight: 100,
+            maxWidth: 100,
+            minHeight: 80,
+            minWidth: 80,
           ),
+          onPressed: () {
+            setState(() {
+              Navigator.pop(context);
+            });
+          },
+        ));
+  }
+
+  _buildBackgroundCover() {
+    return Container(
+      height: 260.0,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Colors.green,
+            Colors.teal,
+          ],
+        ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(40),
+          //bottomRight: Radius.circular(40)
         ),
       ),
     );
   }
+
+  _buildTextData() {
+    return Positioned(
+      top: 70,
+      child: Text(
+        'Sign Up',
+        style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  _buildFormContainer() {
+    return Positioned(
+        bottom: -100,
+        child: Container(
+          height: 200,
+          width: MediaQuery.of(context).size.width - 60,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(28)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                spreadRadius: 5.5,
+                blurRadius: 5.5,
+              )
+            ],
+          ),
+          child: Text('Form Goes here'),
+        ));
+  }
 }
-
-
