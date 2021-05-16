@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'Wizards/text.dart';
 import 'Wizards/buttons.dart';
+import 'constants.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,26 +22,25 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Center(
-              child: TopText(
-                txtFile: 'Welcome To',
-                colour: Colors.white,
+              child: Text(
+                'Welcome To',
+                style: topTxt,
               )
             ),
-            TopText(
-              txtFile: 'Medico',
-                colour: Colors.white
+            Text(
+              'Medico',
+              style: topTxt,
             ),
-            MidText(
-              txtFile: 'All your health needs',
-              dime: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                colour: Colors.white
+            Text(
+              'All your health needs',
+              style: midText,
             ),
-            MidText(
-              txtFile: 'Summed up in one place',
-                colour: Colors.white,
-              dime: EdgeInsets.fromLTRB(0, 0, 0, 100),
+            SizedBox(height: 2,),
+            Text(
+              'Summed upped in one place',
+              style: midText,
             ),
-            SizedBox(height: 200,),
+            SizedBox(height: 250,),
             Buttons(
               txt: 'Sign In',
               click: (){

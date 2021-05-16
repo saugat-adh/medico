@@ -53,13 +53,13 @@ class _Dash3State extends State<Dash3> {
   _buildTextFile() {
     return Positioned(
       top: 50,
-      left: 20,
+      left: 40,
       child: Text(
         'Shop',
         style: TextStyle(
           fontSize: 50,
           color: Colors.white,
-          //fontWeight: FontWeight.w500,
+          fontFamily: 'Bebas',
         ),
       ),
     );
@@ -99,6 +99,7 @@ class _Dash3State extends State<Dash3> {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 15,
+                fontFamily: 'Bebas',
               ),
             ),
           ),

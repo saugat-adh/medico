@@ -52,11 +52,13 @@ class _Dash2State extends State<Dash2> {
   _buildText() {
     return Positioned(
       top: 50,
+        left: 40,
         child: Text(
           'Appointments',
           style: TextStyle(
             fontSize: 50,
             color: Colors.white,
+            fontFamily: 'Bebas',
           ),
     ));
   }
@@ -73,6 +75,7 @@ class _Dash2State extends State<Dash2> {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 15,
+                fontFamily: 'Bebas',
               ),
             ),
           ),

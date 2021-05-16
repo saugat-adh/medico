@@ -32,7 +32,9 @@ class Buttons extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 25,
+                fontFamily: 'Bebas',
+                letterSpacing: 0.7
               ),
             ),
           ),

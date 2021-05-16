@@ -90,9 +90,10 @@ class _SignUpState extends State<SignUp> {
       child: Text(
         'Sign Up',
         style: TextStyle(
-          fontSize: 30,
+          fontSize: 50,
           fontWeight: FontWeight.w500,
           color: Colors.white,
+          fontFamily: 'Bebas',
         ),
       ),
     );

@@ -31,6 +31,14 @@ flutter:
     - family: Roboto
       fonts:
         - asset: fonts/Montserrat-Bold.ttf
+
     - family: RobotoReg
       fonts:
             - asset: fonts/Montserrat-SemiBold.ttf
+
+    - family: Bebas
+      fonts:
+        - asset: fonts/BebasNeue-Regular.ttf
+    - family: Poiret
+      fonts:
+        - asset: fonts/PoiretOne-Regular.ttf

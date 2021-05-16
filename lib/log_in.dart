@@ -91,9 +91,10 @@ class _LogInState extends State<LogIn> {
       child: Text(
         'Sign In',
         style: TextStyle(
-          fontSize: 30,
+          fontSize: 50,
           fontWeight: FontWeight.w500,
           color: Colors.white,
+          fontFamily: 'Bebas',
         ),
       ),
     );
@@ -139,7 +140,8 @@ class _LogInState extends State<LogIn> {
           hintText: 'Email',
           hintStyle: TextStyle(
             color: Colors.grey,
-            fontSize: 20,
+            fontSize: 22,
+            fontFamily: 'Bebas',
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -159,7 +161,8 @@ class _LogInState extends State<LogIn> {
         hintText: 'Password',
         hintStyle: TextStyle(
           color: Colors.grey,
-          fontSize: 20,
+          fontSize: 22,
+          fontFamily: 'Bebas',
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
