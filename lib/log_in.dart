@@ -25,11 +25,12 @@ class _LogInState extends State<LogIn> {
                       _buildBackgroundCover(),
                       _buildBackIcon(),
                       _buildTextData(),
+                      SizedBox(height: 300,),
                       _buildFormContainer(),
                     ],
                   ),
                   SizedBox(
-                    height: 130.0,
+                    height: 80.0,
                   ),
                   Buttons(
                     txt: 'Log In',
@@ -100,11 +101,11 @@ class _LogInState extends State<LogIn> {
 
   _buildFormContainer() {
     return Positioned(
-        bottom: -100,
+        bottom: -50,
         child: Container(
-          height: 200,
+          //height: 300,
           width: MediaQuery.of(context).size.width - 60,
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(30),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(28)),
@@ -116,8 +117,56 @@ class _LogInState extends State<LogIn> {
               )
             ],
           ),
-          child: Text('Form Goes here'),
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildEmail(),
+              SizedBox(height: 10,),
+              _buildPassword(),
+            ],
+          ),
         ));
+  }
+
+  _buildEmail() {
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+      decoration: InputDecoration(
+          icon: Icon(FeatherIcons.user, color: Colors.grey,),
+          contentPadding: EdgeInsets.all(10),
+          hintText: 'Email',
+          hintStyle: TextStyle(
+            color: Colors.grey,
+            fontSize: 20,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide.none,
+          )
+      ),
+    );
+  }
+
+  _buildPassword(){
+    return TextFormField(
+      obscureText: true,
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        icon: Icon(FeatherIcons.key, color: Colors.grey,),
+        contentPadding: EdgeInsets.all(10),
+        hintText: 'Password',
+        hintStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 20,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
   }
 }
 
