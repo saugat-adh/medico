@@ -36,7 +36,7 @@ class _Dash3State extends State<Dash3> {
 
   _buildBackgroundCover() {
     return Container(
-      height: 200.0,
+      height: 250.0,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topRight,
@@ -52,7 +52,7 @@ class _Dash3State extends State<Dash3> {
 
   _buildTextFile() {
     return Positioned(
-      top: 30,
+      top: 50,
       left: 20,
       child: Text(
         'Shop',
@@ -67,7 +67,7 @@ class _Dash3State extends State<Dash3> {
 
   _buildCartItem() {
     return Positioned(
-      top: 40,
+      top: 60,
       right: 20,
       child: Container(
         decoration: BoxDecoration(
@@ -89,10 +89,10 @@ class _Dash3State extends State<Dash3> {
 
   _buildSearchBar() {
     return Positioned(
-      bottom: 30,
+      bottom: 50,
         child: Container(
           width: MediaQuery.of(context).size.width - 40,
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(17),
           child: Center(
             child: Text(
               'This will contain search bar',
