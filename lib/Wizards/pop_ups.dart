@@ -6,12 +6,14 @@ class BuildPopupDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(''),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("Do you really want to Sign Out?"),
-        ],
+      content: new Container(
+        child: Text(
+          'Do You really want to Log Out?'
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(100),
+        ),
       ),
       actions: <Widget>[
         new TextButton(
