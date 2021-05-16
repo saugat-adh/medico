@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'button_and_text.dart';
+import 'Wizards/text.dart';
+import 'Wizards/buttons.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,7 +16,6 @@ class _HomePageState extends State<HomePage> {
             image: DecorationImage(
               image: AssetImage('images/background.png'),
               fit: BoxFit.cover,
-              //colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
             )
         ),
         child: Column(
@@ -41,22 +41,21 @@ class _HomePageState extends State<HomePage> {
                 colour: Colors.white,
               dime: EdgeInsets.fromLTRB(0, 0, 0, 100),
             ),
+            SizedBox(height: 200,),
             Buttons(
-              colour: Color(0xff56AC81),
-              dim: EdgeInsets.fromLTRB(0, 200, 0, 0),
               txt: 'Sign In',
               click: (){
                 Navigator.pushNamed(context, '/signIn');
               },
             ),
+            SizedBox(height: 20,),
             Buttons(
-              colour: Color(0xff000000),
-              dim: EdgeInsets.fromLTRB(0, 20, 0, 40),
               txt: 'Sign Up',
               click: (){
                 Navigator.pushNamed(context, '/signUp');
               },
-            )
+            ),
+            SizedBox(height: 50,),
           ],
         ),
       ),

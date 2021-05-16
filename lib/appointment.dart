@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'button_and_text.dart';
+import 'Wizards/text.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'Wizards/pop_ups.dart';
 
 class Dash2 extends StatefulWidget {
   @override
@@ -37,7 +38,7 @@ class _Dash2State extends State<Dash2> {
             ],
             automaticallyImplyLeading: false,
           ),
-          backgroundColor: Color(0xffe73895),
+          backgroundColor: Color(0xff8f3d3c),
 
         ),
       ],

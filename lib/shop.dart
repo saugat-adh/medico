@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'button_and_text.dart';
+import 'Wizards/text.dart';
+import 'Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'Wizards/pop_ups.dart';
 
 class Dash3 extends StatefulWidget {
   @override

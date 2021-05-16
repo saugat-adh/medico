@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'button_and_text.dart';
+import 'package:medico/Wizards/icons.dart';
+import 'Wizards/text.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class Dash1 extends StatefulWidget {
@@ -13,96 +14,79 @@ class _Dash1State extends State<Dash1> {
     return Stack(
       children: [
         Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.clear_all),
-              onPressed: (){
-                showDialog(
-                  context: this.context,
-                  builder: (BuildContext context) => BuildPopupDialog(),
-                );
-              },
-              splashRadius: 18,
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            actions: [
-              IconButton(
-                onPressed: (){
-
-                },
-                icon: Icon(FeatherIcons.shoppingCart),
-                splashRadius: 18,
-              ),
-            ],
-            automaticallyImplyLeading: false,
-          ),
-          backgroundColor: Color(0xff7851a9),
-          body: Container(
+          backgroundColor:  Colors.white,
+          body: SingleChildScrollView(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.white,
-                  ),
-                ),
-                Row(
+                Stack(
+                  clipBehavior: Clip.none,
+                  alignment: AlignmentDirectional.topCenter,
                   children: [
-                    Expanded(child: ReusableCard(
-                      colour: Color(0xff9b1c31),
-                      cardChild: Column(
-                        children: [
-                          MidText(txtFile: 'Height', colour: Colors.white,),
-                        ],
-                      ),
-                    )),
-                    Expanded(child: ReusableCard(
-                      colour: Color(0xff4169e1),
-                      cardChild: Column(
-                        children: [
-                          MidText(txtFile: 'Weight', colour: Colors.white,),
-                        ],
-                      ),
-                    ))
+                    _buildBackgroundCover(),
+                    _buildUserPic(),
+                    _buildSettingPanel(),
                   ],
                 ),
-                Row(
-                  children: [
-                    Expanded(child: ReusableCard(
-                      colour: Color(0xff136207),
-                      cardChild: Column(
-                        children: [
-                          MidText(txtFile: 'Blood Pressure', colour: Colors.white,),
-                        ],
-                      ),
-                    )),
-                    Expanded(child: ReusableCard(
-                      colour: Color(0xffe73895),
-                      cardChild: Column(
-                        children: [
-                          MidText(txtFile: 'Heart Rate', colour: Colors.white,),
-                        ],
-                      ),
-                    ))
-                  ],
-                ),
-                Expanded(child: ReusableCard(
-                  colour: Colors.white,
-                  // cardChild: Row(
-                  //   children: [
-                  //     Icon(Icons.settings),
-                  //     Icon(Icons.sensor_door),
-                  //     Icon(Icons.notifications),
-                  //     Icon(Icons.mediation),
-                  //   ],
-                  // ),
-                ))
+                SizedBox(height: 50.0,),
               ],
             ),
-          ),
+          )
         ),
       ],
+    );
+  }
+
+  _buildBackgroundCover() {
+    return Container(
+      height: 260.0,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Colors.green,
+            Colors.teal,
+          ],
+        ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(40),
+          bottomRight: Radius.circular(40)
+        ),
+      ),
+    );
+  }
+
+  _buildUserPic() {
+    return Positioned(
+      top: 50,
+        child: CircleAvatar(
+          backgroundColor: Colors.white,
+          radius: 70,
+        )
+    );
+  }
+
+  _buildSettingPanel() {
+    return Positioned(
+        bottom: -35,
+        child: Container(
+          height: 70,
+          width: MediaQuery.of(context).size.width - 40,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(28)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                spreadRadius: 5.5,
+                blurRadius: 5.5,
+              )
+            ],
+          ),
+          child: Center(child: DashIcons()),
+        )
     );
   }
 }
