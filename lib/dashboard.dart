@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Wizards/icons.dart';
-import 'Wizards/text.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class Dash1 extends StatefulWidget {
   @override

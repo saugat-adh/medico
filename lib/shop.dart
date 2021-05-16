@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Wizards/text.dart';
-import 'Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'Wizards/pop_ups.dart';
 
 class Dash3 extends StatefulWidget {
   @override
@@ -15,32 +12,103 @@ class _Dash3State extends State<Dash3> {
     return Stack(
       children: [
         Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.clear_all),
-              onPressed: (){
-                showDialog(
-                  context: this.context,
-                  builder: (BuildContext context) => BuildPopupDialog(),
-                );
-              },
-              splashRadius: 18,
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            actions: [
-              IconButton(
-                onPressed: (){
-
-                },
-                icon: Icon(FeatherIcons.shoppingCart),
-                splashRadius: 18,
+            backgroundColor: Colors.white,
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Stack(
+                    clipBehavior: Clip.none,
+                    alignment: AlignmentDirectional.topCenter,
+                    children: [
+                      _buildBackgroundCover(),
+                      _buildTextFile(),
+                      _buildCartItem(),
+                      _buildSearchBar(),
+                    ],
+                  ),
+                ],
               ),
-            ],
-            automaticallyImplyLeading: false,
-          ),
-          backgroundColor: Colors.teal,
-
-    ),],);
+            )),
+      ],
+    );
   }
+
+  _buildBackgroundCover() {
+    return Container(
+      height: 200.0,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color(0xff45062E),
+            Color(0xff7F055F),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _buildTextFile() {
+    return Positioned(
+      top: 30,
+      left: 20,
+      child: Text(
+        'Shop',
+        style: TextStyle(
+          fontSize: 50,
+          color: Colors.white,
+          //fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+  _buildCartItem() {
+    return Positioned(
+      top: 40,
+      right: 20,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          color: Colors.white,
+        ),
+        child: IconButton(
+          icon: Icon(
+            FeatherIcons.shoppingCart,
+            color: Colors.black,
+          ),
+          onPressed: () {
+
+          },
+        ),
+      ),
+    );
+  }
+
+  _buildSearchBar() {
+    return Positioned(
+      bottom: 30,
+        child: Container(
+          width: MediaQuery.of(context).size.width - 40,
+          padding: EdgeInsets.all(10),
+          child: Center(
+            child: Text(
+              'This will contain search bar',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+              ),
+            ),
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.white,
+          ),
+        )
+    );
+  }
+
 }
+
