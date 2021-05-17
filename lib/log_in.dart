@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:medico/bottom_nav.dart';
 import 'Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class LogIn extends StatefulWidget {
+  static String id = 'log_in';
+
   @override
   _LogInState createState() => _LogInState();
 }
 
 class _LogInState extends State<LogIn> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,7 +39,7 @@ class _LogInState extends State<LogIn> {
                   Buttons(
                     txt: 'Log In',
                     click: (){
-                      Navigator.pushReplacementNamed(context, '/dash');
+                      Navigator.pushReplacementNamed(context, BotNavBar.id);
                     },
                   )
                 ],

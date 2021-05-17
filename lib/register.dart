@@ -3,6 +3,8 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'Wizards/buttons.dart';
 
 class SignUp extends StatefulWidget {
+  static String id = 'sign_up';
+
   @override
   _SignUpState createState() => _SignUpState();
 }

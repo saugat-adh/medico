@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:medico/log_in.dart';
+import 'package:medico/register.dart';
 import 'Wizards/buttons.dart';
 import 'constants.dart';
 
 class HomePage extends StatefulWidget {
+  static String id = 'home_page';
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -44,14 +48,14 @@ class _HomePageState extends State<HomePage> {
             Buttons(
               txt: 'Sign In',
               click: (){
-                Navigator.pushNamed(context, '/signIn');
+                Navigator.pushNamed(context, LogIn.id);
               },
             ),
             SizedBox(height: 20,),
             Buttons(
               txt: 'Sign Up',
               click: (){
-                Navigator.pushNamed(context, '/signUp');
+                Navigator.pushNamed(context, SignUp.id);
               },
             ),
             SizedBox(height: 50,),

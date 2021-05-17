@@ -7,6 +7,8 @@ import 'shop.dart';
 
 
 class BotNavBar extends StatefulWidget {
+  static String id = 'bot_nav_bar';
+
   @override
   _BotNavBarState createState() => _BotNavBarState();
 }

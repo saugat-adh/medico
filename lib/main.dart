@@ -13,12 +13,12 @@ class MedicoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: HomePage.id,
       routes: {
-        '/' : (context) => HomePage(),
-        '/signIn': (context) => LogIn(),
-        '/signUp': (context) => SignUp(),
-        '/dash': (context) => BotNavBar(),
+        HomePage.id : (context) => HomePage(),
+        LogIn.id : (context) => LogIn(),
+        SignUp.id : (context) => SignUp(),
+        BotNavBar.id : (context) => BotNavBar(),
       },
     );
   }
