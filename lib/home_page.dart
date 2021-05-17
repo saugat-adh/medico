@@ -5,7 +5,7 @@ import 'Wizards/buttons.dart';
 import 'constants.dart';
 
 class HomePage extends StatefulWidget {
-  static String id = 'home_page';
+  static const String id = 'home_page';
 
   @override
   _HomePageState createState() => _HomePageState();

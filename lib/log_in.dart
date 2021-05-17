@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:medico/Wizards/forms.dart';
 import 'package:medico/bottom_nav.dart';
 import 'Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class LogIn extends StatefulWidget {
-  static String id = 'log_in';
+  static const String id = 'log_in';
 
   @override
   _LogInState createState() => _LogInState();
 }
 
 class _LogInState extends State<LogIn> {
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,7 +29,9 @@ class _LogInState extends State<LogIn> {
                       _buildBackgroundCover(),
                       _buildBackIcon(),
                       _buildTextData(),
-                      SizedBox(height: 300,),
+                      SizedBox(
+                        height: 300,
+                      ),
                       _buildFormContainer(),
                     ],
                   ),
@@ -38,7 +40,7 @@ class _LogInState extends State<LogIn> {
                   ),
                   Buttons(
                     txt: 'Log In',
-                    click: (){
+                    click: () {
                       Navigator.pushReplacementNamed(context, BotNavBar.id);
                     },
                   )
@@ -126,7 +128,9 @@ class _LogInState extends State<LogIn> {
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildEmail(),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               _buildPassword(),
             ],
           ),
@@ -134,52 +138,23 @@ class _LogInState extends State<LogIn> {
   }
 
   _buildEmail() {
-    return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.next,
-      onEditingComplete: () => FocusScope.of(context).nextFocus(),
-      decoration: InputDecoration(
-          icon: Icon(FeatherIcons.user, color: Colors.grey,),
-          contentPadding: EdgeInsets.all(10),
-          hintText: 'Email',
-          hintStyle: TextStyle(
-            color: Colors.grey,
-            fontSize: 22,
-            fontFamily: 'Bebas',
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            borderSide: BorderSide.none,
-          )
-      ),
-    );
+    return TextFieldForm(
+        txt: 'Email',
+        types: TextInputType.emailAddress,
+        ico: Icon(
+          FeatherIcons.user,
+          color: Colors.grey,
+        ));
   }
 
-  _buildPassword(){
-    return TextFormField(
-      obscureText: true,
-      textInputAction: TextInputAction.done,
-      decoration: InputDecoration(
-        icon: Icon(FeatherIcons.key, color: Colors.grey,),
-        contentPadding: EdgeInsets.all(10),
-        hintText: 'Password',
-        hintStyle: TextStyle(
+  _buildPassword() {
+    return TextFieldForm(
+        txt: 'Password',
+        pass: false,
+        types: TextInputType.visiblePassword,
+        ico: Icon(
+          FeatherIcons.key,
           color: Colors.grey,
-          fontSize: 22,
-          fontFamily: 'Bebas',
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          borderSide: BorderSide.none,
-        ),
-      ),
-    );
+        ));
   }
 }
-
-
-
-
-
-
-

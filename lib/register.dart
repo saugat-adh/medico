@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'Wizards/buttons.dart';
+import 'Wizards/forms.dart';
 
 class SignUp extends StatefulWidget {
-  static String id = 'sign_up';
+  static const String id = 'sign_up';
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -27,17 +28,19 @@ class _SignUpState extends State<SignUp> {
                       _buildBackgroundCover(),
                       _buildBackIcon(),
                       _buildTextData(),
+                      SizedBox(
+                        height: 400,
+                      ),
                       _buildFormContainer(),
+
                     ],
                   ),
                   SizedBox(
-                    height: 130.0,
+                    height: 80.0,
                   ),
                   Buttons(
                     txt: 'Continue',
-                    click: (){
-
-                    },
+                    click: () {},
                   )
                 ],
               ),
@@ -103,11 +106,11 @@ class _SignUpState extends State<SignUp> {
 
   _buildFormContainer() {
     return Positioned(
-        bottom: -100,
+        bottom: -50,
         child: Container(
-          height: 200,
+          //height: 300,
           width: MediaQuery.of(context).size.width - 60,
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(30),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(28)),
@@ -119,7 +122,67 @@ class _SignUpState extends State<SignUp> {
               )
             ],
           ),
-          child: Text('Form Goes here'),
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildPhoneNumber(),
+              SizedBox(
+                height: 10,
+              ),
+              _buildDOB(),
+              SizedBox(
+                height: 10,
+              ),
+              _buildPassword(),
+              SizedBox(
+                height: 10,
+              ),
+              _buildConfirmPassword(),
+
+            ],
+          ),
+        ));
+  }
+
+
+  _buildPassword() {
+    return TextFieldForm(
+        txt: 'Password',
+        pass: false,
+        types: TextInputType.visiblePassword,
+        ico: Icon(
+          FeatherIcons.key,
+          color: Colors.grey,
+        ));
+  }
+  _buildPhoneNumber() {
+    return TextFieldForm(
+      txt: 'Phone Number',
+      ico: Icon(
+        FeatherIcons.phone,
+        color: Colors.grey,
+      ),
+      types: TextInputType.phone,
+    );
+  }
+  _buildDOB() {
+    return TextFieldForm(
+      txt: 'Date Of Birth',
+      ico: Icon(
+        FeatherIcons.calendar,
+        color: Colors.grey,
+      ),
+      types: TextInputType.datetime,
+    );
+  }
+  _buildConfirmPassword() {
+    return TextFieldForm(
+        txt: 'Confirm Password',
+        pass: false,
+        types: TextInputType.visiblePassword,
+        ico: Icon(
+          FeatherIcons.key,
+          color: Colors.grey,
         ));
   }
 }

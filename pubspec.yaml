@@ -42,3 +42,6 @@ flutter:
     - family: Poiret
       fonts:
         - asset: fonts/PoiretOne-Regular.ttf
+    - family: Coda
+      fonts :
+        - asset : fonts/Coda-Regular.ttf
