@@ -84,7 +84,7 @@ class _InfoFormState extends State<InfoForm> {
           ),
           onPressed: () {
             setState(() {
-              //Navigator.pop(context);
+              Navigator.pop(context);
             });
           },
         ));

@@ -14,7 +14,7 @@ class MedicoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: InfoForm.id,
+      initialRoute: HomePage.id,
       routes: {
         HomePage.id : (context) => HomePage(),
         LogIn.id : (context) => LogIn(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:medico/info_form.dart';
 import 'Wizards/buttons.dart';
 import 'Wizards/forms.dart';
 
@@ -40,7 +41,9 @@ class _SignUpState extends State<SignUp> {
                   ),
                   Buttons(
                     txt: 'Continue',
-                    click: () {},
+                    click: () {
+                      Navigator.pushNamed(context, InfoForm.id);
+                    },
                   )
                 ],
               ),
