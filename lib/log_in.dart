@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Wizards/forms.dart';
-import 'package:medico/bottom_nav.dart';
+import 'package:medico/Pages/bottom_nav.dart';
 import 'Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
@@ -139,10 +139,10 @@ class _LogInState extends State<LogIn> {
 
   _buildEmail() {
     return TextFieldForm(
-        txt: 'Email',
-        types: TextInputType.emailAddress,
+        txt: 'Phone Number',
+        types: TextInputType.phone,
         ico: Icon(
-          FeatherIcons.user,
+          FeatherIcons.phone,
           color: Colors.grey,
         ));
   }

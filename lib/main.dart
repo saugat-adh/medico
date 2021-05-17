@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medico/bottom_nav.dart';
+import 'package:medico/Pages/bottom_nav.dart';
 import 'home_page.dart';
 import 'log_in.dart';
 import 'register.dart';
