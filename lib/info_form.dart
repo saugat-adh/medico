@@ -20,44 +20,53 @@ class _InfoFormState extends State<InfoForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(children: [
-        Scaffold(
-            body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.green,
-              Colors.teal,
-            ],
-          )),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Stack(
-                  clipBehavior: Clip.none,
-                  alignment: AlignmentDirectional.topCenter,
-                  children: [
-                    _buildContainer(),
-                    _buildBackIcon(),
-                    _buildText(),
-                    SizedBox(
-                      height: 100,
-                    ),
-                    _buildFormContainer(),
-                    _buildButton(),
-                  ],
-                ),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: SafeArea(
+        child: Stack(children: [
+          Scaffold(
+              body: Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.green,
+                Colors.teal,
               ],
+            )),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Stack(
+                    clipBehavior: Clip.none,
+                    alignment: AlignmentDirectional.topCenter,
+                    children: [
+                      _buildContainer(),
+                      _buildBackIcon(),
+                      _buildText(),
+                      SizedBox(
+                        height: 100,
+                      ),
+                      _buildFormContainer(),
+                      _buildButton(),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        )),
-      ]),
+          )),
+        ]),
+      ),
     );
   }
 
@@ -208,7 +217,7 @@ class _InfoFormState extends State<InfoForm> {
         FeatherIcons.mail,
         color: Colors.grey,
       ),
-      types: TextInputType.phone,
+      types: TextInputType.emailAddress,
     );
   }
 

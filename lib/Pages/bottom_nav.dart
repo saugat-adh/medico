@@ -30,7 +30,6 @@ class _BotNavBarState extends State<BotNavBar> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

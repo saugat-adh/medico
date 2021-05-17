@@ -14,41 +14,50 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(children: [
-        Scaffold(
-            backgroundColor: Colors.white,
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    alignment: AlignmentDirectional.topCenter,
-                    children: [
-                      _buildBackgroundCover(),
-                      _buildBackIcon(),
-                      _buildTextData(),
-                      SizedBox(
-                        height: 400,
-                      ),
-                      _buildFormContainer(),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
 
-                    ],
-                  ),
-                  SizedBox(
-                    height: 80.0,
-                  ),
-                  Buttons(
-                    txt: 'Continue',
-                    click: () {
-                      Navigator.pushNamed(context, InfoForm.id);
-                    },
-                  )
-                ],
-              ),
-            )),
-      ]),
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: SafeArea(
+        child: Stack(children: [
+          Scaffold(
+              backgroundColor: Colors.white,
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: AlignmentDirectional.topCenter,
+                      children: [
+                        _buildBackgroundCover(),
+                        _buildBackIcon(),
+                        _buildTextData(),
+                        SizedBox(
+                          height: 400,
+                        ),
+                        _buildFormContainer(),
+
+                      ],
+                    ),
+                    SizedBox(
+                      height: 80.0,
+                    ),
+                    Buttons(
+                      txt: 'Continue',
+                      click: () {
+                        Navigator.pushNamed(context, InfoForm.id);
+                      },
+                    )
+                  ],
+                ),
+              )),
+        ]),
+      ),
     );
   }
 

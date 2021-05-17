@@ -14,40 +14,49 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(children: [
-        Scaffold(
-            backgroundColor: Colors.white,
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    alignment: AlignmentDirectional.topCenter,
-                    children: [
-                      _buildBackgroundCover(),
-                      _buildBackIcon(),
-                      _buildTextData(),
-                      SizedBox(
-                        height: 300,
-                      ),
-                      _buildFormContainer(),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 80.0,
-                  ),
-                  Buttons(
-                    txt: 'Log In',
-                    click: () {
-                      Navigator.pushReplacementNamed(context, BotNavBar.id);
-                    },
-                  )
-                ],
-              ),
-            )),
-      ]),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: SafeArea(
+        child: Stack(children: [
+          Scaffold(
+              backgroundColor: Colors.white,
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: AlignmentDirectional.topCenter,
+                      children: [
+                        _buildBackgroundCover(),
+                        _buildBackIcon(),
+                        _buildTextData(),
+                        SizedBox(
+                          height: 300,
+                        ),
+                        _buildFormContainer(),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 80.0,
+                    ),
+                    Buttons(
+                      txt: 'Log In',
+                      click: () {
+                        Navigator.pushReplacementNamed(context, BotNavBar.id);
+                      },
+                    )
+                  ],
+                ),
+              )),
+        ]),
+      ),
     );
   }
 
