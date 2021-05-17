@@ -17,6 +17,7 @@ dependencies:
   curved_navigation_bar: ^0.3.7
   salomon_bottom_bar: ^3.0.0
   gender_picker: ^1.0.2
+  enum_to_string: ^2.0.1
 
 dev_dependencies:
   flutter_test:

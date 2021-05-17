@@ -19,7 +19,7 @@ class InForm extends StatelessWidget {
 
 class TextFieldForm extends StatelessWidget {
   TextFieldForm(
-      {@required this.txt, this.types, this.pass, @required this.ico});
+      {@required this.txt, this.types, this.pass, this.ico});
 
   final String txt;
   final TextInputType types;

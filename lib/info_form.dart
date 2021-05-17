@@ -4,6 +4,9 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:gender_picker/gender_picker.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'Wizards/forms.dart';
+import 'package:enum_to_string/enum_to_string.dart';
+import 'Wizards/buttons.dart';
+import 'Pages/bottom_nav.dart';
 
 class InfoForm extends StatefulWidget {
   static const String id = 'info_form';
@@ -13,42 +16,47 @@ class InfoForm extends StatefulWidget {
 }
 
 class _InfoFormState extends State<InfoForm> {
+  String infoGender;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Stack(children: [
         Scaffold(
             body: Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    Colors.green,
-                    Colors.teal,
-                  ],
-                )
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.green,
+              Colors.teal,
+            ],
+          )),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Stack(
+                  clipBehavior: Clip.none,
+                  alignment: AlignmentDirectional.topCenter,
                   children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      alignment: AlignmentDirectional.topCenter,
-                      children: [
-                        _buildContainer(),
-                        _buildBackIcon(),
-                        _buildText(),
-                        _buildFormContainer(),
-                      ],
+                    _buildContainer(),
+                    _buildBackIcon(),
+                    _buildText(),
+                    SizedBox(
+                      height: 100,
                     ),
+                    _buildFormContainer(),
+                    _buildButton(),
                   ],
                 ),
-              ),
-            )),
+              ],
+            ),
+          ),
+        )),
       ]),
     );
   }
@@ -56,22 +64,22 @@ class _InfoFormState extends State<InfoForm> {
   _buildContainer() {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height - 49,
     );
   }
 
   _buildText() {
     return Positioned(
       left: 30,
-        top: 100,
-        child: Text(
-          'Info',
-          style: TextStyle(
-            fontSize: 50,
-            color: Colors.white,
-            fontFamily: 'Bebas',
-          ),
+      top: 100,
+      child: Text(
+        'Info',
+        style: TextStyle(
+          fontSize: 50,
+          color: Colors.white,
+          fontFamily: 'Bebas',
         ),
+      ),
     );
   }
 
@@ -94,135 +102,184 @@ class _InfoFormState extends State<InfoForm> {
           },
         ));
   }
-}
-_buildFormContainer() {
-  return Positioned(
-      bottom: 200,
-      child: Container(
-        //height: 300,
-        width: 350,
-        padding: EdgeInsets.all(30),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(28)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              spreadRadius: 5.5,
-              blurRadius: 5.5,
-            )
-          ],
-        ),
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildUserName(),
-            SizedBox(
-              height: 10,
-            ),
-            _buildUserAddress(),
-            SizedBox(
-              height: 10,
-            ),
-            _buildUserEmail(),
-            SizedBox(
-              height: 10,
-            ),
-            _buildUserHeight(),
-            SizedBox(
-              height: 10,
-            ),
-            _buildUserWeight(),
-            SizedBox(
-              height: 10,
-            ),
-            textGender(),
-            _genderWidget(false,false),
 
-          ],
-        ),
-      ));
-}
+  _buildFormContainer() {
+    return Positioned(
+        top: 200,
+        child: Container(
+          //height: 300,
+          width: 350,
+          padding: EdgeInsets.all(30),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(28)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                spreadRadius: 5.5,
+                blurRadius: 5.5,
+              )
+            ],
+          ),
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildUserName(),
+              SizedBox(
+                height: 10,
+              ),
+              _buildUserAddress(),
+              SizedBox(
+                height: 10,
+              ),
+              _buildUserEmail(),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Expanded(child: _buildUserHeight()),
+                  Expanded(child: _buildUserWeight())
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              textGender(),
+              Center(child: _genderWidget(true, true)),
+            ],
+          ),
+        ));
+  }
 
-_genderWidget(bool _showOther, bool _alignment){
-  return Container(
-    child: new Column(
+  _genderWidget(bool _showOther, bool _alignment) {
+    return Container(
+        child: new Column(
       children: [
-        new Container(
-
-        ),
         new Container(
           alignment: Alignment.center,
           child: GenderPickerWithImage(
             showOtherGender: _showOther,
             verticalAlignedText: _alignment,
             onChanged: (Gender _gender) {
-              print(_gender);
+              infoGender = EnumToString.convertToString(_gender);
+              print(infoGender);
             },
-            selectedGender: Gender.Male,
+            selectedGender: null,
             selectedGenderTextStyle: TextStyle(fontWeight: FontWeight.bold),
-            unSelectedGenderTextStyle: TextStyle(fontWeight: FontWeight.normal),),
+            unSelectedGenderTextStyle: TextStyle(fontWeight: FontWeight.normal),
+            maleImage: AssetImage('images/male.png'),
+            femaleImage: AssetImage('images/female.png'),
+            otherGenderImage: AssetImage('images/others.png'),
+            size: 70,
+            opacityOfGradient: 0.2,
+          ),
         )
       ],
-    )
-     );
-}
+    ));
+  }
 
+  textGender() {
+    return Container(
+      child: new Text(
+        "Gender",
+        style: TextStyle(
+          fontFamily: 'Coda',
+        ),
+      ),
+    );
+  }
 
-textGender(){
-  return Container(
-    child: new Text("Gender"),
-  );
-}
-_buildUserName() {
-  return TextFieldForm(
-      txt: 'Name',
-      pass: true,
-      types: TextInputType.text,
+  _buildUserName() {
+    return TextFieldForm(
+        txt: 'Name',
+        pass: true,
+        types: TextInputType.text,
+        ico: Icon(
+          FeatherIcons.user,
+          color: Colors.grey,
+        ));
+  }
+
+  _buildUserEmail() {
+    return TextFieldForm(
+      txt: 'Email',
       ico: Icon(
-        FeatherIcons.user,
+        FeatherIcons.mail,
         color: Colors.grey,
-      ));
-}
-_buildUserEmail() {
-  return TextFieldForm(
-    txt: 'Email',
-    ico: Icon(
-      FeatherIcons.mail,
-      color: Colors.grey,
-    ),
-    types: TextInputType.phone,
-  );
-}
-_buildUserAddress() {
-  return TextFieldForm(
-    txt: 'Address',
-    ico: Icon(
-      FeatherIcons.map,
-      color: Colors.grey,
-    ),
-    types: TextInputType.streetAddress,
-  );
-}
-_buildUserHeight() {
-  return TextFieldForm(
-      txt: 'Height',
-      pass: true,
-      types: TextInputType.visiblePassword,
+      ),
+      types: TextInputType.phone,
+    );
+  }
+
+  _buildUserAddress() {
+    return TextFieldForm(
+      txt: 'Address',
       ico: Icon(
-        FeatherIcons.arrowUp,
+        FeatherIcons.map,
         color: Colors.grey,
-      ));
-}
-_buildUserWeight() {
-  return TextFieldForm(
+      ),
+      types: TextInputType.streetAddress,
+    );
+  }
+
+  _buildUserHeight() {
+    return TextFieldForm(
+        txt: 'Height',
+        pass: true,
+        types: TextInputType.number,
+        ico: Icon(
+          FeatherIcons.arrowUp,
+          color: Colors.grey,
+        ));
+  }
+
+  _buildUserWeight() {
+    return TextFieldForm(
       txt: 'Weight',
       pass: true,
-      types: TextInputType.visiblePassword,
-      ico: Icon(
-        FeatherIcons.arrowRight,
-        color: Colors.grey,
-      ));
+      types: TextInputType.number,
+    );
+  }
+
+  _buildButton() {
+    return Positioned(
+      bottom: 70,
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.pushNamed(context, BotNavBar.id);
+        },
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.white,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            'Continue',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                fontFamily: 'Bebas',
+                letterSpacing: 0.7),
+          ),
+        ),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+          padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
+          elevation: MaterialStateProperty.all(0),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
-
-
