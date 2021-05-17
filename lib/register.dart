@@ -151,7 +151,7 @@ class _SignUpState extends State<SignUp> {
   _buildPassword() {
     return TextFieldForm(
         txt: 'Password',
-        pass: false,
+        pass: true,
         types: TextInputType.visiblePassword,
         ico: Icon(
           FeatherIcons.key,
@@ -181,7 +181,7 @@ class _SignUpState extends State<SignUp> {
   _buildConfirmPassword() {
     return TextFieldForm(
         txt: 'Confirm Password',
-        pass: false,
+        pass: true,
         types: TextInputType.visiblePassword,
         ico: Icon(
           FeatherIcons.key,

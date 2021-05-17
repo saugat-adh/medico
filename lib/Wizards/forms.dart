@@ -29,7 +29,7 @@ class TextFieldForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: pass ?? true,
+      obscureText: pass ?? false,
       keyboardType: types,
       textInputAction: TextInputAction.next,
       onEditingComplete: () => FocusScope.of(context).nextFocus(),

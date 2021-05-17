@@ -150,7 +150,7 @@ class _LogInState extends State<LogIn> {
   _buildPassword() {
     return TextFieldForm(
         txt: 'Password',
-        pass: false,
+        pass: true,
         types: TextInputType.visiblePassword,
         ico: Icon(
           FeatherIcons.key,
