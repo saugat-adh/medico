@@ -26,5 +26,8 @@ class MedicoApp extends StatelessWidget {
   }
 }
 
+// riwimi007@gmail.com
+// riwimi123
+
 
 
