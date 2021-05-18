@@ -14,13 +14,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('images/background.png'),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             )
+        ),
+        constraints: BoxConstraints(
+          minWidth: double.minPositive,
+          minHeight: double.minPositive,
+          maxWidth: double.maxFinite,
+          maxHeight: double.maxFinite,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -44,7 +51,7 @@ class _HomePageState extends State<HomePage> {
               'Summed upped in one place',
               style: midText,
             ),
-            SizedBox(height: 250,),
+            SizedBox(height: 150,),
             Buttons(
               txt: 'Sign In',
               click: (){
@@ -62,7 +69,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-    );
+    ));
   }
 }
 

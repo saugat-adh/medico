@@ -46,21 +46,15 @@ class _InfoFormState extends State<InfoForm> {
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    alignment: AlignmentDirectional.topCenter,
-                    children: [
-                      _buildContainer(),
-                      _buildBackIcon(),
-                      _buildText(),
-                      SizedBox(
-                        height: 100,
-                      ),
-                      _buildFormContainer(),
-                      _buildButton(),
-                    ],
-                  ),
+                  // _buildContainer(),
+                  _buildBackIcon(),
+                  Row(
+                    children: [SizedBox(width: 30,),_buildText()],),
+                  SizedBox(height: 30,),
+                  Center(child: _buildFormContainer()),
+                  //_buildButton(),
                 ],
               ),
             ),
@@ -70,95 +64,85 @@ class _InfoFormState extends State<InfoForm> {
     );
   }
 
-  _buildContainer() {
-    return Container(
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height - 49,
-    );
-  }
 
   _buildText() {
-    return Positioned(
-      left: 30,
-      top: 100,
-      child: Text(
-        'Info',
-        style: TextStyle(
-          fontSize: 50,
-          color: Colors.white,
-          fontFamily: 'Bebas',
-        ),
+    return Text(
+      'Info',
+      style: TextStyle(
+        fontSize: 50,
+        color: Colors.white,
+        fontFamily: 'Bebas',
       ),
     );
   }
 
   _buildBackIcon() {
-    return Positioned(
-        left: -5,
-        child: IconButton(
-          icon: Icon(FeatherIcons.arrowLeft),
-          color: Colors.white,
-          constraints: BoxConstraints(
-            maxHeight: 100,
-            maxWidth: 100,
-            minHeight: 80,
-            minWidth: 80,
-          ),
-          onPressed: () {
-            setState(() {
-              Navigator.pop(context);
-            });
-          },
-        ));
+    return IconButton(
+      icon: Icon(FeatherIcons.arrowLeft),
+      color: Colors.white,
+      constraints: BoxConstraints(
+        maxHeight: 100,
+        maxWidth: 100,
+        minHeight: 80,
+        minWidth: 80,
+      ),
+      onPressed: () {
+        setState(() {
+          Navigator.pop(context);
+        });
+      },
+    );
   }
 
   _buildFormContainer() {
-    return Positioned(
-        top: 200,
-        child: Container(
-          //height: 300,
-          width: 350,
-          padding: EdgeInsets.all(30),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(28)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                spreadRadius: 5.5,
-                blurRadius: 5.5,
-              )
-            ],
+    return Container(
+      width: MediaQuery.of(context).size.width - 30,
+      padding: EdgeInsets.all(30),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(28)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            spreadRadius: 5.5,
+            blurRadius: 5.5,
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildFirstName(),
+          SizedBox(
+            height: 10,
           ),
-          child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
+          _buildLastName(),
+          SizedBox(
+            height: 10,
+          ),
+          _buildUserAddress(),
+          SizedBox(
+            height: 10,
+          ),
+          _buildUserEmail(),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
             children: [
-              _buildUserName(),
-              SizedBox(
-                height: 10,
-              ),
-              _buildUserAddress(),
-              SizedBox(
-                height: 10,
-              ),
-              _buildUserEmail(),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Expanded(child: _buildUserHeight()),
-                  Expanded(child: _buildUserWeight())
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              textGender(),
-              Center(child: _genderWidget(true, true)),
+              Expanded(child: _buildUserHeight()),
+              Expanded(child: _buildUserWeight())
             ],
           ),
-        ));
+          SizedBox(
+            height: 20,
+          ),
+          textGender(),
+          _genderWidget(true, true),
+          SizedBox(height: 30,),
+          _buildButton(),
+        ],
+      ),
+    );
   }
 
   _genderWidget(bool _showOther, bool _alignment) {
@@ -199,13 +183,24 @@ class _InfoFormState extends State<InfoForm> {
     );
   }
 
-  _buildUserName() {
+  _buildFirstName() {
     return TextFieldForm(
-        txt: 'Name',
+        txt: 'First Name',
         pass: true,
         types: TextInputType.text,
         ico: Icon(
           FeatherIcons.user,
+          color: Colors.grey,
+        ));
+  }
+
+  _buildLastName() {
+    return TextFieldForm(
+        txt: 'Last Name',
+        pass: true,
+        types: TextInputType.text,
+        ico: Icon(
+          FeatherIcons.userX,
           color: Colors.grey,
         ));
   }
@@ -237,10 +232,7 @@ class _InfoFormState extends State<InfoForm> {
         txt: 'Height',
         pass: true,
         types: TextInputType.number,
-        ico: Icon(
-          FeatherIcons.arrowUp,
-          color: Colors.grey,
-        ));
+        );
   }
 
   _buildUserWeight() {
@@ -252,43 +244,41 @@ class _InfoFormState extends State<InfoForm> {
   }
 
   _buildButton() {
-    return Positioned(
-      bottom: 70,
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.pushNamed(context, BotNavBar.id);
-        },
-        child: Container(
-          constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.white,
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(10),
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.pushNamed(context, BotNavBar.id);
+      },
+      child: Container(
+        constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.teal,
+            width: 2,
           ),
-          child: Text(
-            'Continue',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontFamily: 'Bebas',
-                letterSpacing: 0.7),
-          ),
+          borderRadius: BorderRadius.circular(10),
         ),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.transparent),
-          padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
-          elevation: MaterialStateProperty.all(0),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
-            ),
+        child: Text(
+          'Continue',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.teal,
+              fontSize: 30,
+              fontFamily: 'Bebas',
+              letterSpacing: 0.7),
+        ),
+      ),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.transparent),
+        padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
+        elevation: MaterialStateProperty.all(0),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(50)),
           ),
         ),
       ),
     );
   }
+
 }

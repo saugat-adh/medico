@@ -11,8 +11,8 @@ class DashIcons extends StatelessWidget {
         constraints: BoxConstraints(
           maxHeight: 100,
           maxWidth: 100,
-          minHeight: 80,
-          minWidth: 80,
+          minHeight: 60,
+          minWidth: 60,
         ),
         selectedBorderColor: Colors.teal,
         renderBorder: false,
