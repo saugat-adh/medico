@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/bottom_nav.dart';
-import 'package:medico/info_form.dart';
-import 'home_page.dart';
-import 'log_in.dart';
-import 'register.dart';
+import 'package:medico/Forms/info_form.dart';
+import 'Pages/home_page.dart';
+import 'Forms/log_in.dart';
+import 'Forms/register.dart';
 
 
 void main() {

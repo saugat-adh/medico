@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:gender_picker/gender_picker.dart';
 import 'package:gender_picker/source/enums.dart';
-import 'Wizards/forms.dart';
+import '../Wizards/forms.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-import 'Pages/bottom_nav.dart';
+import '../Pages/bottom_nav.dart';
 
 class InfoForm extends StatefulWidget {
   static const String id = 'info_form';

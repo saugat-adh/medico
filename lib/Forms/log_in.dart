@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:medico/Wizards/forms.dart';
+import 'package:medico/Pages/bottom_nav.dart';
+import '../Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:medico/info_form.dart';
-import 'Wizards/buttons.dart';
-import 'Wizards/forms.dart';
 
-class SignUp extends StatefulWidget {
-  static const String id = 'sign_up';
+class LogIn extends StatefulWidget {
+  static const String id = 'log_in';
 
   @override
-  _SignUpState createState() => _SignUpState();
+  _LogInState createState() => _LogInState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -38,22 +38,20 @@ class _SignUpState extends State<SignUp> {
                         _buildBackIcon(),
                         _buildTextData(),
                         SizedBox(
-                          height: 400,
+                          height: 300,
                         ),
                         _buildFormContainer(),
-
                       ],
                     ),
                     SizedBox(
                       height: 80.0,
                     ),
                     Buttons(
-                      txt: 'Continue',
+                      txt: 'Log In',
                       click: () {
-                        Navigator.pushNamed(context, InfoForm.id);
+                        Navigator.pushReplacementNamed(context, BotNavBar.id);
                       },
-                    ),
-                    SizedBox(height: 30,)
+                    )
                   ],
                 ),
               )),
@@ -106,7 +104,7 @@ class _SignUpState extends State<SignUp> {
     return Positioned(
       top: 70,
       child: Text(
-        'Sign Up',
+        'Sign In',
         style: TextStyle(
           fontSize: 50,
           fontWeight: FontWeight.w500,
@@ -138,59 +136,29 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildPhoneNumber(),
-              SizedBox(
-                height: 10,
-              ),
-              _buildDOB(),
+              _buildEmail(),
               SizedBox(
                 height: 10,
               ),
               _buildPassword(),
-              SizedBox(
-                height: 10,
-              ),
-              _buildConfirmPassword(),
-
             ],
           ),
         ));
   }
 
+  _buildEmail() {
+    return TextFieldForm(
+        txt: 'Phone Number',
+        types: TextInputType.phone,
+        ico: Icon(
+          FeatherIcons.phone,
+          color: Colors.grey,
+        ));
+  }
 
   _buildPassword() {
     return TextFieldForm(
         txt: 'Password',
-        pass: true,
-        types: TextInputType.visiblePassword,
-        ico: Icon(
-          FeatherIcons.key,
-          color: Colors.grey,
-        ));
-  }
-  _buildPhoneNumber() {
-    return TextFieldForm(
-      txt: 'Phone Number',
-      ico: Icon(
-        FeatherIcons.phone,
-        color: Colors.grey,
-      ),
-      types: TextInputType.phone,
-    );
-  }
-  _buildDOB() {
-    return TextFieldForm(
-      txt: 'Date Of Birth',
-      ico: Icon(
-        FeatherIcons.calendar,
-        color: Colors.grey,
-      ),
-      types: TextInputType.datetime,
-    );
-  }
-  _buildConfirmPassword() {
-    return TextFieldForm(
-        txt: 'Confirm Password',
         pass: true,
         types: TextInputType.visiblePassword,
         ico: Icon(

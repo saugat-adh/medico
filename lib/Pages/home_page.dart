@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medico/log_in.dart';
-import 'package:medico/register.dart';
-import 'Wizards/buttons.dart';
-import 'constants.dart';
+import 'package:medico/Forms/log_in.dart';
+import 'package:medico/Forms/register.dart';
+import '../Wizards/buttons.dart';
+import '../constants.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
