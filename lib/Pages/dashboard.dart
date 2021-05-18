@@ -83,11 +83,8 @@ class _Dash1State extends State<Dash1> {
               )
             ],
           ),
-          child: Center(child: DashIcons()),
+          child: DashIcons(),
         )
     );
   }
 }
-
-//riwimi007@gmail.com
-// riwimi1234

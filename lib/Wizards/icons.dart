@@ -34,12 +34,15 @@ class IcoBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      color: Colors.grey,
-      hoverColor: Colors.black,
-      icon: ico,
-      onPressed: () {
-      },
+    return Container(
+      child: IconButton(
+        iconSize: 25,
+        color: Colors.grey,
+        icon: ico,
+        onPressed: () {
+          print('Ok');
+        },
+      ),
     );
   }
 }
