@@ -17,56 +17,64 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
         child: Scaffold(
       body: Container(
+        height: double.infinity,
         decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('images/background.png'),
-              fit: BoxFit.fill,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomCenter,
+              stops: [
+                0.1,
+                0.6,
+                1
+              ],
+              colors: [
+                Colors.teal,
+                Colors.green,
+                Colors.white,
+              ],
             )
         ),
-        constraints: BoxConstraints(
-          minWidth: double.minPositive,
-          minHeight: double.minPositive,
-          maxWidth: double.maxFinite,
-          maxHeight: double.maxFinite,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Center(
-              child: Text(
-                'Welcome To',
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: 190,),
+              Center(
+                child: Text(
+                  'Welcome To',
+                  style: topTxt,
+                )
+              ),
+              Text(
+                'Medico',
                 style: topTxt,
-              )
-            ),
-            Text(
-              'Medico',
-              style: topTxt,
-            ),
-            Text(
-              'All your health needs',
-              style: midText,
-            ),
-            SizedBox(height: 2,),
-            Text(
-              'Summed upped in one place',
-              style: midText,
-            ),
-            SizedBox(height: 290,),
-            Buttons(
-              txt: 'Sign In',
-              click: (){
-                Navigator.pushNamed(context, LogIn.id);
-              },
-            ),
-            SizedBox(height: 20,),
-            Buttons(
-              txt: 'Sign Up',
-              click: (){
-                Navigator.pushNamed(context, SignUp.id);
-              },
-            ),
-            SizedBox(height: 50,),
-          ],
+              ),
+              Text(
+                'All your health needs',
+                style: midText,
+              ),
+              SizedBox(height: 2,),
+              Text(
+                'Summed upped in one place',
+                style: midText,
+              ),
+              SizedBox(height: 220,),
+              Buttons(
+                txt: 'Sign In',
+                click: (){
+                  Navigator.pushNamed(context, LogIn.id);
+                },
+              ),
+              SizedBox(height: 20,),
+              Buttons(
+                txt: 'Sign Up',
+                click: (){
+                  Navigator.pushNamed(context, SignUp.id);
+                },
+              ),
+              SizedBox(height: 50,),
+            ],
+          ),
         ),
       ),
     ));

@@ -48,12 +48,12 @@ class _InfoFormState extends State<InfoForm> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // _buildContainer(),
                   _buildBackIcon(),
                   Row(
                     children: [SizedBox(width: 30,),_buildText()],),
                   SizedBox(height: 30,),
                   Center(child: _buildFormContainer()),
+                  SizedBox(height: 30,),
                   //_buildButton(),
                 ],
               ),
