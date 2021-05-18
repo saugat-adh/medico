@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
               'Summed upped in one place',
               style: midText,
             ),
-            SizedBox(height: 150,),
+            SizedBox(height: 290,),
             Buttons(
               txt: 'Sign In',
               click: (){

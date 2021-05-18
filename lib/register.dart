@@ -52,7 +52,8 @@ class _SignUpState extends State<SignUp> {
                       click: () {
                         Navigator.pushNamed(context, InfoForm.id);
                       },
-                    )
+                    ),
+                    SizedBox(height: 30,)
                   ],
                 ),
               )),
