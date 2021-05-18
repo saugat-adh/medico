@@ -5,7 +5,6 @@ import 'package:gender_picker/gender_picker.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'Wizards/forms.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-import 'Wizards/buttons.dart';
 import 'Pages/bottom_nav.dart';
 
 class InfoForm extends StatefulWidget {
