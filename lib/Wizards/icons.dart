@@ -2,29 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class DashIcons extends StatelessWidget {
-  final List<bool> isSelekted = List.generate(4, (index) => false);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ToggleButtons(
-        constraints: BoxConstraints(
-          maxHeight: 100,
-          maxWidth: 100,
-          minHeight: 60,
-          minWidth: 60,
-        ),
-        selectedBorderColor: Colors.teal,
-        renderBorder: false,
-        fillColor: Colors.transparent,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(FeatherIcons.settings),
-          Icon(FeatherIcons.shoppingCart),
-          Icon(FeatherIcons.bell),
-          Icon(FeatherIcons.logOut),
+          IcoBtn(ico: Icon(
+            FeatherIcons.settings,
+          ),),
+          IcoBtn(ico: Icon(
+            FeatherIcons.shoppingCart,
+          ),),
+          IcoBtn(ico: Icon(
+            FeatherIcons.bell,
+          ),),
+          IcoBtn(ico: Icon(
+            FeatherIcons.logOut,
+          ),),
         ],
-        isSelected: isSelekted,
       ),
     );
   }
 }
+
+class IcoBtn extends StatelessWidget {
+  IcoBtn({@required this.ico});
+
+  final Icon ico;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      color: Colors.grey,
+      hoverColor: Colors.black,
+      icon: ico,
+      onPressed: () {
+      },
+    );
+  }
+}
+
