@@ -38,10 +38,9 @@ class _SignUpState extends State<SignUp> {
                         _buildBackIcon(),
                         _buildTextData(),
                         SizedBox(
-                          height: 300,
+                          height: 350,
                         ),
                         _buildFormContainer(),
-
                       ],
                     ),
                     SizedBox(
@@ -138,15 +137,15 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              _buildFirstName(),
+              SizedBox(
+                height: 10,
+              ),
+              _buildLastName(),
+              SizedBox(
+                height: 10,
+              ),
               _buildPhoneNumber(),
-              SizedBox(
-                height: 10,
-              ),
-              _buildDOB(),
-              SizedBox(
-                height: 10,
-              ),
-              //_buildPassword(),
               SizedBox(
                 height: 10,
               ),
@@ -157,17 +156,6 @@ class _SignUpState extends State<SignUp> {
         ));
   }
 
-
-  _buildPassword() {
-    return TextFieldForm(
-        txt: 'Password',
-        pass: true,
-        types: TextInputType.visiblePassword,
-        ico: Icon(
-          FeatherIcons.key,
-          color: Colors.grey,
-        ));
-  }
   _buildPhoneNumber() {
     return TextFieldForm(
       txt: 'Phone Number',
@@ -178,24 +166,27 @@ class _SignUpState extends State<SignUp> {
       types: TextInputType.phone,
     );
   }
-  _buildDOB() {
+
+  _buildFirstName() {
     return TextFieldForm(
-      txt: 'Date Of Birth',
-      ico: Icon(
-        FeatherIcons.calendar,
-        color: Colors.grey,
-      ),
-      types: TextInputType.datetime,
-    );
-  }
-  _buildConfirmPassword() {
-    return TextFieldForm(
-        txt: 'Confirm Password',
+        txt: 'First Name',
         pass: true,
-        types: TextInputType.visiblePassword,
+        types: TextInputType.text,
         ico: Icon(
-          FeatherIcons.key,
+          FeatherIcons.user,
           color: Colors.grey,
         ));
   }
+
+  _buildLastName() {
+    return TextFieldForm(
+        txt: 'Last Name',
+        pass: true,
+        types: TextInputType.text,
+        ico: Icon(
+          FeatherIcons.userX,
+          color: Colors.grey,
+        ));
+  }
+
 }

@@ -110,11 +110,7 @@ class _InfoFormState extends State<InfoForm> {
       ),
       child: Column(
         children: [
-          _buildFirstName(),
-          SizedBox(
-            height: 10,
-          ),
-          _buildLastName(),
+          _buildDOB(),
           SizedBox(
             height: 10,
           ),
@@ -180,28 +176,6 @@ class _InfoFormState extends State<InfoForm> {
         ),
       ),
     );
-  }
-
-  _buildFirstName() {
-    return TextFieldForm(
-        txt: 'First Name',
-        pass: true,
-        types: TextInputType.text,
-        ico: Icon(
-          FeatherIcons.user,
-          color: Colors.grey,
-        ));
-  }
-
-  _buildLastName() {
-    return TextFieldForm(
-        txt: 'Last Name',
-        pass: true,
-        types: TextInputType.text,
-        ico: Icon(
-          FeatherIcons.userX,
-          color: Colors.grey,
-        ));
   }
 
   _buildUserEmail() {
@@ -277,6 +251,17 @@ class _InfoFormState extends State<InfoForm> {
           ),
         ),
       ),
+    );
+  }
+
+  _buildDOB() {
+    return TextFieldForm(
+      txt: 'Date Of Birth',
+      ico: Icon(
+        FeatherIcons.calendar,
+        color: Colors.grey,
+      ),
+      types: TextInputType.datetime,
     );
   }
 
