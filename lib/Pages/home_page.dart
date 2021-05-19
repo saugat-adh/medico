@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
         decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
+              end: FractionalOffset.bottomCenter,
               stops: [
                 0.1,
                 0.6,

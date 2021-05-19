@@ -16,6 +16,8 @@ dependencies:
   salomon_bottom_bar: ^3.0.0
   gender_picker: ^1.0.2
   enum_to_string: ^2.0.1
+  firebase_auth: ^1.2.0
+  firebase_core: ^1.2.0
 
 dev_dependencies:
   flutter_test:

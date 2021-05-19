@@ -140,7 +140,7 @@ class _LogInState extends State<LogIn> {
               SizedBox(
                 height: 10,
               ),
-              _buildPassword(),
+              //_buildPassword(),
             ],
           ),
         ));

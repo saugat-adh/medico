@@ -38,7 +38,7 @@ class _SignUpState extends State<SignUp> {
                         _buildBackIcon(),
                         _buildTextData(),
                         SizedBox(
-                          height: 400,
+                          height: 300,
                         ),
                         _buildFormContainer(),
 
@@ -146,11 +146,11 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 height: 10,
               ),
-              _buildPassword(),
+              //_buildPassword(),
               SizedBox(
                 height: 10,
               ),
-              _buildConfirmPassword(),
+              //_buildConfirmPassword(),
 
             ],
           ),
