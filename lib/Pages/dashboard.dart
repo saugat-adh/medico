@@ -24,13 +24,14 @@ class _Dash1State extends State<Dash1> {
                       _buildBackgroundCover(),
                       _buildUserPic(),
                       _buildSettingPanel(),
-                      _patientDetails(),
-                      _covidTracker(),
                     ],
                   ),
                   SizedBox(
-                    height: 50.0,
+                    height: 70.0,
                   ),
+                  _covidTracker(),
+                  SizedBox(height: 10,),
+                  _patientDetails(),
                 ],
               ),
             )),
@@ -88,65 +89,62 @@ class _Dash1State extends State<Dash1> {
   }
 
   _covidTracker() {
-    return Positioned(
-        bottom: -150,
-        child: Container(
-          height: 100,
-          width: MediaQuery.of(context).size.width - 20,
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.orange,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                spreadRadius: 5.5,
-                blurRadius: 5.5,
-              )
-            ],
-          ),
-          child: Center(
-            child: Text(
-              'This will contain Covid Tracker',
-              style: TextStyle(
-                  color: Colors.black, fontSize: 20, fontFamily: 'Lato'),
-            ),
-          ),
-        ));
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width - 20,
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.orange,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            spreadRadius: 5.5,
+            blurRadius: 5.5,
+          )
+        ],
+      ),
+      child: Center(
+        child: Text(
+          'This will contain Covid Tracker',
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontFamily: 'Lato'),
+        ),
+      ),
+    );
   }
 
   _patientDetails() {
-    return Positioned(
-        bottom: -450,
-        child: Container(
-          height: 250.0,
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Color(0xEA1012A),
-                Color(0xEA1055C),
-              ],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                spreadRadius: 5.5,
-                blurRadius: 5.5,
-              )
-            ],
-          ),
-          child: Center(
-            child: Text(
-              'This will contain Patient Details',
-              style: TextStyle(
-                  color: Colors.black, fontSize: 20, fontFamily: 'Lato'),
-            ),
-          ),
-        ));
+    return Container(
+      height: 250.0,
+      width: MediaQuery.of(context).size.width - 20,
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(28)),
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Colors.white,
+            Colors.grey,
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            spreadRadius: 5.5,
+            blurRadius: 5.5,
+          )
+        ],
+      ),
+      child: Center(
+        child: Text(
+          'This will contain Patient Details',
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontFamily: 'Lato'),
+        ),
+      ),
+    );
   }
 
 }
