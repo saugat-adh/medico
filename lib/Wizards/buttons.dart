@@ -5,8 +5,7 @@ ButtonStyle popUpButton = ButtonStyle(
 );
 
 class Buttons extends StatelessWidget {
-  Buttons({@required this.txt, @required this.click})  ;
-
+  Buttons({@required this.txt, @required this.click});
 
   final String txt;
   final Function click;
@@ -18,24 +17,25 @@ class Buttons extends StatelessWidget {
         onPressed: click,
         child: Ink(
           decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [Colors.green, Colors.teal],
+              gradient: LinearGradient(
+                colors: [Colors.green, Colors.teal],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
-              borderRadius: BorderRadius.circular(50.0)
-          ),
+              borderRadius: BorderRadius.circular(50.0)),
           child: Container(
-            constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.75,
+                minHeight: 60),
             alignment: Alignment.center,
             child: Text(
               txt,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontFamily: 'Bebas',
-                letterSpacing: 0.7
-              ),
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontFamily: 'Bebas',
+                  letterSpacing: 0.7),
             ),
           ),
         ),

@@ -4,24 +4,31 @@ import 'package:medico/Forms/info_form.dart';
 import 'Pages/home_page.dart';
 import 'Forms/log_in.dart';
 import 'Forms/register.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MedicoApp());
 }
 
 class MedicoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: HomePage.id,
-      routes: {
-        HomePage.id : (context) => HomePage(),
-        LogIn.id : (context) => LogIn(),
-        SignUp.id : (context) => SignUp(),
-        BotNavBar.id : (context) => BotNavBar(),
-        InfoForm.id : (context) => InfoForm(),
-      },
+    return FutureBuilder(
+      // future: _initialization,
+      builder: (context, snapshot) {
+        return MaterialApp(
+        home: HomePage(),
+        routes: {
+          HomePage.id : (context) => HomePage(),
+          LogIn.id : (context) => LogIn(),
+          SignUp.id : (context) => SignUp(),
+          BotNavBar.id : (context) => BotNavBar(),
+          InfoForm.id : (context) => InfoForm(),
+        },
+      );}
     );
   }
 }

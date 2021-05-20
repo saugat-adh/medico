@@ -19,16 +19,18 @@ class InForm extends StatelessWidget {
 
 class TextFieldForm extends StatelessWidget {
   TextFieldForm(
-      {@required this.txt, this.types, this.pass, this.ico});
+      {@required this.txt, this.types, this.pass, this.ico, this.cntrl});
 
   final String txt;
   final TextInputType types;
   final bool pass;
   final Icon ico;
+  final TextEditingController cntrl;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: cntrl,
       obscureText: pass ?? false,
       keyboardType: types,
       textInputAction: TextInputAction.next,

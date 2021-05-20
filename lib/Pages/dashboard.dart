@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:medico/Pages/home_page.dart';
 import 'package:medico/Wizards/icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
 
 class Dash1 extends StatefulWidget {
   @override
@@ -84,7 +92,29 @@ class _Dash1State extends State<Dash1> {
               )
             ],
           ),
-          child: DashIcons(),
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IcoBtn(ico: Icon(
+                  FeatherIcons.settings,
+                ),),
+                IcoBtn(ico: Icon(
+                  FeatherIcons.shoppingCart,
+                ),),
+                IcoBtn(ico: Icon(
+                  FeatherIcons.bell,
+                ),),
+                IcoBtn(ico: Icon(
+                  FeatherIcons.logOut,
+                ),
+                onClick:(){
+                  signOut();
+                },
+                ),
+              ],
+            ),
+          ),
         ));
   }
 
@@ -146,5 +176,12 @@ class _Dash1State extends State<Dash1> {
       ),
     );
   }
+
+  signOut() {
+    //redirect
+    _auth.signOut().then((value) => Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (BuildContext context) => HomePage())));
+  }
+
 
 }
