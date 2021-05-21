@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-TextStyle topTxt = TextStyle(
+TextStyle ktopTxt = TextStyle(
   fontSize: 55,
   fontWeight: FontWeight.bold,
-  fontFamily: 'Bebas',
+  fontFamily: 'Muli',
   color: Colors.white,
-  letterSpacing: 3,
+  // letterSpacing: 3,
 );
 
-TextStyle midText = TextStyle(
+TextStyle kmidText = TextStyle(
   fontSize: 20,
-  fontFamily: 'Poiret',
+  fontFamily: 'Muli',
   color: Colors.white,
 );

@@ -37,6 +37,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    TextStyle topTxt = TextStyle(
+      fontSize: MediaQuery.of(context).size.width * 0.17,
+      fontWeight: FontWeight.bold,
+      fontFamily: 'Bebas',
+      color: Colors.white,
+      // letterSpacing: 3,
+    );
+    TextStyle midText = TextStyle(
+      fontSize: MediaQuery.of(context).size.width * 0.05,
+      fontFamily: 'Poiret',
+      color: Colors.white,
+    );
+
     return SafeArea(
         child: Scaffold(
       body: Container(

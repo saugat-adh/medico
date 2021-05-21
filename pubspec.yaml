@@ -49,3 +49,10 @@ flutter:
     - family: Coda
       fonts :
         - asset : fonts/Coda-Regular.ttf
+    - family: Muli
+      fonts:
+        - asset: fonts/muli/Muli.ttf
+        - asset: fonts/muli/Muli-Bold.ttf
+          weight: 700
+        - asset: fonts/muli/Muli-Light.ttf
+          weight: 300
