@@ -26,7 +26,7 @@ class Buttons extends StatelessWidget {
           child: Container(
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.75,
-                minHeight: 60),
+                minHeight: 50),
             alignment: Alignment.center,
             child: Text(
               txt,
