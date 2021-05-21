@@ -1,12 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
-class Dash3 extends StatefulWidget {
+class Dash3 extends StatefulWidget{
+
   @override
   _Dash3State createState() => _Dash3State();
 }
 
 class _Dash3State extends State<Dash3> {
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -34,10 +37,12 @@ class _Dash3State extends State<Dash3> {
       ],
     );
   }
+  
+ 
 
   _buildBackgroundCover() {
     return Container(
-      height: 250.0,
+      height: 220.0,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topRight,
@@ -90,26 +95,95 @@ class _Dash3State extends State<Dash3> {
 
   _buildSearchBar() {
     return Positioned(
-      bottom: 50,
-        child: Container(
-          width: MediaQuery.of(context).size.width - 40,
-          padding: EdgeInsets.all(17),
-          child: Center(
-            child: Text(
-              'This will contain search bar',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-                fontFamily: 'Bebas',
-              ),
-            ),
+      top: 150,
+      left: 20,
+      right: 20,
+        child: AppBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+              top: Radius.circular(30),
+            )
           ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
+          centerTitle: true,
+          backgroundColor: Colors.grey,
+        primary: false,
+        title: TextField(
+
+          decoration: InputDecoration(
+            hintText: "Search Meds",
+            hintStyle: TextStyle(color: Colors.white),
           ),
-        )
+        ),
+    actions:<Widget> [
+    IconButton(icon: Icon(Icons.search), onPressed: (){
+    showSearch(context: context, delegate: DataSearch());
+    }
+    )
+    ]
+    )
     );
+  }
+
+
+}
+
+
+class DataSearch extends SearchDelegate<String> {
+  final drugs=[
+    "Paracetamol",
+    "Vitamin C",
+    "Vitamin B",
+    "Zinc Tablets",
+    "diazepam",
+    "fluoxetine",
+    "haloperidol",
+    "loperamide,"
+  ];
+
+  final recentDrugs= [
+    "Paracetamol",
+    "Vitamin C",
+    "Vitamin B",
+    "Zinc Tablets",
+  ];
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    // actions for appbar
+    return [
+      IconButton(icon: Icon(Icons.search), onPressed: () {} )
+    ];
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    // leading icon on the left of the appbar
+    return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow,progress: transitionAnimation,
+    ),
+        onPressed: () {});
+
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // show some result based on the selection
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // show when someone searches for something
+    final suggestionList= query.isEmpty?recentDrugs:drugs;
+    return ListView.builder(
+        itemBuilder: (context,index)=>ListTile(
+        leading: Icon(Icons.person),
+          title: Text(suggestionList[index]),
+    ),
+      itemCount: suggestionList.length,
+    );
+    throw UnimplementedError();
   }
 
 }
