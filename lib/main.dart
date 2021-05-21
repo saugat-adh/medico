@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 
 void main() async{
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MedicoApp());
@@ -20,6 +21,10 @@ class MedicoApp extends StatelessWidget {
       // future: _initialization,
       builder: (context, snapshot) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          // theme: ThemeData(
+          //   primarySwatch: Colors.green,
+          // ),
         home: HomePage(),
         routes: {
           HomePage.id : (context) => HomePage(),

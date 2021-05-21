@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class Dash3 extends StatefulWidget{
@@ -12,6 +13,10 @@ class _Dash3State extends State<Dash3> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.greenAccent[200],
+      statusBarBrightness: Brightness.dark,
+    ));
     return Stack(
       children: [
         Scaffold(
@@ -48,10 +53,12 @@ class _Dash3State extends State<Dash3> {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            Color(0xff45062E),
-            Color(0xff7F055F),
+            Colors.green,
+            Colors.teal,
           ],
         ),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
       ),
     );
   }
@@ -106,19 +113,19 @@ class _Dash3State extends State<Dash3> {
             )
           ),
           centerTitle: true,
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.white,
         primary: false,
         title: TextField(
 
           decoration: InputDecoration(
             hintText: "Search Meds",
-            hintStyle: TextStyle(color: Colors.white),
+            hintStyle: TextStyle(color: Colors.grey),
           ),
         ),
     actions:<Widget> [
-    IconButton(icon: Icon(Icons.search), onPressed: (){
+    IconButton(icon: Icon(Icons.search,color: Colors.grey,), onPressed: (){
     showSearch(context: context, delegate: DataSearch());
-    }
+    },
     )
     ]
     )
@@ -138,20 +145,22 @@ class DataSearch extends SearchDelegate<String> {
     "diazepam",
     "fluoxetine",
     "haloperidol",
-    "loperamide,"
+    "loperamide",
   ];
 
   final recentDrugs= [
     "Paracetamol",
-    "Vitamin C",
-    "Vitamin B",
-    "Zinc Tablets",
+    // "Vitamin C",
+    // "Vitamin B",
+    // "Zinc Tablets",
   ];
   @override
   List<Widget> buildActions(BuildContext context) {
     // actions for appbar
     return [
-      IconButton(icon: Icon(Icons.search), onPressed: () {} )
+      IconButton(icon: Icon(Icons.search), onPressed: () {
+        query= "";
+      } )
     ];
     throw UnimplementedError();
   }
@@ -159,9 +168,14 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildLeading(BuildContext context) {
     // leading icon on the left of the appbar
-    return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow,progress: transitionAnimation,
+    return IconButton(
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: transitionAnimation,
     ),
-        onPressed: () {});
+        onPressed: () {
+          close(context, null);
+        });
 
     throw UnimplementedError();
   }
@@ -169,17 +183,40 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     // show some result based on the selection
+    return Center(
+      child: Container(
+        height: 100,
+        width: 100,
+        color: Colors.redAccent,
+        child: Center(
+            child: Text(query),
+        ),
+      ),
+    );
     throw UnimplementedError();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     // show when someone searches for something
-    final suggestionList= query.isEmpty?recentDrugs:drugs;
+    final suggestionList= query.isEmpty?recentDrugs:drugs.where((p) => p.startsWith(query)).toList();
     return ListView.builder(
         itemBuilder: (context,index)=>ListTile(
+          onTap: (){
+            showResults(context);
+          },
         leading: Icon(Icons.person),
-          title: Text(suggestionList[index]),
+          title: RichText(text: TextSpan(
+            text: suggestionList[index].substring(0,query.length),
+            style: TextStyle(
+              color:Colors.black,
+                fontWeight: FontWeight.bold
+            ),
+            children: [TextSpan(
+              text: suggestionList[index].substring(query.length),
+              style: TextStyle(color: Colors.grey)
+            )]
+          ),),
     ),
       itemCount: suggestionList.length,
     );
