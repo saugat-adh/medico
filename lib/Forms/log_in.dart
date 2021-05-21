@@ -394,7 +394,10 @@ class _LogInState extends State<LogIn> {
           setState(() {
             verificationCode = verificationId;
             isOTPScreen = true;
-            showSpinner = false;
+            setState(() {
+              showSpinner = false;
+            });
+
           });
         },
         codeAutoRetrievalTimeout: (String verificationId) {
@@ -406,6 +409,9 @@ class _LogInState extends State<LogIn> {
       );
       await verifyPhoneNumber;
     } else {
+      setState(() {
+        showSpinner = false;
+      });
       //non valid user
       displaySnackBar('Number not found, please sign up first');
     }

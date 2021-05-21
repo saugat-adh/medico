@@ -480,9 +480,12 @@ class _SignUpState extends State<SignUp> {
       debugPrint('Gideon test 8');
       isOTPScreen = true;
       isRegister = false;
-      showSpinner = false;
     } else {
       displaySnackBar('Already Have an account');
     }
+    setState(() {
+      showSpinner = false;
+    });
+
   }
 }
