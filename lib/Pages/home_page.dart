@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
           body: Container(
             height: double.infinity,
+            width: double.infinity,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -65,24 +66,43 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 170,),
-                  Center(
-                      child: Text(
-                        'Welcome To',
-                        style: topTxt,
-                      )
-                  ),
-                  Text(
-                    'Medico',
-                    style: topTxt,
-                  ),
-                  Text(
-                    'All your health needs',
-                    style: midText,
-                  ),
-                  SizedBox(height: 2,),
-                  Text(
-                    'Summed upped in one place',
-                    style: midText,
+                  Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 5,
+                        child: Center(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                'Welcome To',
+                                style: topTxt,
+                              ),
+                            )
+                        ),
+                      ),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'Medico',
+                          style: topTxt,
+                        ),
+                      ),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'All your health needs',
+                          style: midText,
+                        ),
+                      ),
+                      SizedBox(height: 2,),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'Summed upped in one place',
+                          style: midText,
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 220,),
                   Buttons(

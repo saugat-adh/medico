@@ -5,6 +5,7 @@ import '../Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -27,6 +28,8 @@ class _LogInState extends State<LogIn> {
   var verificationCode = '';
   var isLoginScreen = true;
   var isOTPScreen = false;
+
+  bool showSpinner = false;
 
   @override
   void initState() {
@@ -59,36 +62,42 @@ class _LogInState extends State<LogIn> {
           Scaffold(
               key: _scaffoldKey,
               backgroundColor: Colors.white,
-              body: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      alignment: AlignmentDirectional.topCenter,
-                      children: [
-                        _buildBackgroundCover(),
-                        _buildBackIcon(),
-                        _buildTextData(),
-                        SizedBox(
-                          height: 300,
-                        ),
-                        _buildFormContainer(),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 80.0,
-                    ),
-                    Buttons(
-                      txt: 'Log In',
-                      click: () async {
-                        if (_formKey.currentState.validate()) {
-                          displaySnackBar('Verifying your Number');
-                          await login();
-                        }
-                      },
-                    )
-                  ],
+              body: ModalProgressHUD(
+                inAsyncCall: showSpinner,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Stack(
+                        clipBehavior: Clip.none,
+                        alignment: AlignmentDirectional.topCenter,
+                        children: [
+                          _buildBackgroundCover(),
+                          _buildBackIcon(),
+                          _buildTextData(),
+                          SizedBox(
+                            height: 300,
+                          ),
+                          _buildFormContainer(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 80.0,
+                      ),
+                      Buttons(
+                        txt: 'Log In',
+                        click: () async {
+                          setState((){
+                            showSpinner = true;
+                          });
+                          if (_formKey.currentState.validate()) {
+                            displaySnackBar('Verifying your Number');
+                            await login();
+                          }
+                        },
+                      )
+                    ],
+                  ),
                 ),
               )),
         ]),
@@ -210,62 +219,68 @@ class _LogInState extends State<LogIn> {
           Scaffold(
               key: _scaffoldKey,
               backgroundColor: Colors.white,
-              body: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      alignment: AlignmentDirectional.topCenter,
-                      children: [
-                        _buildBackgroundCover(),
-                        _buildBackIcon(),
-                        _buildTextDataOTP(),
-                        SizedBox(
-                          height: 200,
-                        ),
-                        _buildFormContainerOTP(),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 80.0,
-                    ),
-                    Buttons(
-                        txt: 'Continue',
-                        click: () async {
-                          displaySnackBar('Verifying Your Code');
-                          try {
-                            await _auth
-                                .signInWithCredential(
-                                    PhoneAuthProvider.credential(
-                                        verificationId: verificationCode,
-                                        smsCode: otpController.text.toString()))
-                                .then((user) async => {
-                                      //sign in was success
-                                      if (user != null)
-                                        {
-                                          setState(() {
-                                            //navigate to is
-                                            Navigator.pushAndRemoveUntil(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        BotNavBar(),
-                                              ),
-                                              (route) => false,
-                                            );
-                                          })
-                                        }
-                                    });
-                          } catch (e) {
-                            displaySnackBar('OTP doesn\'t match');
-                          }
-                        }),
-                    SizedBox(
-                      height: 30,
-                    )
-                  ],
+              body: ModalProgressHUD(
+                inAsyncCall: showSpinner,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Stack(
+                        clipBehavior: Clip.none,
+                        alignment: AlignmentDirectional.topCenter,
+                        children: [
+                          _buildBackgroundCover(),
+                          _buildBackIcon(),
+                          _buildTextDataOTP(),
+                          SizedBox(
+                            height: 200,
+                          ),
+                          _buildFormContainerOTP(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 80.0,
+                      ),
+                      Buttons(
+                          txt: 'Continue',
+                          click: () async {
+                            setState(() {
+                              showSpinner = true;
+                            });
+                            displaySnackBar('Verifying Your Code');
+                            try {
+                              await _auth
+                                  .signInWithCredential(
+                                      PhoneAuthProvider.credential(
+                                          verificationId: verificationCode,
+                                          smsCode: otpController.text.toString()))
+                                  .then((user) async => {
+                                        //sign in was success
+                                        if (user != null)
+                                          {
+                                            setState(() {
+                                              //navigate to is
+                                              Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          BotNavBar(),
+                                                ),
+                                                (route) => false,
+                                              );
+                                            })
+                                          }
+                                      });
+                            } catch (e) {
+                              displaySnackBar('OTP doesn\'t match');
+                            }
+                          }),
+                      SizedBox(
+                        height: 30,
+                      )
+                    ],
+                  ),
                 ),
               )),
         ]),
@@ -359,6 +374,7 @@ class _LogInState extends State<LogIn> {
                   {
                     //redirect
                     setState(() {
+                      showSpinner = false;
                       isOTPScreen = false;
                     }),
                     Navigator.pushAndRemoveUntil(
@@ -378,6 +394,7 @@ class _LogInState extends State<LogIn> {
           setState(() {
             verificationCode = verificationId;
             isOTPScreen = true;
+            showSpinner = false;
           });
         },
         codeAutoRetrievalTimeout: (String verificationId) {

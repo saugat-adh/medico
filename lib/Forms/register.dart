@@ -5,6 +5,7 @@ import '../Wizards/buttons.dart';
 import '../Wizards/forms.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -29,6 +30,8 @@ class _SignUpState extends State<SignUp> {
   var verificationCode = '';
   var isRegister = true;
   var isOTPScreen = false;
+
+  bool showSpinner = false;
 
 
   @override
@@ -67,40 +70,46 @@ class _SignUpState extends State<SignUp> {
           Scaffold(
               key: _scaffoldKey,
               backgroundColor: Colors.white,
-              body: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      alignment: AlignmentDirectional.topCenter,
-                      children: [
-                        _buildBackgroundCover(),
-                        _buildBackIcon(),
-                        _buildTextData(),
-                        SizedBox(
-                          height: 350,
-                        ),
-                        _buildFormContainer(),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 80.0,
-                    ),
-                    Buttons(
-                      txt: 'Continue',
-                      click: () async {
-                        if (_formKey.currentState.validate()) {
-                          // If the form is valid, we want to show a loading Snackbar
-                          displaySnackBar('Verifying Your Number');
-                          await signUp();
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 30,
-                    )
-                  ],
+              body: ModalProgressHUD(
+                inAsyncCall: showSpinner,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Stack(
+                        clipBehavior: Clip.none,
+                        alignment: AlignmentDirectional.topCenter,
+                        children: [
+                          _buildBackgroundCover(),
+                          _buildBackIcon(),
+                          _buildTextData(),
+                          SizedBox(
+                            height: 350,
+                          ),
+                          _buildFormContainer(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 80.0,
+                      ),
+                      Buttons(
+                        txt: 'Continue',
+                        click: () async {
+                          setState(() {
+                            showSpinner = true;
+                          });
+                          if (_formKey.currentState.validate()) {
+                            // If the form is valid, we want to show a loading Snackbar
+                            displaySnackBar('Verifying Your Number');
+                            await signUp();
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 30,
+                      )
+                    ],
+                  ),
                 ),
               )),
         ]),
@@ -253,72 +262,78 @@ class _SignUpState extends State<SignUp> {
           Scaffold(
             key: _scaffoldKey,
               backgroundColor: Colors.white,
-              body: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      alignment: AlignmentDirectional.topCenter,
-                      children: [
-                        _buildBackgroundCover(),
-                        _buildBackIcon(),
-                        _buildTextDataOTP(),
-                        SizedBox(
-                          height: 200,
-                        ),
-                        _buildFormContainerOTP(),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 80.0,
-                    ),
-                    Buttons(
-                        txt: 'Continue',
-                        click: () async {
-                          displaySnackBar('Verifying Your Code');
-                          try {
-                            await _auth
-                                .signInWithCredential(
-                                    PhoneAuthProvider.credential(
-                                        verificationId: verificationCode,
-                                        smsCode: otpController.text.toString()))
-                                .then((user) async => {
-                                      //sign in was success
-                                      if (user != null)
-                                        {
-                                          //store registration details in firestore database
-                                          await _firestore
-                                              .collection('users')
-                                              .doc(_auth.currentUser.uid)
-                                              .set({
-                                            'First name': FnameController.text.trim(),
-                                            'Last name': LnameController.text.trim(),
-                                            'cellnumber': cellnumberController
-                                                .text
-                                                .trim(),
-                                          }, SetOptions(merge: true)).then(
-                                                  (value) => {
-                                                        //then move to authorised area
-                                                      }),
-                                          Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  InfoForm(),
-                                            ),
-                                            (route) => true,
-                                          )
-                                        }
-                                    });
-                          } catch (e) {
-                            displaySnackBar('OTP doesn\'t match');
-                          }
-                        }),
-                    SizedBox(
-                      height: 30,
-                    )
-                  ],
+              body: ModalProgressHUD(
+                inAsyncCall: showSpinner,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Stack(
+                        clipBehavior: Clip.none,
+                        alignment: AlignmentDirectional.topCenter,
+                        children: [
+                          _buildBackgroundCover(),
+                          _buildBackIcon(),
+                          _buildTextDataOTP(),
+                          SizedBox(
+                            height: 200,
+                          ),
+                          _buildFormContainerOTP(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 80.0,
+                      ),
+                      Buttons(
+                          txt: 'Continue',
+                          click: () async {
+                            setState(() {
+                              showSpinner = true;
+                            });
+                            displaySnackBar('Verifying Your Code');
+                            try {
+                              await _auth
+                                  .signInWithCredential(
+                                      PhoneAuthProvider.credential(
+                                          verificationId: verificationCode,
+                                          smsCode: otpController.text.toString()))
+                                  .then((user) async => {
+                                        //sign in was success
+                                        if (user != null)
+                                          {
+                                            //store registration details in firestore database
+                                            await _firestore
+                                                .collection('users')
+                                                .doc(_auth.currentUser.uid)
+                                                .set({
+                                              'First name': FnameController.text.trim(),
+                                              'Last name': LnameController.text.trim(),
+                                              'cellnumber': cellnumberController
+                                                  .text
+                                                  .trim(),
+                                            }, SetOptions(merge: true)).then(
+                                                    (value) => {
+                                                          //then move to authorised area
+                                                        }),
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (BuildContext context) =>
+                                                    InfoForm(),
+                                              ),
+                                              (route) => true,
+                                            )
+                                          }
+                                      });
+                            } catch (e) {
+                              displaySnackBar('OTP doesn\'t match');
+                            }
+                          }),
+                      SizedBox(
+                        height: 30,
+                      )
+                    ],
+                  ),
                 ),
               )),
         ]),
@@ -423,6 +438,7 @@ class _SignUpState extends State<SignUp> {
                         .then((value) => {
                               //then move to authorised area
                               setState(() {
+                                showSpinner = false;
                                 //navigate to is
                                 Navigator.pushAndRemoveUntil(
                                   context,
@@ -464,6 +480,7 @@ class _SignUpState extends State<SignUp> {
       debugPrint('Gideon test 8');
       isOTPScreen = true;
       isRegister = false;
+      showSpinner = false;
     } else {
       displaySnackBar('Already Have an account');
     }
