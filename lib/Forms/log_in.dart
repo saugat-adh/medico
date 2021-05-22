@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Wizards/forms.dart';
 import 'package:medico/Pages/bottom_nav.dart';
+import 'package:medico/models/userModel.dart';
 import '../Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -303,72 +304,92 @@ class _LogInState extends State<LogIn> {
   }
 
   Future login() async {
+    String type = '';
     var phoneNumber = '+977 ' + numberController.text.trim();
 
     //first we will check if a user with this cell number exists
     var isValidUser = false;
     var number = numberController.text.trim();
 
-    await _firestore
-        .collection('users')
-        .where('cellnumber', isEqualTo: number)
-        .get()
-        .then((result) {
-      if (result.docs.length > 0) {
-        isValidUser = true;
+    QuerySnapshot snapshot = await _firestore.collection("AllUsers").get();
+    snapshot.docs.forEach((user) {
+      UserModel userdata = UserModel.deserialize(user);
+      if (userdata.phNumber == numberController.text.trim()) {
+        type = userdata.category;
       }
     });
 
-    if (isValidUser) {
-      //ok, we have a valid user, now lets do otp verification
-      var verifyPhoneNumber = _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        verificationCompleted: (phoneAuthCredential) {
-          //auto code complete (not manually)
-          _auth.signInWithCredential(phoneAuthCredential).then((user) async => {
-                if (user != null)
-                  {
-                    //redirect
-                    setState(() {
-                      showSpinner = false;
-                      isOTPScreen = false;
-                    }),
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => BotNavBar(),
-                      ),
-                      (route) => false,
-                    )
-                  }
-              });
-        },
-        verificationFailed: (FirebaseAuthException error) {
-          displaySnackBar('Validation error, please try again later');
-        },
-        codeSent: (verificationId, [forceResendingToken]) {
-          setState(() {
-            verificationCode = verificationId;
-            isOTPScreen = true;
-            setState(() {
-              showSpinner = false;
-            });
-          });
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          setState(() {
-            verificationCode = verificationId;
-          });
-        },
-        timeout: Duration(seconds: 60),
-      );
-      await verifyPhoneNumber;
-    } else {
+    if (type.isEmpty) {
+      displaySnackBar('Number not found, please sign up first');
       setState(() {
         showSpinner = false;
       });
-      //non valid user
-      displaySnackBar('Number not found, please sign up first');
+    } else {
+      await _firestore
+          .collection(type)
+          .where('cellnumber', isEqualTo: number)
+          .get()
+          .then((result) {
+        if (result.docs.length > 0) {
+          isValidUser = true;
+        }
+      });
+
+      if (isValidUser) {
+        //ok, we have a valid user, now lets do otp verification
+        var verifyPhoneNumber = _auth.verifyPhoneNumber(
+          phoneNumber: phoneNumber,
+          verificationCompleted: (phoneAuthCredential) {
+            //auto code complete (not manually)
+            _auth
+                .signInWithCredential(phoneAuthCredential)
+                .then((user) async => {
+                      if (user != null)
+                        {
+                          //redirect
+                          setState(() {
+                            showSpinner = false;
+                            isOTPScreen = false;
+                          }),
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => BotNavBar(),
+                            ),
+                            (route) => false,
+                          )
+                        }
+                    });
+          },
+          verificationFailed: (FirebaseAuthException error) {
+            displaySnackBar('Validation error, please try again later');
+          },
+          codeSent: (verificationId, [forceResendingToken]) {
+            setState(() {
+              verificationCode = verificationId;
+              isOTPScreen = true;
+              setState(() {
+                showSpinner = false;
+              });
+            });
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {
+            setState(() {
+              verificationCode = verificationId;
+            });
+          },
+          timeout: Duration(seconds: 60),
+        );
+        await verifyPhoneNumber;
+      } else {
+        print("yeta pugyo");
+        setState(() {
+          showSpinner = false;
+        });
+        displaySnackBar('Number not found, please sign up first');
+        // non valid user
+
+      }
     }
   }
 }

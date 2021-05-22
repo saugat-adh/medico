@@ -8,7 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-
 class Dash1 extends StatefulWidget {
   @override
   _Dash1State createState() => _Dash1State();
@@ -38,7 +37,9 @@ class _Dash1State extends State<Dash1> {
                     height: 70.0,
                   ),
                   _covidTracker(),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   _patientDetails(),
                 ],
               ),
@@ -71,6 +72,8 @@ class _Dash1State extends State<Dash1> {
         child: CircleAvatar(
           backgroundColor: Colors.white,
           radius: 70,
+          backgroundImage: NetworkImage(
+              "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png?1592828498v"),
         ));
   }
 
@@ -96,21 +99,28 @@ class _Dash1State extends State<Dash1> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IcoBtn(ico: Icon(
-                  FeatherIcons.settings,
-                ),),
-                IcoBtn(ico: Icon(
-                  FeatherIcons.shoppingCart,
-                ),),
-                IcoBtn(ico: Icon(
-                  FeatherIcons.bell,
-                ),),
-                IcoBtn(ico: Icon(
-                  FeatherIcons.logOut,
+                IcoBtn(
+                  ico: Icon(
+                    FeatherIcons.settings,
+                  ),
                 ),
-                onClick:(){
-                  signOut();
-                },
+                IcoBtn(
+                  ico: Icon(
+                    FeatherIcons.shoppingCart,
+                  ),
+                ),
+                IcoBtn(
+                  ico: Icon(
+                    FeatherIcons.bell,
+                  ),
+                ),
+                IcoBtn(
+                  ico: Icon(
+                    FeatherIcons.logOut,
+                  ),
+                  onClick: () {
+                    signOut();
+                  },
                 ),
               ],
             ),
@@ -137,8 +147,8 @@ class _Dash1State extends State<Dash1> {
       child: Center(
         child: Text(
           'This will contain Covid Tracker',
-          style: TextStyle(
-              color: Colors.black, fontSize: 20, fontFamily: 'Lato'),
+          style:
+              TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Lato'),
         ),
       ),
     );
@@ -170,8 +180,8 @@ class _Dash1State extends State<Dash1> {
       child: Center(
         child: Text(
           'This will contain Patient Details',
-          style: TextStyle(
-              color: Colors.black, fontSize: 20, fontFamily: 'Lato'),
+          style:
+              TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Lato'),
         ),
       ),
     );
@@ -182,6 +192,4 @@ class _Dash1State extends State<Dash1> {
     _auth.signOut().then((value) => Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext context) => HomePage())));
   }
-
-
 }

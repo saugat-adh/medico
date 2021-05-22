@@ -26,13 +26,17 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController cellnumberController =
       new TextEditingController();
   final TextEditingController otpController = new TextEditingController();
+  final TextEditingController nmcIdController = new TextEditingController();
+  final TextEditingController specialityController =
+      new TextEditingController();
 
   var verificationCode = '';
   var isRegister = true;
   var isOTPScreen = false;
 
-  bool showSpinner = false;
+  bool isUserADoctor = false;
 
+  bool showSpinner = false;
 
   @override
   void initState() {
@@ -54,7 +58,6 @@ class _SignUpState extends State<SignUp> {
     return isOTPScreen ? OTPScreen() : registerScreen();
   }
 
-
   Widget registerScreen() {
     return GestureDetector(
       onTap: () {
@@ -65,7 +68,6 @@ class _SignUpState extends State<SignUp> {
         }
       },
       child: SafeArea(
-
         child: Stack(children: [
           Scaffold(
               key: _scaffoldKey,
@@ -93,19 +95,60 @@ class _SignUpState extends State<SignUp> {
                         key: _formKey,
                         child: Container(
                           width: MediaQuery.of(context).size.width - 50,
-                          child: Column(children :[_buildFirstName(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          _buildLastName(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          _buildPhoneNumber(),]),
+                          child: Column(children: [
+                            _buildFirstName(),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            _buildLastName(),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            _buildPhoneNumber(),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.05,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Are you a doctor?",
+                                  style: TextStyle(
+                                      color: Colors.green, fontSize: 15),
+                                ),
+                                Checkbox(
+                                    fillColor:
+                                        MaterialStateProperty.resolveWith(
+                                            (states) => Colors.black),
+                                    value: isUserADoctor,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        isUserADoctor = value;
+                                        print(isUserADoctor);
+                                      });
+                                    }),
+                              ],
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.05,
+                            ),
+                            isUserADoctor
+                                ? Column(
+                                    children: [
+                                      _buildNMCId(),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.05,
+                                      ),
+                                      _speciality()
+                                    ],
+                                  )
+                                : Text(""),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.05,
+                            ),
+                          ]),
                         ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.05,
                       ),
                       Buttons(
                         txt: 'Continue',
@@ -197,24 +240,51 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+  _buildNMCId() {
+    return TextFieldForm(
+      ico: Icon(FeatherIcons.user),
+      labelTxt: 'NMC ID',
+      txt: 'Enter Your NMC Id',
+      cntrl: nmcIdController,
+      types: TextInputType.text,
+    );
+  }
+
+  _speciality() {
+    return TextFieldForm(
+      ico: Icon(FeatherIcons.user),
+      labelTxt: 'Speciality',
+      txt: 'Enter Your Speciality',
+      cntrl: specialityController,
+      types: TextInputType.text,
+    );
+  }
+
   _buildFirstName() {
     return TextFieldForm(
       ico: Icon(FeatherIcons.user),
       labelTxt: 'First Name',
-        txt: 'Enter Your First Name',
-        cntrl: FnameController,
-        types: TextInputType.text,
-        );
+      txt: 'Enter Your First Name',
+      cntrl: FnameController,
+      types: TextInputType.text,
+    );
   }
 
   _buildLastName() {
     return TextFieldForm(
       ico: Icon(FeatherIcons.user),
       labelTxt: 'Last Name',
-        txt: 'Enter Your Last Name',
-        cntrl: LnameController,
-        types: TextInputType.text,
-        );
+      txt: 'Enter Your Last Name',
+      cntrl: LnameController,
+      types: TextInputType.text,
+    );
+  }
+
+  _commonUserDB() async {
+    await _firestore.collection('AllUsers').doc(_auth.currentUser.uid).set({
+      "User": isUserADoctor ? "doctors" : "patients",
+      "phone": cellnumberController.text.trim()
+    });
   }
 
   Widget OTPScreen() {
@@ -229,7 +299,7 @@ class _SignUpState extends State<SignUp> {
       child: SafeArea(
         child: Stack(children: [
           Scaffold(
-            key: _scaffoldKey,
+              key: _scaffoldKey,
               backgroundColor: Colors.white,
               body: ModalProgressHUD(
                 inAsyncCall: showSpinner,
@@ -265,30 +335,75 @@ class _SignUpState extends State<SignUp> {
                                   .signInWithCredential(
                                       PhoneAuthProvider.credential(
                                           verificationId: verificationCode,
-                                          smsCode: otpController.text.toString()))
+                                          smsCode:
+                                              otpController.text.toString()))
                                   .then((user) async => {
                                         //sign in was success
                                         if (user != null)
                                           {
                                             //store registration details in firestore database
-                                            await _firestore
-                                                .collection('users')
-                                                .doc(_auth.currentUser.uid)
-                                                .set({
-                                              'First name': FnameController.text.trim(),
-                                              'Last name': LnameController.text.trim(),
-                                              'cellnumber': cellnumberController
-                                                  .text
-                                                  .trim(),
-                                            }, SetOptions(merge: true)).then(
-                                                    (value) => {
-                                                          //then move to authorised area
-                                                        }),
+                                            _commonUserDB(),
+                                            if (isUserADoctor)
+                                              {
+                                                await _firestore
+                                                    .collection('doctors')
+                                                    .doc(_auth.currentUser.uid)
+                                                    .set(
+                                                        {
+                                                      'First name':
+                                                          FnameController.text
+                                                              .trim(),
+                                                      'Last name':
+                                                          LnameController.text
+                                                              .trim(),
+                                                      'cellnumber':
+                                                          cellnumberController
+                                                              .text
+                                                              .trim(),
+                                                      "nmcID": nmcIdController
+                                                          .text
+                                                          .trim(),
+                                                      "speciality":
+                                                          specialityController
+                                                              .text
+                                                              .trim(),
+                                                    },
+                                                        SetOptions(
+                                                            merge: true)).then(
+                                                        (value) => {
+                                                              //then move to authorised area
+                                                            }),
+                                              }
+                                            else
+                                              {
+                                                await _firestore
+                                                    .collection('patients')
+                                                    .doc(_auth.currentUser.uid)
+                                                    .set(
+                                                        {
+                                                      'First name':
+                                                          FnameController.text
+                                                              .trim(),
+                                                      'Last name':
+                                                          LnameController.text
+                                                              .trim(),
+                                                      'cellnumber':
+                                                          cellnumberController
+                                                              .text
+                                                              .trim(),
+                                                    },
+                                                        SetOptions(
+                                                            merge: true)).then(
+                                                        (value) => {
+                                                              //then move to authorised area
+                                                            }),
+                                              },
                                             Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (BuildContext context) =>
-                                                    InfoForm(),
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        InfoForm(),
                                               ),
                                               (route) => true,
                                             )
@@ -352,7 +467,7 @@ class _SignUpState extends State<SignUp> {
     var number = cellnumberController.text.trim();
 
     await _firestore
-        .collection('users')
+        .collection('patients')
         .where('cellnumber', isEqualTo: number)
         .get()
         .then((result) {
@@ -361,7 +476,7 @@ class _SignUpState extends State<SignUp> {
       }
     });
 
-    if(!isValidUser){
+    if (!isValidUser) {
       debugPrint('Gideon test 1');
       var phoneNumber = '+977 ' + cellnumberController.text.toString();
       debugPrint('Gideon test 2');
@@ -375,7 +490,7 @@ class _SignUpState extends State<SignUp> {
                   {
                     //store registration details in firestore database
                     await _firestore
-                        .collection('users')
+                        .collection('patients')
                         .doc(_auth.currentUser.uid)
                         .set({
                           'First name': FnameController.text.trim(),
@@ -433,6 +548,5 @@ class _SignUpState extends State<SignUp> {
     setState(() {
       showSpinner = false;
     });
-
   }
 }
