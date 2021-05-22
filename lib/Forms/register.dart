@@ -296,6 +296,7 @@ class _SignUpState extends State<SignUp> {
                                       });
                             } catch (e) {
                               displaySnackBar('OTP doesn\'t match');
+                              showSpinner = false;
                             }
                           }),
                       SizedBox(

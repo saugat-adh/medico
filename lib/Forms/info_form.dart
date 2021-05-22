@@ -199,7 +199,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserHeight() {
     return TextFieldForm(
-      ico: Icon(FeatherIcons.power),
+      ico: Icon(FeatherIcons.chevronsDown),
       labelTxt: 'Height',
         txt: 'Height',
         pass: true,
@@ -209,7 +209,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserWeight() {
     return TextFieldForm(
-      ico: Icon(FeatherIcons.power),
+      ico: Icon(FeatherIcons.chevronsLeft),
       labelTxt: 'Weight',
       txt: 'Weight',
       pass: true,
@@ -257,6 +257,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildDOB() {
     return TextFieldForm(
+      ico: Icon(FeatherIcons.calendar),
       labelTxt: 'Date Of Birth',
       txt: 'Enter Your DOB',
       types: TextInputType.datetime,
