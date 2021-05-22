@@ -5,10 +5,11 @@ ButtonStyle popUpButton = ButtonStyle(
 );
 
 class Buttons extends StatelessWidget {
-  Buttons({@required this.txt, @required this.click});
+  Buttons({@required this.txt, @required this.click, this.circleRadius});
 
   final String txt;
   final Function click;
+  final double circleRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class Buttons extends StatelessWidget {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
-              borderRadius: BorderRadius.circular(10.0)),
+              borderRadius: BorderRadius.circular(circleRadius ?? 10)),
           child: Container(
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width - 50,
@@ -44,7 +45,7 @@ class Buttons extends StatelessWidget {
           elevation: MaterialStateProperty.all(0),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+              borderRadius: BorderRadius.all(Radius.circular(circleRadius ?? 10)),
             ),
           ),
         ),

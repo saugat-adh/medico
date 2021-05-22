@@ -97,6 +97,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Column(mainAxisAlignment: MainAxisAlignment.end, children: [
               Buttons(
+                circleRadius: 50.0,
                 txt: 'Sign In',
                 click: () {
                   Navigator.pushNamed(context, LogIn.id);
@@ -107,6 +108,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Buttons(
                 txt: 'Sign Up',
+                circleRadius: 50.0,
                 click: () {
                   Navigator.pushNamed(context, SignUp.id);
                 },
