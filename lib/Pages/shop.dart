@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
-class Dash3 extends StatefulWidget{
-
+class Dash3 extends StatefulWidget {
   @override
   _Dash3State createState() => _Dash3State();
 }
 
 class _Dash3State extends State<Dash3> {
-
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.greenAccent[200],
-      statusBarBrightness: Brightness.dark,
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarColor: Colors.greenAccent[200],
+    //   statusBarBrightness: Brightness.dark,
+    // ));
     return Stack(
       children: [
         Scaffold(
@@ -36,14 +34,11 @@ class _Dash3State extends State<Dash3> {
                     ],
                   ),
                 ],
-
               ),
             )),
       ],
     );
   }
-  
- 
 
   _buildBackgroundCover() {
     return Container(
@@ -92,9 +87,7 @@ class _Dash3State extends State<Dash3> {
             FeatherIcons.shoppingCart,
             color: Colors.black,
           ),
-          onPressed: () {
-
-          },
+          onPressed: () {},
         ),
       ),
     );
@@ -102,42 +95,40 @@ class _Dash3State extends State<Dash3> {
 
   _buildSearchBar() {
     return Positioned(
-      top: 150,
-      left: 20,
-      right: 20,
+        top: 150,
+        left: 20,
+        right: 20,
         child: AppBar(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(30),
               top: Radius.circular(30),
-            )
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-        primary: false,
-        title: TextField(
-
-          decoration: InputDecoration(
-            hintText: "Search Meds",
-            hintStyle: TextStyle(color: Colors.grey),
-          ),
-        ),
-    actions:<Widget> [
-    IconButton(icon: Icon(Icons.search,color: Colors.grey,), onPressed: (){
-    showSearch(context: context, delegate: DataSearch());
-    },
-    )
-    ]
-    )
-    );
+            )),
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            primary: false,
+            title: TextField(
+              decoration: InputDecoration(
+                hintText: "Search Meds",
+                hintStyle: TextStyle(color: Colors.grey),
+              ),
+            ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.search,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  showSearch(context: context, delegate: DataSearch());
+                },
+              )
+            ]));
   }
-
-
 }
 
-
 class DataSearch extends SearchDelegate<String> {
-  final drugs=[
+  final drugs = [
     "Paracetamol",
     "Vitamin C",
     "Vitamin B",
@@ -148,7 +139,7 @@ class DataSearch extends SearchDelegate<String> {
     "loperamide",
   ];
 
-  final recentDrugs= [
+  final recentDrugs = [
     "Paracetamol",
     // "Vitamin C",
     // "Vitamin B",
@@ -158,9 +149,11 @@ class DataSearch extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     // actions for appbar
     return [
-      IconButton(icon: Icon(Icons.search), onPressed: () {
-        query= "";
-      } )
+      IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            query = "";
+          })
     ];
     throw UnimplementedError();
   }
@@ -172,7 +165,7 @@ class DataSearch extends SearchDelegate<String> {
         icon: AnimatedIcon(
           icon: AnimatedIcons.menu_arrow,
           progress: transitionAnimation,
-    ),
+        ),
         onPressed: () {
           close(context, null);
         });
@@ -189,7 +182,7 @@ class DataSearch extends SearchDelegate<String> {
         width: 100,
         color: Colors.redAccent,
         child: Center(
-            child: Text(query),
+          child: Text(query),
         ),
       ),
     );
@@ -199,29 +192,29 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     // show when someone searches for something
-    final suggestionList= query.isEmpty?recentDrugs:drugs.where((p) => p.startsWith(query)).toList();
+    final suggestionList = query.isEmpty
+        ? recentDrugs
+        : drugs.where((p) => p.startsWith(query)).toList();
     return ListView.builder(
-        itemBuilder: (context,index)=>ListTile(
-          onTap: (){
-            showResults(context);
-          },
+      itemBuilder: (context, index) => ListTile(
+        onTap: () {
+          showResults(context);
+        },
         leading: Icon(Icons.person),
-          title: RichText(text: TextSpan(
-            text: suggestionList[index].substring(0,query.length),
-            style: TextStyle(
-              color:Colors.black,
-                fontWeight: FontWeight.bold
-            ),
-            children: [TextSpan(
-              text: suggestionList[index].substring(query.length),
-              style: TextStyle(color: Colors.grey)
-            )]
-          ),),
-    ),
+        title: RichText(
+          text: TextSpan(
+              text: suggestionList[index].substring(0, query.length),
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              children: [
+                TextSpan(
+                    text: suggestionList[index].substring(query.length),
+                    style: TextStyle(color: Colors.grey))
+              ]),
+        ),
+      ),
       itemCount: suggestionList.length,
     );
     throw UnimplementedError();
   }
-
 }
-
