@@ -167,6 +167,7 @@ class _LogInState extends State<LogIn> {
       child: Container(
         width: MediaQuery.of(context).size.width - 50,
         child: TextFieldForm(
+          ico: Icon(FeatherIcons.phone),
           labelTxt: 'Phone Number',
           txt: 'Enter Your Phone Number',
           cntrl: numberController,
@@ -285,6 +286,7 @@ class _LogInState extends State<LogIn> {
       child: Container(
         width: MediaQuery.of(context).size.width - 50,
         child: TextFieldForm(
+          ico: Icon(FeatherIcons.key),
           labelTxt: 'OTP',
           txt: 'Enter Your OTP',
           cntrl: otpController,

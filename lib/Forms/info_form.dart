@@ -181,6 +181,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserEmail() {
     return TextFieldForm(
+      ico: Icon(FeatherIcons.mail),
       labelTxt: 'Email',
       txt: 'Enter Your Email',
       types: TextInputType.emailAddress,
@@ -189,6 +190,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserAddress() {
     return TextFieldForm(
+      ico: Icon(FeatherIcons.map),
       labelTxt: 'Address',
       txt: 'Enter Your Address',
       types: TextInputType.streetAddress,
@@ -197,6 +199,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserHeight() {
     return TextFieldForm(
+      ico: Icon(FeatherIcons.power),
       labelTxt: 'Height',
         txt: 'Height',
         pass: true,
@@ -206,6 +209,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserWeight() {
     return TextFieldForm(
+      ico: Icon(FeatherIcons.power),
       labelTxt: 'Weight',
       txt: 'Weight',
       pass: true,

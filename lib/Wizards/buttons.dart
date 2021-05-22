@@ -22,7 +22,7 @@ class Buttons extends StatelessWidget {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
-              borderRadius: BorderRadius.circular(50.0)),
+              borderRadius: BorderRadius.circular(10.0)),
           child: Container(
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width - 50,

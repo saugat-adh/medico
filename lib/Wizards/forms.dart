@@ -19,13 +19,14 @@ class InForm extends StatelessWidget {
 
 class TextFieldForm extends StatelessWidget {
   TextFieldForm(
-      {@required this.txt, this.types, this.pass, this.cntrl, this.labelTxt});
+      {@required this.txt, this.types, this.pass, this.cntrl, this.labelTxt, this.ico});
 
   final String txt;
   final TextInputType types;
   final bool pass;
   final TextEditingController cntrl;
   final String labelTxt;
+  final Icon ico;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class TextFieldForm extends StatelessWidget {
       textInputAction: TextInputAction.next,
       onEditingComplete: () => FocusScope.of(context).nextFocus(),
       decoration: InputDecoration(
+        suffixIcon: ico,
         labelText: labelTxt,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         labelStyle: TextStyle(

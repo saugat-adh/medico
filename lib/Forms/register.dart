@@ -189,6 +189,7 @@ class _SignUpState extends State<SignUp> {
 
   _buildPhoneNumber() {
     return TextFieldForm(
+      ico: Icon(FeatherIcons.phone),
       labelTxt: 'Phone Number',
       txt: 'Enter Your Phone Number',
       cntrl: cellnumberController,
@@ -198,6 +199,7 @@ class _SignUpState extends State<SignUp> {
 
   _buildFirstName() {
     return TextFieldForm(
+      ico: Icon(FeatherIcons.user),
       labelTxt: 'First Name',
         txt: 'Enter Your First Name',
         cntrl: FnameController,
@@ -207,6 +209,7 @@ class _SignUpState extends State<SignUp> {
 
   _buildLastName() {
     return TextFieldForm(
+      ico: Icon(FeatherIcons.user),
       labelTxt: 'Last Name',
         txt: 'Enter Your Last Name',
         cntrl: LnameController,
@@ -322,42 +325,13 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _buildFormContainerOTP() {
-    return Form(
-      key: _formKeyOTP,
-      child: Positioned(
-          bottom: -50,
-          child: Container(
-            //height: 300,
-            width: MediaQuery.of(context).size.width - 60,
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(28)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  spreadRadius: 5.5,
-                  blurRadius: 5.5,
-                )
-              ],
-            ),
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildOTP(),
-              ],
-            ),
-          )),
-    );
-  }
-
   _buildOTP() {
     return Form(
       key: _formKey,
       child: Container(
         width: MediaQuery.of(context).size.width - 50,
         child: TextFieldForm(
+          ico: Icon(FeatherIcons.key),
           labelTxt: 'OTP',
           txt: 'Enter Your OTP',
           cntrl: otpController,
