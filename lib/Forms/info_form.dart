@@ -95,7 +95,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildFormContainer() {
     return Container(
-      width: MediaQuery.of(context).size.width - 30,
+      width: MediaQuery.of(context).size.width - 20,
       padding: EdgeInsets.all(30),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -125,6 +125,7 @@ class _InfoFormState extends State<InfoForm> {
           Row(
             children: [
               Expanded(child: _buildUserHeight()),
+              SizedBox(width: 10,),
               Expanded(child: _buildUserWeight())
             ],
           ),
@@ -180,28 +181,23 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserEmail() {
     return TextFieldForm(
-      txt: 'Email',
-      ico: Icon(
-        FeatherIcons.mail,
-        color: Colors.grey,
-      ),
+      labelTxt: 'Email',
+      txt: 'Enter Your Email',
       types: TextInputType.emailAddress,
     );
   }
 
   _buildUserAddress() {
     return TextFieldForm(
-      txt: 'Address',
-      ico: Icon(
-        FeatherIcons.map,
-        color: Colors.grey,
-      ),
+      labelTxt: 'Address',
+      txt: 'Enter Your Address',
       types: TextInputType.streetAddress,
     );
   }
 
   _buildUserHeight() {
     return TextFieldForm(
+      labelTxt: 'Height',
         txt: 'Height',
         pass: true,
         types: TextInputType.number,
@@ -210,6 +206,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserWeight() {
     return TextFieldForm(
+      labelTxt: 'Weight',
       txt: 'Weight',
       pass: true,
       types: TextInputType.number,
@@ -256,11 +253,8 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildDOB() {
     return TextFieldForm(
-      txt: 'Date Of Birth',
-      ico: Icon(
-        FeatherIcons.calendar,
-        color: Colors.grey,
-      ),
+      labelTxt: 'Date Of Birth',
+      txt: 'Enter Your DOB',
       types: TextInputType.datetime,
     );
   }

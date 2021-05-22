@@ -76,18 +76,19 @@ class _LogInState extends State<LogIn> {
                           _buildBackIcon(),
                           _buildTextData(),
                           SizedBox(
-                            height: 300,
+                            height: 250,
                           ),
-                          _buildFormContainer(),
                         ],
                       ),
+                      // _buildFormContainer(),
+                      _buildEmail(),
                       SizedBox(
-                        height: 80.0,
+                        height: 50.0,
                       ),
                       Buttons(
                         txt: 'Log In',
                         click: () async {
-                          setState((){
+                          setState(() {
                             showSpinner = true;
                           });
                           if (_formKey.currentState.validate()) {
@@ -127,7 +128,7 @@ class _LogInState extends State<LogIn> {
 
   _buildBackgroundCover() {
     return Container(
-      height: 260.0,
+      height: MediaQuery.of(context).size.width * 0.4,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topRight,
@@ -160,49 +161,23 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  _buildFormContainer() {
-    return Positioned(
-        bottom: -50,
-        child: Form(
-          key: _formKey,
-          child: Container(
-            //height: 300,
-            width: MediaQuery.of(context).size.width - 60,
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(28)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  spreadRadius: 5.5,
-                  blurRadius: 5.5,
-                )
-              ],
-            ),
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildEmail(),
-                SizedBox(
-                  height: 10,
-                ),
-                //_buildPassword(),
-              ],
-            ),
-          ),
-        ));
-  }
-
   _buildEmail() {
-    return TextFieldForm(
-        txt: 'Phone Number',
-        cntrl: numberController,
-        types: TextInputType.phone,
-        ico: Icon(
-          FeatherIcons.phone,
-          color: Colors.grey,
-        ));
+    return Form(
+      key: _formKey,
+      child: Container(
+        width: MediaQuery.of(context).size.width - 50,
+        child: TextFieldForm(
+          labelTxt: 'Phone Number',
+          txt: 'Enter Your Phone Number',
+          cntrl: numberController,
+          types: TextInputType.phone,
+          // ico: Icon(
+          //   FeatherIcons.phone,
+          //   color: Colors.grey,
+          // )
+        ),
+      ),
+    );
   }
 
   Widget OTPScreen() {
@@ -235,11 +210,11 @@ class _LogInState extends State<LogIn> {
                           SizedBox(
                             height: 200,
                           ),
-                          _buildFormContainerOTP(),
                         ],
                       ),
+                      _buildOTP(),
                       SizedBox(
-                        height: 80.0,
+                        height: 50.0,
                       ),
                       Buttons(
                           txt: 'Continue',
@@ -253,7 +228,8 @@ class _LogInState extends State<LogIn> {
                                   .signInWithCredential(
                                       PhoneAuthProvider.credential(
                                           verificationId: verificationCode,
-                                          smsCode: otpController.text.toString()))
+                                          smsCode:
+                                              otpController.text.toString()))
                                   .then((user) async => {
                                         //sign in was success
                                         if (user != null)
@@ -303,46 +279,24 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  _buildFormContainerOTP() {
-    return Form(
-      key: _formKeyOTP,
-      child: Positioned(
-          bottom: -50,
-          child: Container(
-            //height: 300,
-            width: MediaQuery.of(context).size.width - 60,
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(28)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  spreadRadius: 5.5,
-                  blurRadius: 5.5,
-                )
-              ],
-            ),
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildOTP(),
-              ],
-            ),
-          )),
-    );
-  }
-
   _buildOTP() {
-    return TextFieldForm(
-      txt: 'OTP',
-      cntrl: otpController,
-      types: TextInputType.number,
+    return Form(
+      key: _formKey,
+      child: Container(
+        width: MediaQuery.of(context).size.width - 50,
+        child: TextFieldForm(
+          labelTxt: 'OTP',
+          txt: 'Enter Your OTP',
+          cntrl: otpController,
+          types: TextInputType.number,
+        ),
+      ),
     );
   }
 
   displaySnackBar(text) {
-    final snackBar = SnackBar(content: Text(text, style:TextStyle(fontFamily: 'Coda')));
+    final snackBar =
+        SnackBar(content: Text(text, style: TextStyle(fontFamily: 'Coda')));
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 
@@ -397,7 +351,6 @@ class _LogInState extends State<LogIn> {
             setState(() {
               showSpinner = false;
             });
-
           });
         },
         codeAutoRetrievalTimeout: (String verificationId) {

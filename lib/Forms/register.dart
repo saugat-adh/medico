@@ -84,13 +84,28 @@ class _SignUpState extends State<SignUp> {
                           _buildBackIcon(),
                           _buildTextData(),
                           SizedBox(
-                            height: 350,
+                            height: 200,
                           ),
-                          _buildFormContainer(),
+                          //_buildFormContainer(),
                         ],
                       ),
+                      Form(
+                        key: _formKey,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 50,
+                          child: Column(children :[_buildFirstName(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _buildLastName(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _buildPhoneNumber(),]),
+                        ),
+                      ),
                       SizedBox(
-                        height: 80.0,
+                        height: 50.0,
                       ),
                       Buttons(
                         txt: 'Continue',
@@ -139,7 +154,7 @@ class _SignUpState extends State<SignUp> {
 
   _buildBackgroundCover() {
     return Container(
-      height: 260.0,
+      height: MediaQuery.of(context).size.width * 0.4,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topRight,
@@ -172,80 +187,31 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  _buildFormContainer() {
-    return Positioned(
-        bottom: -50,
-        child: Form(
-          key: _formKey,
-          child: Container(
-            //height: 300,
-            width: MediaQuery.of(context).size.width - 60,
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(28)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  spreadRadius: 5.5,
-                  blurRadius: 5.5,
-                )
-              ],
-            ),
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildFirstName(),
-                SizedBox(
-                  height: 10,
-                ),
-                _buildLastName(),
-                SizedBox(
-                  height: 10,
-                ),
-                _buildPhoneNumber(),
-                SizedBox(
-                  height: 10,
-                ),
-                //_buildConfirmPassword(),
-              ],
-            ),
-          ),
-        ));
-  }
-
   _buildPhoneNumber() {
     return TextFieldForm(
-      txt: 'Phone Number',
+      labelTxt: 'Phone Number',
+      txt: 'Enter Your Phone Number',
       cntrl: cellnumberController,
-      ico: Icon(
-        FeatherIcons.phone,
-        color: Colors.grey,
-      ),
       types: TextInputType.phone,
     );
   }
 
   _buildFirstName() {
     return TextFieldForm(
-        txt: 'First Name',
+      labelTxt: 'First Name',
+        txt: 'Enter Your First Name',
         cntrl: FnameController,
         types: TextInputType.text,
-        ico: Icon(
-          FeatherIcons.user,
-          color: Colors.grey,
-        ));
+        );
   }
 
   _buildLastName() {
     return TextFieldForm(
-        txt: 'Last Name',
+      labelTxt: 'Last Name',
+        txt: 'Enter Your Last Name',
         cntrl: LnameController,
         types: TextInputType.text,
-        ico: Icon(
-          FeatherIcons.userX,
-          color: Colors.grey,
-        ));
+        );
   }
 
   Widget OTPScreen() {
@@ -278,11 +244,11 @@ class _SignUpState extends State<SignUp> {
                           SizedBox(
                             height: 200,
                           ),
-                          _buildFormContainerOTP(),
                         ],
                       ),
+                      _buildOTP(),
                       SizedBox(
-                        height: 80.0,
+                        height: 50.0,
                       ),
                       Buttons(
                           txt: 'Continue',
@@ -387,10 +353,17 @@ class _SignUpState extends State<SignUp> {
   }
 
   _buildOTP() {
-    return TextFieldForm(
-      txt: 'OTP',
-      cntrl: otpController,
-      types: TextInputType.number,
+    return Form(
+      key: _formKey,
+      child: Container(
+        width: MediaQuery.of(context).size.width - 50,
+        child: TextFieldForm(
+          labelTxt: 'OTP',
+          txt: 'Enter Your OTP',
+          cntrl: otpController,
+          types: TextInputType.number,
+        ),
+      ),
     );
   }
 
@@ -398,7 +371,6 @@ class _SignUpState extends State<SignUp> {
     final snackBar = SnackBar(content: Text(text));
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
-
 
   Future signUp() async {
     var isValidUser = false;

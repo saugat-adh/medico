@@ -19,13 +19,13 @@ class InForm extends StatelessWidget {
 
 class TextFieldForm extends StatelessWidget {
   TextFieldForm(
-      {@required this.txt, this.types, this.pass, this.ico, this.cntrl});
+      {@required this.txt, this.types, this.pass, this.cntrl, this.labelTxt});
 
   final String txt;
   final TextInputType types;
   final bool pass;
-  final Icon ico;
   final TextEditingController cntrl;
+  final String labelTxt;
 
   @override
   Widget build(BuildContext context) {
@@ -36,22 +36,26 @@ class TextFieldForm extends StatelessWidget {
       textInputAction: TextInputAction.next,
       onEditingComplete: () => FocusScope.of(context).nextFocus(),
       decoration: InputDecoration(
-        icon: ico,
-        contentPadding: EdgeInsets.all(10),
+        labelText: labelTxt,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        labelStyle: TextStyle(
+          fontFamily: 'Muli',
+        ),
+        contentPadding: EdgeInsets.all(15),
         hintText: txt,
         hintStyle: TextStyle(
           color: Colors.grey,
-          fontSize: 20,
-          fontFamily: 'Coda',
+          fontSize: MediaQuery.of(context).size.width * 0.04,
+          fontFamily: 'Muli',
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(
               color: Colors.grey,
-              width: 1,
+              width: 2,
             )),
       ),
     );
