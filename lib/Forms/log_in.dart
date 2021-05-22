@@ -76,14 +76,14 @@ class _LogInState extends State<LogIn> {
                           _buildBackIcon(),
                           _buildTextData(),
                           SizedBox(
-                            height: 250,
+                            height: MediaQuery.of(context).size.height * 0.25,
                           ),
                         ],
                       ),
                       // _buildFormContainer(),
                       _buildEmail(),
                       SizedBox(
-                        height: 50.0,
+                        height: MediaQuery.of(context).size.height * 0.05,
                       ),
                       Buttons(
                         txt: 'Log In',
@@ -148,11 +148,11 @@ class _LogInState extends State<LogIn> {
 
   _buildTextData() {
     return Positioned(
-      top: 70,
+      top: MediaQuery.of(context).size.height * 0.06,
       child: Text(
         'Sign In',
         style: TextStyle(
-          fontSize: 50,
+          fontSize: MediaQuery.of(context).size.width * 0.16,
           fontWeight: FontWeight.w500,
           color: Colors.white,
           fontFamily: 'Bebas',
@@ -209,13 +209,13 @@ class _LogInState extends State<LogIn> {
                           _buildBackIcon(),
                           _buildTextDataOTP(),
                           SizedBox(
-                            height: 200,
+                            height: MediaQuery.of(context).size.height * 0.25,
                           ),
                         ],
                       ),
                       _buildOTP(),
                       SizedBox(
-                        height: 50.0,
+                        height: MediaQuery.of(context).size.height * 0.05,
                       ),
                       Buttons(
                           txt: 'Continue',
@@ -267,11 +267,11 @@ class _LogInState extends State<LogIn> {
 
   _buildTextDataOTP() {
     return Positioned(
-      top: 70,
+      top: MediaQuery.of(context).size.height * 0.06,
       child: Text(
         'Enter OTP',
         style: TextStyle(
-          fontSize: 50,
+          fontSize: MediaQuery.of(context).size.width * 0.16,
           fontWeight: FontWeight.w500,
           color: Colors.white,
           fontFamily: 'Bebas',
