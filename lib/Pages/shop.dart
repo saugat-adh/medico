@@ -1,7 +1,12 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:medico/Components/icon_btn_with_counter.dart';
+import 'package:medico/Components/search_field.dart';
+import 'package:medico/Components/shop_header.dart';
 
 class Dash3 extends StatefulWidget {
   @override
@@ -24,93 +29,17 @@ class _Dash3State extends State<Dash3> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height*0.01),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width:MediaQuery.of(context).size.width*0.70,
-                          height:50,
-                          decoration:BoxDecoration(
-                          color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(25),
-
-                          ),
-                          child: TextField(
-                            onChanged: (value){
-
-                            },
-                            decoration: InputDecoration(
-                              enabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              hintText: "Search Meds",
-                              prefixIcon: Icon(Icons.search),
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery.of(context).size.width*0.05,
-                              vertical: MediaQuery.of(context).size.width*0.04),
-                            ),
-                          ) ,
-
-                        ),
-                        Stack(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.001),
-                              height: MediaQuery.of(context).size.height*0.1,
-                              width: MediaQuery.of(context).size.width*0.1,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                shape: BoxShape.circle,
-                              ) ,
-                              child: IconButton(
-                                icon: Icon(
-                                  FeatherIcons.shoppingCart,
-                                  color: Colors.black,
-                                ),
-                                onPressed: () {},
-                              ),
-
-
-                            ),
-                            Positioned(
-                              right:-1,
-                              top: 1,
-                              child: Container(
-                                height: MediaQuery.of(context).size.height*0.05,
-                                width: MediaQuery.of(context).size.width*0.05,
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(width: 1.5,color: Colors.white)
-                                ),
-                                child: Center(
-                                  child: Text("3",
-                                    style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.width*0.03,
-                                      height: 1,
-                                      color: Colors.white,
-                                  ),),
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Stack(
-                    clipBehavior: Clip.none,
-                    alignment: AlignmentDirectional.topCenter,
-                    children: [
-                      _buildBackgroundCover(),
-                      _buildTextFile(),
-                      _buildCartItem(),
-                      _buildSearchBar(),
-                    ],
-                  ),
+                  ShopHeader(),
+                  // Stack(
+                  //   clipBehavior: Clip.none,
+                  //   alignment: AlignmentDirectional.topCenter,
+                  //   children: [
+                  //     _buildBackgroundCover(),
+                  //     _buildTextFile(),
+                  //     _buildCartItem(),
+                  //     _buildSearchBar(),
+                  //   ],
+                  // ),
                 ],
               ),
             )),
@@ -204,6 +133,11 @@ class _Dash3State extends State<Dash3> {
             ]));
   }
 }
+
+
+
+
+
 
 class DataSearch extends SearchDelegate<String> {
   final drugs = [
