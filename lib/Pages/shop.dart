@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:medico/Components/discount_box.dart';
 import 'package:medico/Components/icon_btn_with_counter.dart';
 import 'package:medico/Components/search_field.dart';
 import 'package:medico/Components/shop_header.dart';
@@ -30,6 +31,8 @@ class _Dash3State extends State<Dash3> {
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height*0.01),
                   ShopHeader(),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  DiscountsBox()
                   // Stack(
                   //   clipBehavior: Clip.none,
                   //   alignment: AlignmentDirectional.topCenter,
@@ -133,6 +136,7 @@ class _Dash3State extends State<Dash3> {
             ]));
   }
 }
+
 
 
 
