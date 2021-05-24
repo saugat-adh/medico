@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Wizards/forms.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import '../constants.dart';
@@ -10,7 +9,6 @@ import '../Wizards/buttons.dart';
 import '../Components/snackbar.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class OtpScreenLogin extends StatefulWidget {
 
@@ -39,10 +37,10 @@ class _OtpScreenLoginState extends State<OtpScreenLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return OTPScreen();
+    return otpScreen();
   }
 
-  Widget OTPScreen() {
+  Widget otpScreen() {
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);

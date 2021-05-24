@@ -1,13 +1,7 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medico/Components/discount_box.dart';
-import 'package:medico/Components/icon_btn_with_counter.dart';
-import 'package:medico/Components/search_field.dart';
 import 'package:medico/Components/shop_header.dart';
 
 class Dash3 extends StatefulWidget {
@@ -18,10 +12,6 @@ class Dash3 extends StatefulWidget {
 class _Dash3State extends State<Dash3> {
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarColor: Colors.greenAccent[200],
-    //   statusBarBrightness: Brightness.dark,
-    // ));
     return Stack(
       children: [
         Scaffold(
@@ -56,91 +46,6 @@ class _Dash3State extends State<Dash3> {
     );
   }
 
-  _buildBackgroundCover() {
-    return Container(
-      height: 220.0,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.green,
-            Colors.teal,
-          ],
-        ),
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
-      ),
-    );
-  }
-
-  _buildTextFile() {
-    return Positioned(
-      top: 50,
-      left: 40,
-      child: Text(
-        'Shop',
-        style: TextStyle(
-          fontSize: 50,
-          color: Colors.white,
-          fontFamily: 'Bebas',
-        ),
-      ),
-    );
-  }
-
-  _buildCartItem() {
-    return Positioned(
-      top: 60,
-      right: 20,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: Colors.white,
-        ),
-        child: IconButton(
-          icon: Icon(
-            FeatherIcons.shoppingCart,
-            color: Colors.black,
-          ),
-          onPressed: () {},
-        ),
-      ),
-    );
-  }
-
-  _buildSearchBar() {
-    return Positioned(
-        top: 150,
-        left: 20,
-        right: 20,
-        child: AppBar(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),
-              top: Radius.circular(30),
-            )),
-            centerTitle: true,
-            backgroundColor: Colors.white,
-            primary: false,
-            title: TextField(
-              decoration: InputDecoration(
-                hintText: "Search Meds",
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
-                onPressed: () {
-                  showSearch(context: context, delegate: DataSearch());
-                },
-              )
-            ]));
-  }
 }
 class Categories extends StatelessWidget {
   const Categories({Key key}) : super(key: key);
@@ -257,7 +162,6 @@ class DataSearch extends SearchDelegate<String> {
             query = "";
           })
     ];
-    throw UnimplementedError();
   }
 
   @override

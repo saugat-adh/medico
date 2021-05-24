@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:medico/Forms/log_in.dart';
 import 'package:medico/Forms/register.dart';
 import 'package:medico/Pages/bottom_nav.dart';
 import '../Wizards/buttons.dart';
-import '../constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';

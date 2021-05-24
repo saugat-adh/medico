@@ -3,10 +3,8 @@ import 'package:medico/Pages/home_page.dart';
 import 'package:medico/Wizards/icons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class Dash1 extends StatefulWidget {
   @override
