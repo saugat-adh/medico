@@ -6,6 +6,9 @@ import '../Wizards/forms.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import '../constants.dart';
+import '../Components/snackbar.dart';
+
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -29,14 +32,6 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController nmcIdController = new TextEditingController();
   final TextEditingController specialityController =
       new TextEditingController();
-
-  var verificationCode = '';
-  var isRegister = true;
-  var isOTPScreen = false;
-
-  bool isUserADoctor = false;
-
-  bool showSpinner = false;
 
   @override
   void initState() {
@@ -158,7 +153,7 @@ class _SignUpState extends State<SignUp> {
                           });
                           if (_formKey.currentState.validate()) {
                             // If the form is valid, we want to show a loading Snackbar
-                            displaySnackBar('Verifying Your Number');
+                            displaySnackBar('Verifying Your Number', _scaffoldKey);
                             await signUp();
                           }
                         },
@@ -329,7 +324,7 @@ class _SignUpState extends State<SignUp> {
                             setState(() {
                               showSpinner = true;
                             });
-                            displaySnackBar('Verifying Your Code');
+                            displaySnackBar('Verifying Your Code', _scaffoldKey);
                             try {
                               await _auth
                                   .signInWithCredential(
@@ -410,7 +405,7 @@ class _SignUpState extends State<SignUp> {
                                           }
                                       });
                             } catch (e) {
-                              displaySnackBar('OTP doesn\'t match');
+                              displaySnackBar('OTP doesn\'t match', _scaffoldKey);
                               showSpinner = false;
                             }
                           }),
@@ -457,17 +452,23 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  displaySnackBar(text) {
-    final snackBar = SnackBar(content: Text(text));
-    _scaffoldKey.currentState.showSnackBar(snackBar);
-  }
 
   Future signUp() async {
     var isValidUser = false;
     var number = cellnumberController.text.trim();
 
     await _firestore
-        .collection('patients')
+        .collection('patients',)
+        .where('cellnumber', isEqualTo: number)
+        .get()
+        .then((result) {
+      if (result.docs.length > 0) {
+        isValidUser = true;
+      }
+    });
+
+    await _firestore
+        .collection('doctors',)
         .where('cellnumber', isEqualTo: number)
         .get()
         .then((result) {
@@ -543,7 +544,7 @@ class _SignUpState extends State<SignUp> {
       isOTPScreen = true;
       isRegister = false;
     } else {
-      displaySnackBar('Already Have an account');
+      displaySnackBar('Already Have an account', _scaffoldKey);
     }
     setState(() {
       showSpinner = false;
