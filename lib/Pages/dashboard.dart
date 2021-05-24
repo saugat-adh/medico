@@ -28,6 +28,7 @@ class _Dash1State extends State<Dash1> {
                     children: [
                       _buildBackgroundCover(),
                       _buildUserPic(),
+                      _buildUserName(),
                       _buildSettingPanel(),
                     ],
                   ),
@@ -66,13 +67,23 @@ class _Dash1State extends State<Dash1> {
 
   _buildUserPic() {
     return Positioned(
-        top: 50,
+        top: 40,
         child: CircleAvatar(
           backgroundColor: Colors.white,
           radius: 70,
-          backgroundImage: NetworkImage(
-              "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png?1592828498v"),
-        ));
+          backgroundImage: new AssetImage('images/CircleProfile.jpg')
+        ),
+        );
+  }
+
+  _buildUserName() {
+    return Positioned(
+      bottom: 50,
+      child: Text(
+        'User Name',
+       style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
+      )
+    );
   }
 
   _buildSettingPanel() {
@@ -128,12 +139,19 @@ class _Dash1State extends State<Dash1> {
 
   _covidTracker() {
     return Container(
-      height: 100,
+      height: 120,
       width: MediaQuery.of(context).size.width - 20,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.orange,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Colors.orangeAccent,
+            Colors.deepOrangeAccent,
+          ],
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(22)),
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
@@ -142,13 +160,37 @@ class _Dash1State extends State<Dash1> {
           )
         ],
       ),
-      child: Center(
-        child: Text(
-          'This will contain Covid Tracker',
-          style:
-              TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Lato'),
-        ),
+
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children:[
+        Text(
+        'Cases In Nepal',
+        style:
+        TextStyle(color: Colors.black, fontSize: 16, fontFamily: 'RobotoReg'),
       ),
+      Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children:[
+          Text(
+          'Total',
+          style:
+              TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'RobotoReg'),
+        ),
+          Text(
+            'Recovered',
+            style:
+            TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'RobotoReg'),
+          ),
+
+          Text(
+              'Death',
+            style:
+            TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'RobotoReg'),
+          )
+        ]
+      ),
+    ]),
     );
   }
 
@@ -157,31 +199,56 @@ class _Dash1State extends State<Dash1> {
       height: 250.0,
       width: MediaQuery.of(context).size.width - 20,
       padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(28)),
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.white,
-            Colors.grey,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.white60,
+              Colors.white30,
+            ],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(22)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              spreadRadius: 5.5,
+              blurRadius: 5.5,
+            )
           ],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 5.5,
-            blurRadius: 5.5,
-          )
-        ],
-      ),
-      child: Center(
-        child: Text(
-          'This will contain Patient Details',
-          style:
-              TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Lato'),
+      child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children:[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              'Height',
+              style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
+            ),
+            Text(
+              'Weight',
+              style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
+            )
+          ],
         ),
-      ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                'Age',
+                style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
+              ),
+
+              Text(
+                'BMI',
+                style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
+              )
+            ],
+          )
+      ])
+
     );
   }
 
