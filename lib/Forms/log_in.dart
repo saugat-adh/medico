@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medico/Forms/OtpLogin.dart';
 import 'package:medico/Wizards/forms.dart';
 import 'package:medico/Pages/bottom_nav.dart';
 import 'package:medico/models/userModel.dart';
@@ -7,12 +8,16 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import '../constants.dart';
+import '../login.dart';
+import '../Components/snackbar.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class LogIn extends StatefulWidget {
   static const String id = 'log_in';
+
 
   @override
   _LogInState createState() => _LogInState();
@@ -26,11 +31,6 @@ class _LogInState extends State<LogIn> {
   final TextEditingController numberController = new TextEditingController();
   final TextEditingController otpController = new TextEditingController();
 
-  var verificationCode = '';
-  var isLoginScreen = true;
-  var isOTPScreen = false;
-
-  bool showSpinner = false;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
-    return isOTPScreen ? OTPScreen() : returnLoginScreen();
+    return isOTPScreen ? OtpScreenLogin() : returnLoginScreen();
   }
 
   Widget returnLoginScreen() {
@@ -93,9 +93,12 @@ class _LogInState extends State<LogIn> {
                             showSpinner = true;
                           });
                           if (_formKey.currentState.validate()) {
-                            displaySnackBar('Verifying your Number');
-                            await login();
+                            displaySnackBar('Verifying your Number', _scaffoldKey);
+                            await login(numberController, this.context);
                           }
+                          setState(() {
+                            showSpinner = false;
+                          });
                         },
                       )
                     ],
@@ -182,216 +185,6 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  Widget OTPScreen() {
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: SafeArea(
-        child: Stack(children: [
-          Scaffold(
-              key: _scaffoldKey,
-              backgroundColor: Colors.white,
-              body: ModalProgressHUD(
-                inAsyncCall: showSpinner,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Stack(
-                        clipBehavior: Clip.none,
-                        alignment: AlignmentDirectional.topCenter,
-                        children: [
-                          _buildBackgroundCover(),
-                          _buildBackIcon(),
-                          _buildTextDataOTP(),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                          ),
-                        ],
-                      ),
-                      _buildOTP(),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                      ),
-                      Buttons(
-                          txt: 'Continue',
-                          click: () async {
-                            setState(() {
-                              showSpinner = true;
-                            });
-                            displaySnackBar('Verifying Your Code');
-                            try {
-                              await _auth
-                                  .signInWithCredential(
-                                      PhoneAuthProvider.credential(
-                                          verificationId: verificationCode,
-                                          smsCode:
-                                              otpController.text.toString()))
-                                  .then((user) async => {
-                                        //sign in was success
-                                        if (user != null)
-                                          {
-                                            setState(() {
-                                              //navigate to is
-                                              Navigator.pushAndRemoveUntil(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder:
-                                                      (BuildContext context) =>
-                                                          BotNavBar(),
-                                                ),
-                                                (route) => false,
-                                              );
-                                            })
-                                          }
-                                      });
-                            } catch (e) {
-                              displaySnackBar('OTP doesn\'t match');
-                            }
-                          }),
-                      SizedBox(
-                        height: 30,
-                      )
-                    ],
-                  ),
-                ),
-              )),
-        ]),
-      ),
-    );
-  }
-
-  _buildTextDataOTP() {
-    return Positioned(
-      top: MediaQuery.of(context).size.height * 0.06,
-      child: Text(
-        'Enter OTP',
-        style: TextStyle(
-          fontSize: MediaQuery.of(context).size.width * 0.16,
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
-          fontFamily: 'Bebas',
-        ),
-      ),
-    );
-  }
-
-  _buildOTP() {
-    return Form(
-      key: _formKey,
-      child: Container(
-        width: MediaQuery.of(context).size.width - 50,
-        child: TextFieldForm(
-          ico: Icon(FeatherIcons.key),
-          labelTxt: 'OTP',
-          txt: 'Enter Your OTP',
-          cntrl: otpController,
-          types: TextInputType.number,
-        ),
-      ),
-    );
-  }
-
-  displaySnackBar(text) {
-    final snackBar =
-        SnackBar(content: Text(text, style: TextStyle(fontFamily: 'Coda')));
-    _scaffoldKey.currentState.showSnackBar(snackBar);
-  }
-
-  Future login() async {
-    String type = '';
-    var phoneNumber = '+977 ' + numberController.text.trim();
-
-    //first we will check if a user with this cell number exists
-    var isValidUser = false;
-    var number = numberController.text.trim();
-
-    QuerySnapshot snapshot = await _firestore.collection("AllUsers").get();
-    snapshot.docs.forEach((user) {
-      UserModel userdata = UserModel.deserialize(user);
-      if (userdata.phNumber == numberController.text.trim()) {
-        type = userdata.category;
-      }
-    });
-
-    if (type.isEmpty) {
-      displaySnackBar('Number not found, please sign up first');
-      setState(() {
-        showSpinner = false;
-      });
-    } else {
-      await _firestore
-          .collection(type)
-          .where('cellnumber', isEqualTo: number)
-          .get()
-          .then((result) {
-        if (result.docs.length > 0) {
-          isValidUser = true;
-        }
-      });
-
-      if (isValidUser) {
-        //ok, we have a valid user, now lets do otp verification
-        var verifyPhoneNumber = _auth.verifyPhoneNumber(
-          phoneNumber: phoneNumber,
-          verificationCompleted: (phoneAuthCredential) {
-            //auto code complete (not manually)
-            _auth
-                .signInWithCredential(phoneAuthCredential)
-                .then((user) async => {
-                      if (user != null)
-                        {
-                          //redirect
-                          setState(() {
-                            showSpinner = false;
-                            isOTPScreen = false;
-                          }),
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => BotNavBar(),
-                            ),
-                            (route) => false,
-                          )
-                        }
-                    });
-          },
-          verificationFailed: (FirebaseAuthException error) {
-            displaySnackBar('Validation error, please try again later');
-          },
-          codeSent: (verificationId, [forceResendingToken]) {
-            setState(() {
-              verificationCode = verificationId;
-              isOTPScreen = true;
-              setState(() {
-                showSpinner = false;
-              });
-            });
-          },
-          codeAutoRetrievalTimeout: (String verificationId) {
-            setState(() {
-              verificationCode = verificationId;
-            });
-          },
-          timeout: Duration(seconds: 60),
-        );
-        await verifyPhoneNumber;
-      } else {
-        print("yeta pugyo");
-        setState(() {
-          showSpinner = false;
-        });
-        displaySnackBar('Number not found, please sign up first');
-        // non valid user
-
-      }
-    }
-  }
 }
 
 //986-8834622

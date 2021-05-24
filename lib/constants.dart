@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
-TextStyle ktopTxt = TextStyle(
-  fontSize: 55,
-  fontWeight: FontWeight.bold,
-  fontFamily: 'Muli',
-  color: Colors.white,
-  // letterSpacing: 3,
-);
 
-TextStyle kmidText = TextStyle(
-  fontSize: 20,
-  fontFamily: 'Muli',
-  color: Colors.white,
-);
+var verificationCode = '';
+var isLoginScreen = true;
+var isOTPScreen = false;
+var isRegister = true;
+bool isUserADoctor = false;
+
+bool showSpinner = false;
+
+
