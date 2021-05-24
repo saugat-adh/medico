@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medico/Components/snackbar.dart';
 import 'package:medico/Forms/OtpLogin.dart';
 import 'models/userModel.dart';
 import 'constants.dart';
@@ -9,7 +10,7 @@ import 'Pages/bottom_nav.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-Future login(numberController, context) async {
+Future login(numberController, context, scafkey) async {
   String type = '';
   var phoneNumber = '+977 ' + numberController.text.trim();
 
@@ -26,7 +27,7 @@ Future login(numberController, context) async {
   });
 
   if (type.isEmpty) {
-    print('Number not found, please sign up first');
+    displaySnackBar('Number not found, please sign up first', scafkey);
     return;
   } else {
     await _firestore
@@ -50,7 +51,7 @@ Future login(numberController, context) async {
                   {
                     //redirect
                     showSpinner = false,
-                    isOTPScreen = false,
+                    isOTPScreens = false,
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
@@ -62,7 +63,7 @@ Future login(numberController, context) async {
               });
         },
         verificationFailed: (FirebaseAuthException error) {
-          print('Validation error, please try again later');
+          displaySnackBar('Validation error, please try again later', scafkey);
           return;
         },
         codeSent: (verificationId, [forceResendingToken]) {
@@ -83,9 +84,8 @@ Future login(numberController, context) async {
       );
       await verifyPhoneNumber;
     } else {
-      print("yeta pugyo");
       showSpinner = false;
-      print('Number not found, please sign up first');
+      displaySnackBar('Number not found, please sign up first', scafkey);
       return;
       // non valid user
     }

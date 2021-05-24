@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 var verificationCode = '';
 var isLoginScreen = true;
-var isOTPScreen = false;
+var isOTPScreens = false;
 var isRegister = true;
 bool isUserADoctor = false;
 

@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../constants.dart';
 import '../Components/snackbar.dart';
+import '../register_model.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -16,16 +17,18 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 class SignUp extends StatefulWidget {
   static const String id = 'sign_up';
 
+
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
+  var isOTPScreen = false;
+  var showspinners = false;
   final _formKey = GlobalKey<FormState>();
-  final _formKeyOTP = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final TextEditingController FnameController = new TextEditingController();
-  final TextEditingController LnameController = new TextEditingController();
+  final TextEditingController fnameController = new TextEditingController();
+  final TextEditingController lnameController = new TextEditingController();
   final TextEditingController cellnumberController =
       new TextEditingController();
   final TextEditingController otpController = new TextEditingController();
@@ -41,8 +44,8 @@ class _SignUpState extends State<SignUp> {
   @override
   void dispose() {
     // Clean up the controller when the Widget is disposed
-    FnameController.dispose();
-    LnameController.dispose();
+    fnameController.dispose();
+    lnameController.dispose();
     cellnumberController.dispose();
     otpController.dispose();
     super.dispose();
@@ -50,7 +53,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return isOTPScreen ? OTPScreen() : registerScreen();
+    return isOTPScreen ? otpScreen() : registerScreen();
   }
 
   Widget registerScreen() {
@@ -68,7 +71,7 @@ class _SignUpState extends State<SignUp> {
               key: _scaffoldKey,
               backgroundColor: Colors.white,
               body: ModalProgressHUD(
-                inAsyncCall: showSpinner,
+                inAsyncCall: showspinners,
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -149,11 +152,12 @@ class _SignUpState extends State<SignUp> {
                         txt: 'Continue',
                         click: () async {
                           setState(() {
-                            showSpinner = true;
+                            showspinners = true;
                           });
                           if (_formKey.currentState.validate()) {
                             // If the form is valid, we want to show a loading Snackbar
                             displaySnackBar('Verifying Your Number', _scaffoldKey);
+                            //await signUp(cellnumberController, _scaffoldKey);
                             await signUp();
                           }
                         },
@@ -260,7 +264,7 @@ class _SignUpState extends State<SignUp> {
       ico: Icon(FeatherIcons.user),
       labelTxt: 'First Name',
       txt: 'Enter Your First Name',
-      cntrl: FnameController,
+      cntrl: fnameController,
       types: TextInputType.text,
     );
   }
@@ -270,7 +274,7 @@ class _SignUpState extends State<SignUp> {
       ico: Icon(FeatherIcons.user),
       labelTxt: 'Last Name',
       txt: 'Enter Your Last Name',
-      cntrl: LnameController,
+      cntrl: lnameController,
       types: TextInputType.text,
     );
   }
@@ -282,7 +286,7 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
-  Widget OTPScreen() {
+  Widget otpScreen() {
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -297,7 +301,7 @@ class _SignUpState extends State<SignUp> {
               key: _scaffoldKey,
               backgroundColor: Colors.white,
               body: ModalProgressHUD(
-                inAsyncCall: showSpinner,
+                inAsyncCall: showspinners,
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -322,7 +326,7 @@ class _SignUpState extends State<SignUp> {
                           txt: 'Continue',
                           click: () async {
                             setState(() {
-                              showSpinner = true;
+                              showspinners = true;
                             });
                             displaySnackBar('Verifying Your Code', _scaffoldKey);
                             try {
@@ -346,10 +350,10 @@ class _SignUpState extends State<SignUp> {
                                                     .set(
                                                         {
                                                       'First name':
-                                                          FnameController.text
+                                                          fnameController.text
                                                               .trim(),
                                                       'Last name':
-                                                          LnameController.text
+                                                          lnameController.text
                                                               .trim(),
                                                       'cellnumber':
                                                           cellnumberController
@@ -377,10 +381,10 @@ class _SignUpState extends State<SignUp> {
                                                     .set(
                                                         {
                                                       'First name':
-                                                          FnameController.text
+                                                          fnameController.text
                                                               .trim(),
                                                       'Last name':
-                                                          LnameController.text
+                                                          lnameController.text
                                                               .trim(),
                                                       'cellnumber':
                                                           cellnumberController
@@ -406,7 +410,7 @@ class _SignUpState extends State<SignUp> {
                                       });
                             } catch (e) {
                               displaySnackBar('OTP doesn\'t match', _scaffoldKey);
-                              showSpinner = false;
+                              showspinners = false;
                             }
                           }),
                       SizedBox(
@@ -452,7 +456,6 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-
   Future signUp() async {
     var isValidUser = false;
     var number = cellnumberController.text.trim();
@@ -485,53 +488,18 @@ class _SignUpState extends State<SignUp> {
         phoneNumber: phoneNumber,
         verificationCompleted: (phoneAuthCredential) {
           debugPrint('Gideon test 3');
-          //auto code complete (not manually)
-          _auth.signInWithCredential(phoneAuthCredential).then((user) async => {
-                if (user != null)
-                  {
-                    //store registration details in firestore database
-                    await _firestore
-                        .collection('patients')
-                        .doc(_auth.currentUser.uid)
-                        .set({
-                          'First name': FnameController.text.trim(),
-                          'Last name': LnameController.text.trim(),
-                          'cellnumber': cellnumberController.text.trim()
-                        }, SetOptions(merge: true))
-                        .then((value) => {
-                              //then move to authorised area
-                              setState(() {
-                                showSpinner = false;
-                                //navigate to is
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        InfoForm(),
-                                  ),
-                                  (route) => false,
-                                );
-                              })
-                            })
-                        .catchError((onError) => {
-                              debugPrint('Error saving user to db.' +
-                                  onError.toString())
-                            })
-                  }
-              });
-          debugPrint('Gideon test 4');
         },
         verificationFailed: (FirebaseAuthException error) {
-          debugPrint('Gideon test 5' + error.message);
+          debugPrint('Gideon test 4' + error.message);
         },
         codeSent: (verificationId, [forceResendingToken]) {
-          debugPrint('Gideon test 6');
+          debugPrint('Gideon test 5');
           setState(() {
             verificationCode = verificationId;
           });
         },
         codeAutoRetrievalTimeout: (String verificationId) {
-          debugPrint('Gideon test 7');
+          debugPrint('Gideon test 6');
           setState(() {
             verificationCode = verificationId;
           });
@@ -547,7 +515,7 @@ class _SignUpState extends State<SignUp> {
       displaySnackBar('Already Have an account', _scaffoldKey);
     }
     setState(() {
-      showSpinner = false;
+      showspinners = false;
     });
   }
 }

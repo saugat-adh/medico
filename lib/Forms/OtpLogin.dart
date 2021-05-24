@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medico/Forms/log_in.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,7 +20,6 @@ class OtpScreenLogin extends StatefulWidget {
 
 class _OtpScreenLoginState extends State<OtpScreenLogin> {
   final _formKey = GlobalKey<FormState>();
-  final _formKeyOTP = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool showSpinner = false;
 
@@ -117,7 +115,7 @@ class _OtpScreenLoginState extends State<OtpScreenLogin> {
                             }
                             setState(() {
                               showSpinner = false;
-                              isOTPScreen = false;
+                              isOTPScreens = false;
                             });
 
                           }),
@@ -163,7 +161,6 @@ class _OtpScreenLoginState extends State<OtpScreenLogin> {
       ),
     );
   }
-
 
   _buildBackIcon() {
     return Positioned(
