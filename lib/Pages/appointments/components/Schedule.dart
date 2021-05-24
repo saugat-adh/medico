@@ -22,7 +22,6 @@ class Schedule extends StatelessWidget {
           ),
           SizedBox(height: 20,),
           AppointmentSwiper(),
-          Text('Here'),
         ],
       ),
     );

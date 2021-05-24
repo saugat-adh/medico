@@ -13,7 +13,7 @@ class AppointmentSwiper extends StatelessWidget {
       //padding: EdgeInsets.only(bottom: 50),
       child: Swiper(
           itemCount: 1,
-          itemWidth: MediaQuery.of(context).size.width - 0.8 * 60,
+          itemWidth: MediaQuery.of(context).size.width - 0.3 * 130,
           layout: SwiperLayout.STACK,
           itemBuilder: (context, index) {
             return InkWell(
@@ -23,14 +23,14 @@ class AppointmentSwiper extends StatelessWidget {
               child: Stack(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 10),
                     child: Card(
                       //shadowColor: Colors.black12,
                       elevation: 8,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(32),
                       ),
-                      color: Colors.blue,
+                      color: Color(0xFF4A3298),
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
@@ -38,13 +38,14 @@ class AppointmentSwiper extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                CircleAvatar(foregroundColor: Colors.white, backgroundColor: Colors.white, radius: 30,),
+                                CircleAvatar(foregroundColor: Colors.white, backgroundColor: Colors.white, radius: 40,),
                                 SizedBox(width: 20,),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Name'),
-                                    Text('Speciality'),
+                                    Text('Name', style: TextStyle(color: Colors.white,fontSize: 30),),
+                                    Text('Speciality', style: TextStyle(color: Colors.white,fontSize: 20),),
                                   ],
                                 ),
                               ],
