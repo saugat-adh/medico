@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:medico/Components/discount_box.dart';
-import 'package:medico/Components/shop_header.dart';
+import 'package:medico/Pages/shop/components/discount_box.dart';
+import 'package:medico/Pages/shop/components/shop_header.dart';
 
 class Dash3 extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class _Dash3State extends State<Dash3> {
     return Stack(
       children: [
         Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Color(0xffF0F2F8),
             body: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -26,19 +26,6 @@ class _Dash3State extends State<Dash3> {
                   DiscountsBox(),
                   SizedBox(height: MediaQuery.of(context).size.height*0.02),
                   Categories(),
-
-
-
-                  // Stack(
-                  //   clipBehavior: Clip.none,
-                  //   alignment: AlignmentDirectional.topCenter,
-                  //   children: [
-                  //     _buildBackgroundCover(),
-                  //     _buildTextFile(),
-                  //     _buildCartItem(),
-                  //     _buildSearchBar(),
-                  //   ],
-                  // ),
                 ],
               ),
             )),

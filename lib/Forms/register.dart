@@ -7,8 +7,6 @@ import '../constants.dart';
 import '../Components/snackbar.dart';
 import '../methods/register_method.dart';
 
-
-
 class SignUp extends StatefulWidget {
   static const String id = 'sign_up';
 

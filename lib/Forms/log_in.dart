@@ -18,8 +18,6 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-
-
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -41,7 +39,7 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
-    return isOTPScreens ? OtpScreenLogin() : returnLoginScreen();
+    return returnLoginScreen();
   }
 
   Widget returnLoginScreen() {
