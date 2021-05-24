@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medico/Components/discount_box.dart';
 import 'package:medico/Components/icon_btn_with_counter.dart';
 import 'package:medico/Components/search_field.dart';
@@ -32,7 +33,12 @@ class _Dash3State extends State<Dash3> {
                   SizedBox(height: MediaQuery.of(context).size.height*0.01),
                   ShopHeader(),
                   SizedBox(height: MediaQuery.of(context).size.height*0.01),
-                  DiscountsBox()
+                  DiscountsBox(),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.02),
+                  Categories(),
+
+
+
                   // Stack(
                   //   clipBehavior: Clip.none,
                   //   alignment: AlignmentDirectional.topCenter,
@@ -136,6 +142,86 @@ class _Dash3State extends State<Dash3> {
             ]));
   }
 }
+class Categories extends StatelessWidget {
+  const Categories({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<Map<String, dynamic>> categories=[
+      {"icon": "images/feather/zap.svg", "text": "Flash Deal"},
+      {"icon": "images/feather/archive.svg", "text": "Bill"},
+      {"icon": "images/feather/headphones.svg", "text": "Care"},
+      {"icon": "images/feather/slack.svg", "text": "More"},
+    ];
+
+    return Padding(
+      padding:EdgeInsets.symmetric(
+      horizontal: MediaQuery.of(context).size.width*0.05,
+      vertical: MediaQuery.of(context).size.width*0.04),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...List.generate(categories.length, (index) => CategoryCard(
+              icon: categories[index]["icon"],
+              text: categories[index]["text"],
+              press: (){
+
+          }))
+        ],
+      ),
+    );
+  }
+}
+
+class CategoryCard extends StatelessWidget {
+  const CategoryCard({
+    Key key,
+    @required this.icon,
+    @required this.text,
+    @required this.press,
+  }) : super(key: key);
+  final String icon, text;
+  final GestureTapCallback press;
+
+  @override
+  Widget build(BuildContext context) {
+
+
+    return GestureDetector(
+      onTap: press,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width*0.13,
+        child: Column(
+          children: [
+            AspectRatio(
+              aspectRatio: 1,
+              child: Container(
+
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 252, 236, 223),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: SvgPicture.asset(
+                  icon,)
+                ),
+                ),
+
+            
+            const SizedBox(height: 5,),
+            Text(text,
+              style: TextStyle(color: Colors.brown[200]),
+              textAlign: TextAlign.center,
+              textScaleFactor: 0.9,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
 
 
 
