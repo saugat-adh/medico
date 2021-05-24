@@ -63,7 +63,7 @@ Future signUp(cellnumberController, fnameController, lnameController, nmcIdContr
       MaterialPageRoute(
         builder: (BuildContext context) => OtpScreenReg(cellnumberController, fnameController, lnameController, nmcIdController, specialityController),
       ),
-          (route) => false,
+          (route) => true,
     );
   } else {
     displaySnackBar('Already Have an account', skey);

@@ -74,7 +74,7 @@ Future login(numberController, context, scafkey) async {
             MaterialPageRoute(
               builder: (BuildContext context) => OtpScreenLogin(),
             ),
-            (route) => false,
+            (route) => true,
           );
         },
         codeAutoRetrievalTimeout: (String verificationId) {

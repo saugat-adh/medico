@@ -167,7 +167,7 @@ class _OtpScreenRegState extends State<OtpScreenReg> {
                                             (BuildContext context) =>
                                             InfoForm(),
                                       ),
-                                          (route) => true,
+                                          (route) => false,
                                     )
                                   }
                               });
