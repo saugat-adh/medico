@@ -5,7 +5,7 @@ import '../Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../constants.dart';
-import '../login.dart';
+import '../methods/login_method.dart';
 import '../Components/snackbar.dart';
 
 

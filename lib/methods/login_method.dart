@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Components/snackbar.dart';
 import 'package:medico/Forms/OtpLogin.dart';
-import 'models/userModel.dart';
-import 'constants.dart';
+import '../models/userModel.dart';
+import '../constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'Pages/bottom_nav.dart';
+import '../Pages/bottom_nav.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;

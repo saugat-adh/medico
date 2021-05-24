@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Components/snackbar.dart';
-import 'constants.dart';
+import 'package:medico/Forms/OtpReg.dart';
+import '../constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-Future signUp(cellnumberController, skey) async {
+Future signUp(cellnumberController, fnameController, lnameController, nmcIdController, specialityController, skey, context) async {
   var isValidUser = false;
   var number = cellnumberController.text.trim();
 
@@ -57,12 +58,16 @@ Future signUp(cellnumberController, skey) async {
     debugPrint('Gideon test 7');
     await verifyPhoneNumber;
     debugPrint('Gideon test 8');
-    isRegister = false;
-    showSpinner = false;
-    return;
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => OtpScreenReg(cellnumberController, fnameController, lnameController, nmcIdController, specialityController),
+      ),
+          (route) => false,
+    );
   } else {
     displaySnackBar('Already Have an account', skey);
     return;
   }
-    showSpinner = false;
+
 }

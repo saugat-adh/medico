@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medico/Pages/dashboard.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'appointment.dart';
-import 'shop.dart';
+import 'shop/shop.dart';
 
 
 
