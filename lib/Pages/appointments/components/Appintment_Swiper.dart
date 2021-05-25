@@ -38,14 +38,14 @@ class AppointmentSwiper extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                CircleAvatar(foregroundColor: Colors.white, backgroundColor: Colors.white, radius: 40,),
+                                CircleAvatar(foregroundColor: Colors.white, backgroundColor: Colors.white, radius: MediaQuery.of(context).size.width * 0.1,),
                                 SizedBox(width: 20,),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Name', style: TextStyle(color: Colors.white,fontSize: 30),),
-                                    Text('Speciality', style: TextStyle(color: Colors.white,fontSize: 20),),
+                                    Text('Name', style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).size.width *0.1),),
+                                    Text('Speciality', style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).size.width * 0.07),),
                                   ],
                                 ),
                               ],

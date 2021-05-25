@@ -75,7 +75,7 @@ class _SignUpState extends State<SignUp> {
                           _buildBackIcon(),
                           _buildTextData(),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
+                            height: MediaQuery.of(context).size.height * 0.28,
                           ),
                           //_buildFormContainer(),
                         ],

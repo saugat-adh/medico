@@ -70,7 +70,7 @@ class _LogInState extends State<LogIn> {
                           _buildBackIcon(),
                           _buildTextData(),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
+                            height: MediaQuery.of(context).size.height * 0.28,
                           ),
                         ],
                       ),

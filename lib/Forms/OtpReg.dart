@@ -77,7 +77,7 @@ class _OtpScreenRegState extends State<OtpScreenReg> {
                           _buildBackIcon(),
                           _buildTextDataOTP(),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
+                            height: MediaQuery.of(context).size.height * 0.28,
                           ),
                         ],
                       ),
