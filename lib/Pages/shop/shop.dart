@@ -1,14 +1,8 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:medico/Components/discount_box.dart';
-import 'package:medico/Components/icon_btn_with_counter.dart';
-import 'package:medico/Components/search_field.dart';
-import 'package:medico/Components/shop_header.dart';
+import 'package:medico/Pages/shop/components/discount_box.dart';
+import 'package:medico/Pages/shop/components/shop_header.dart';
 
 class Dash3 extends StatefulWidget {
   @override
@@ -18,14 +12,10 @@ class Dash3 extends StatefulWidget {
 class _Dash3State extends State<Dash3> {
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarColor: Colors.greenAccent[200],
-    //   statusBarBrightness: Brightness.dark,
-    // ));
     return Stack(
       children: [
         Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Color(0xffF0F2F8),
             body: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -34,25 +24,8 @@ class _Dash3State extends State<Dash3> {
                   ShopHeader(),
                   SizedBox(height: MediaQuery.of(context).size.height*0.01),
                   DiscountsBox(),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.02),
                   Categories(),
-                  Container(
-                    child: SvgPicture.asset("images/feather/alert-triangle.svg"),
-                  ),
-
-
-
-                  // Stack(
-                  //   clipBehavior: Clip.none,
-                  //   alignment: AlignmentDirectional.topCenter,
-                  //   children: [
-                  //     _buildBackgroundCover(),
-                  //     _buildTextFile(),
-                  //     _buildCartItem(),
-                  //     _buildSearchBar(),
-                  //   ],
-                  // ),
                 ],
               ),
             )),
@@ -75,7 +48,8 @@ class Categories extends StatelessWidget {
 
     return Padding(
       padding:EdgeInsets.symmetric(
-      horizontal: MediaQuery.of(context).size.width*0.1,),
+      horizontal: MediaQuery.of(context).size.width*0.05,
+      vertical: MediaQuery.of(context).size.width*0.04),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +149,6 @@ class DataSearch extends SearchDelegate<String> {
             query = "";
           })
     ];
-    throw UnimplementedError();
   }
 
   @override

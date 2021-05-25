@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Wizards/forms.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import '../constants.dart';
-import '../Pages/bottom_nav.dart';
+import 'info_form.dart';
 import '../Wizards/buttons.dart';
 import '../Components/snackbar.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class OtpScreenLogin extends StatefulWidget {
+class OtpScreenReg extends StatefulWidget {
+  final cellnumberController;
+  final fnameController;
+  final lnameController;
+  final nmcIdController;
+  final specialityController;
+
+  const OtpScreenReg(this.cellnumberController, this.fnameController, this.lnameController, this.nmcIdController, this.specialityController);
 
   @override
-  _OtpScreenLoginState createState() => _OtpScreenLoginState();
+  _OtpScreenRegState createState() => _OtpScreenRegState();
 }
 
-class _OtpScreenLoginState extends State<OtpScreenLogin> {
+class _OtpScreenRegState extends State<OtpScreenReg> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool showSpinner = false;
@@ -94,28 +103,80 @@ class _OtpScreenLoginState extends State<OtpScreenLogin> {
                                 //sign in was success
                                 if (user != null)
                                   {
-                                    setState(() {
-                                      //navigate to is
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder:
-                                              (BuildContext context) =>
-                                              BotNavBar(),
-                                        ),
-                                            (route) => false,
-                                      );
-                                    })
+                                    //store registration details in firestore database
+                                    _commonUserDB(),
+                                    if (isUserADoctor)
+                                      {
+                                        await _firestore
+                                            .collection('doctors')
+                                            .doc(_auth.currentUser.uid)
+                                            .set(
+                                            {
+                                              'First name':
+                                              widget.fnameController.text
+                                                  .trim(),
+                                              'Last name':
+                                              widget.lnameController.text
+                                                  .trim(),
+                                              'cellnumber':
+                                              widget.cellnumberController
+                                                  .text
+                                                  .trim(),
+                                              "nmcID": widget.nmcIdController
+                                                  .text
+                                                  .trim(),
+                                              "speciality":
+                                              widget.specialityController
+                                                  .text
+                                                  .trim(),
+                                            },
+                                            SetOptions(
+                                                merge: true)).then(
+                                                (value) => {
+                                              //then move to authorised area
+                                            }),
+                                      }
+                                    else
+                                      {
+                                        await _firestore
+                                            .collection('patients')
+                                            .doc(_auth.currentUser.uid)
+                                            .set(
+                                            {
+                                              'First name':
+                                              widget.fnameController.text
+                                                  .trim(),
+                                              'Last name':
+                                              widget.lnameController.text
+                                                  .trim(),
+                                              'cellnumber':
+                                              widget.cellnumberController
+                                                  .text
+                                                  .trim(),
+                                            },
+                                            SetOptions(
+                                                merge: true)).then(
+                                                (value) => {
+                                              //then move to authorised area
+                                            }),
+                                      },
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (BuildContext context) =>
+                                            InfoForm(),
+                                      ),
+                                          (route) => false,
+                                    )
                                   }
                               });
                             } catch (e) {
                               displaySnackBar('OTP doesn\'t match', _scaffoldKey);
+                              setState(() {
+                                showSpinner = false;
+                              });
                             }
-                            setState(() {
-                              showSpinner = false;
-                              isOTPScreens = false;
-                            });
-
                           }),
                       SizedBox(
                         height: 30,
@@ -199,4 +260,13 @@ class _OtpScreenLoginState extends State<OtpScreenLogin> {
       ),
     );
   }
+
+  _commonUserDB() async {
+    await _firestore.collection('AllUsers').doc(_auth.currentUser.uid).set({
+      "User": isUserADoctor ? "doctors" : "patients",
+      "phone": widget.cellnumberController.text.trim()
+    });
+  }
+
 }
+

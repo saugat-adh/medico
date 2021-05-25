@@ -202,7 +202,6 @@ class _InfoFormState extends State<InfoForm> {
       ico: Icon(FeatherIcons.chevronsDown),
       labelTxt: 'Height',
         txt: 'Height',
-        pass: true,
         types: TextInputType.number,
         );
   }
@@ -212,7 +211,6 @@ class _InfoFormState extends State<InfoForm> {
       ico: Icon(FeatherIcons.chevronsLeft),
       labelTxt: 'Weight',
       txt: 'Weight',
-      pass: true,
       types: TextInputType.number,
     );
   }

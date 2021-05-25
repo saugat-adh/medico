@@ -17,7 +17,7 @@ class ShopHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SearchField(),
+          SearchField(txt: 'Search Meds...',),
           iconButtonWithCounter(
             svgSrc: "images/male.png",
             numOfItems: 3,

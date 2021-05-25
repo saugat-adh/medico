@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Forms/OtpLogin.dart';
 import 'package:medico/Wizards/forms.dart';
-import 'package:medico/Pages/bottom_nav.dart';
-import 'package:medico/models/userModel.dart';
 import '../Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../constants.dart';
-import '../login.dart';
+import '../methods/login_method.dart';
 import '../Components/snackbar.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class LogIn extends StatefulWidget {
   static const String id = 'log_in';
@@ -25,7 +19,6 @@ class LogIn extends StatefulWidget {
 
 class _LogInState extends State<LogIn> {
   final _formKey = GlobalKey<FormState>();
-  final _formKeyOTP = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final TextEditingController numberController = new TextEditingController();
@@ -46,7 +39,7 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
-    return isOTPScreen ? OtpScreenLogin() : returnLoginScreen();
+    return returnLoginScreen();
   }
 
   Widget returnLoginScreen() {
@@ -77,7 +70,7 @@ class _LogInState extends State<LogIn> {
                           _buildBackIcon(),
                           _buildTextData(),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
+                            height: MediaQuery.of(context).size.height * 0.28,
                           ),
                         ],
                       ),
@@ -94,7 +87,7 @@ class _LogInState extends State<LogIn> {
                           });
                           if (_formKey.currentState.validate()) {
                             displaySnackBar('Verifying your Number', _scaffoldKey);
-                            await login(numberController, this.context);
+                            await login(numberController, this.context, _scaffoldKey);
                           }
                           setState(() {
                             showSpinner = false;

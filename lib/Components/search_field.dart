@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SearchField extends StatelessWidget {
-  const SearchField({
-    Key key,
-  }) : super(key: key);
+  SearchField({this.txt});
+
+  final String txt;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class SearchField extends StatelessWidget {
       height:50,
       decoration:BoxDecoration(
         color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(15),
 
       ),
       child: TextField(
@@ -22,7 +22,7 @@ class SearchField extends StatelessWidget {
         decoration: InputDecoration(
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
-          hintText: "Search Meds",
+          hintText: txt,
           prefixIcon: Icon(Icons.search),
           contentPadding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width*0.05,
