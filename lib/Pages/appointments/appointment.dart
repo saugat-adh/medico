@@ -23,6 +23,8 @@ class _Dash2State extends State<Dash2> {
                   AppointmentHeader(),
                   SizedBox(height: MediaQuery.of(context).size.height*0.01),
                   Schedule(),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.03),
+                  Text('Let\'s find your doctor'),
                 ],
               ),
             )),
