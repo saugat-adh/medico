@@ -34,8 +34,12 @@ class _Dash3State extends State<Dash3> {
                   ShopHeader(),
                   SizedBox(height: MediaQuery.of(context).size.height*0.01),
                   DiscountsBox(),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.02),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
                   Categories(),
+                  Container(
+                    child: SvgPicture.asset("images/feather/alert-triangle.svg"),
+                  ),
 
 
 
@@ -56,91 +60,6 @@ class _Dash3State extends State<Dash3> {
     );
   }
 
-  _buildBackgroundCover() {
-    return Container(
-      height: 220.0,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.green,
-            Colors.teal,
-          ],
-        ),
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
-      ),
-    );
-  }
-
-  _buildTextFile() {
-    return Positioned(
-      top: 50,
-      left: 40,
-      child: Text(
-        'Shop',
-        style: TextStyle(
-          fontSize: 50,
-          color: Colors.white,
-          fontFamily: 'Bebas',
-        ),
-      ),
-    );
-  }
-
-  _buildCartItem() {
-    return Positioned(
-      top: 60,
-      right: 20,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: Colors.white,
-        ),
-        child: IconButton(
-          icon: Icon(
-            FeatherIcons.shoppingCart,
-            color: Colors.black,
-          ),
-          onPressed: () {},
-        ),
-      ),
-    );
-  }
-
-  _buildSearchBar() {
-    return Positioned(
-        top: 150,
-        left: 20,
-        right: 20,
-        child: AppBar(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),
-              top: Radius.circular(30),
-            )),
-            centerTitle: true,
-            backgroundColor: Colors.white,
-            primary: false,
-            title: TextField(
-              decoration: InputDecoration(
-                hintText: "Search Meds",
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
-                onPressed: () {
-                  showSearch(context: context, delegate: DataSearch());
-                },
-              )
-            ]));
-  }
 }
 class Categories extends StatelessWidget {
   const Categories({Key key}) : super(key: key);
@@ -156,8 +75,7 @@ class Categories extends StatelessWidget {
 
     return Padding(
       padding:EdgeInsets.symmetric(
-      horizontal: MediaQuery.of(context).size.width*0.05,
-      vertical: MediaQuery.of(context).size.width*0.04),
+      horizontal: MediaQuery.of(context).size.width*0.1,),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
