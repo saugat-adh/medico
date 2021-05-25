@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medico/Pages/shop/components/discount_box.dart';
 import 'package:medico/Pages/shop/components/categories.dart';
 import 'package:medico/Pages/shop/components/shop_header.dart';
-
+import 'package:medico/Pages/shop/components/section_title.dart';
+import 'package:medico/Pages/shop/components/special_offer_card.dart';
 class Dash3 extends StatefulWidget {
   @override
   _Dash3State createState() => _Dash3State();
@@ -27,6 +27,38 @@ class _Dash3State extends State<Dash3> {
                   DiscountsBox(),
                   SizedBox(height: MediaQuery.of(context).size.height*0.02),
                   Categories(),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  SectionTitle(
+                    text:"Recommendations for you",
+                    press: (){
+
+                    },
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.width*0.04,),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        SpecialOfferCard(
+                          image: "images/medicine1.jpg",
+                          category: "Vitamins",
+                          numOfBrands: 40,
+                          press: (){
+
+                          },
+                        ),
+                        SpecialOfferCard(
+                          image: "images/antibiotics1.jpg",
+                          category: "Antibiotics",
+                          numOfBrands: 15,
+                          press: (){
+
+                          },
+                        ),
+                        SizedBox(width: MediaQuery.of(context).size.width*0.05,)
+                      ],
+                    ),
+                  )
                 ],
               ),
             )),
@@ -35,6 +67,9 @@ class _Dash3State extends State<Dash3> {
   }
 
 }
+
+
+
 
 
 
