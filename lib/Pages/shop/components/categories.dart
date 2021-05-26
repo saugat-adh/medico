@@ -62,9 +62,15 @@ class CategoryCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: FractionallySizedBox(
-                    heightFactor: 0.50,
-                    child: SvgPicture.asset(
-                      icon, color: Colors.white70, ),
+                    heightFactor: 0.90,
+                    child: IconButton(
+                      icon: SvgPicture.asset(
+                        icon, color: Colors.white70, ),
+                      splashRadius: 40,
+                      onPressed: (){
+
+                      },
+                    ),
                   )
               ),
             ),

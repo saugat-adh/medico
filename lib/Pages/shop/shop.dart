@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:medico/Pages/shop/components/popular_products.dart';
 import 'package:medico/Pages/shop/components/discount_box.dart';
 import 'package:medico/Pages/shop/components/categories.dart';
 import 'package:medico/Pages/shop/components/shop_header.dart';
 import 'package:medico/Pages/shop/components/section_title.dart';
 import 'package:medico/Pages/shop/components/special_offer_card.dart';
+
 class Dash3 extends StatefulWidget {
   @override
   _Dash3State createState() => _Dash3State();
@@ -21,44 +24,32 @@ class _Dash3State extends State<Dash3> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.005),
                   ShopHeader(),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.005),
                   DiscountsBox(),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.02),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.005),
                   Categories(),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.005),
                   SectionTitle(
                     text:"Recommendations for you",
                     press: (){
 
                     },
                   ),
+                  SizedBox(height: MediaQuery.of(context).size.width*0.02,),
+                  SpecialOffers(),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.02),
+                  SectionTitle(
+                    text:"Trending Products",
+                    press: (){
+
+                    },
+                  ),
                   SizedBox(height: MediaQuery.of(context).size.width*0.04,),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        SpecialOfferCard(
-                          image: "images/medicine1.jpg",
-                          category: "Vitamins",
-                          numOfBrands: 40,
-                          press: (){
+                  PopUpProducts(),
 
-                          },
-                        ),
-                        SpecialOfferCard(
-                          image: "images/antibiotics1.jpg",
-                          category: "Antibiotics",
-                          numOfBrands: 15,
-                          press: (){
 
-                          },
-                        ),
-                        SizedBox(width: MediaQuery.of(context).size.width*0.05,)
-                      ],
-                    ),
-                  )
                 ],
               ),
             )),
