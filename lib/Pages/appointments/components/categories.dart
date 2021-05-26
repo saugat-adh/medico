@@ -12,14 +12,23 @@ class CategoriesAppointment extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text('Let\'s find your doctor'),
-          SizedBox(height: MediaQuery.of(context).size.height*0.03,),
-          ...List.generate((doctorCategories.length), (index) {
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.03,
+          ),
+          ...List.generate((docCategories.length), (index) {
             if (index % 2 == 0) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CategoryPanel(text: doctorCategories[index], press: () {}),
-                  CategoryPanel(text: doctorCategories[index + 1], press: () {}),
+                  CategoryPanel(
+                    text: docCategories[index]["text"],
+                    press: () {},
+                    ico: docCategories[index]["icon"],
+                  ),
+                  CategoryPanel(
+                      text: docCategories[index + 1]["text"],
+                      press: () {},
+                      ico: docCategories[index + 1]["icon"]),
                 ],
               );
             } else {
@@ -33,9 +42,9 @@ class CategoriesAppointment extends StatelessWidget {
 }
 
 class CategoryPanel extends StatelessWidget {
-  CategoryPanel({this.press, this.text});
+  CategoryPanel({this.press, this.text, this.ico});
 
-  final String text;
+  final String text, ico;
   final Function press;
 
   @override
@@ -58,7 +67,12 @@ class CategoryPanel extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: CircleAvatar(backgroundColor: Colors.grey, radius: MediaQuery.of(context).size.height * 0.025,),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width *0.1,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(image: AssetImage(ico),)
+                      ),
+                    ),
                   ),
                   Text(
                     text,
@@ -73,6 +87,5 @@ class CategoryPanel extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

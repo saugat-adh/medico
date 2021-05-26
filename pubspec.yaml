@@ -34,6 +34,7 @@ flutter:
   assets:
      - images/
      - images/feather/
+     - images/Doctor_types/
   fonts:
     - family: Roboto
       fonts:

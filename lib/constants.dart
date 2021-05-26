@@ -16,4 +16,13 @@ List<dynamic> doctorCategories = [
   'Neurologist',
 ];
 
+List<Map<String, dynamic>> docCategories=[
+  {"icon": "images/Doctor_types/pediatrician.png", "text": "Pediatrician"},
+  {"icon": "images/Doctor_types/dermatologist.png", "text": "Dermatologist"},
+  {"icon": "images/Doctor_types/ophthalmologist.png", "text": "Ophthalmologist"},
+  {"icon": "images/Doctor_types/cardiologist.png", "text": "Cardiologist"},
+  {"icon": "images/Doctor_types/obstetrician.png", "text": "Obstetrician"},
+  {"icon": "images/Doctor_types/neurologist.png", "text": "Neurologist"},
+];
+
 
