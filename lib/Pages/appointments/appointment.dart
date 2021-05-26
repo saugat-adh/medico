@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/appointments/components/AppointmentHeader.dart';
 import 'package:medico/Pages/appointments/components/Schedule.dart';
+import 'package:medico/Pages/appointments/components/categories.dart';
 
 
 class Dash2 extends StatefulWidget {
@@ -23,8 +24,8 @@ class _Dash2State extends State<Dash2> {
                   AppointmentHeader(),
                   SizedBox(height: MediaQuery.of(context).size.height*0.01),
                   Schedule(),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.03),
-                  Text('Let\'s find your doctor'),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  CategoriesAppointment(),
                 ],
               ),
             )),

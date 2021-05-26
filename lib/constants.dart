@@ -7,4 +7,13 @@ bool isUserADoctor = false;
 
 bool showSpinner = false;
 
+List<dynamic> doctorCategories = [
+  'Pediatrician',
+  'Dermatologist',
+  'Ophthalmologist',
+  'Cardiologist',
+  'Obstetrician',
+  'Neurologist',
+];
+
 
