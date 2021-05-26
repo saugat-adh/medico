@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/appointments/expain_page/doctor_explained.dart';
+import 'package:medico/Pages/appointments/list_page/list_page.dart';
 import 'package:medico/constants.dart';
 
 class CategoriesAppointment extends StatelessWidget {
@@ -17,7 +18,27 @@ class CategoriesAppointment extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.03,
           ),
           ...List.generate((docCategories.length), (index) {
-            if (index % 2 == 0) {
+            if (index % 2 == 0 && docCategories.length != index + 1) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CategoryPanel(
+                    text: docCategories[index]["text"],
+                    press: () { Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => ListPage(docCategories[index]["text"], docCategories[index]["icon"]),
+                      ),
+                    );},
+                    ico: docCategories[index]["icon"],
+                  ),
+                  CategoryPanel(
+                      text: docCategories[index + 1]["text"],
+                      press: () {Navigator.pushNamed(context, DoctorExp.id);},
+                      ico: docCategories[index + 1]["icon"]),
+                ],
+              );
+            } else if (index % 2 == 0 && docCategories.length == index + 1){
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -26,10 +47,6 @@ class CategoriesAppointment extends StatelessWidget {
                     press: () { Navigator.pushNamed(context, DoctorExp.id);},
                     ico: docCategories[index]["icon"],
                   ),
-                  CategoryPanel(
-                      text: docCategories[index + 1]["text"],
-                      press: () {},
-                      ico: docCategories[index + 1]["icon"]),
                 ],
               );
             } else {

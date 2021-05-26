@@ -29,25 +29,41 @@ class _DoctorExpState extends State<DoctorExp> {
           ),
         ),
         bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  spreadRadius: 3,
+                  blurRadius: 10,
+                )
+              ],
+            color: Colors.white,
+          ),
           height: 80,
-          color: Colors.white,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Container(
                 decoration: BoxDecoration(
                   color: Color(0xff0118B5),
-                  borderRadius: BorderRadius.circular(25)
+                  borderRadius: BorderRadius.circular(25),
                 ),
                 width: MediaQuery.of(context).size.width - 90,
                 child: Center(
                   child: TextButton(
-                    child: Text('Make appointment',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Muli',
-                        fontSize: MediaQuery.of(context).size.width * 0.05
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Make appointment',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Muli',
+                            fontSize: MediaQuery.of(context).size.width * 0.05
+                          ),
+                        ),
+                        IconButton(onPressed: () {}, icon: Icon(FeatherIcons.plus), color: Colors.white,)
+                      ],
                     ),
                   )
                 ),
