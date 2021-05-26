@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medico/Pages/appointments/expain_page/doctor_explained.dart';
 import 'package:medico/constants.dart';
 
 class CategoriesAppointment extends StatelessWidget {
@@ -22,7 +23,7 @@ class CategoriesAppointment extends StatelessWidget {
                 children: [
                   CategoryPanel(
                     text: docCategories[index]["text"],
-                    press: () {},
+                    press: () { Navigator.pushNamed(context, DoctorExp.id);},
                     ico: docCategories[index]["icon"],
                   ),
                   CategoryPanel(

@@ -7,14 +7,6 @@ bool isUserADoctor = false;
 
 bool showSpinner = false;
 
-List<dynamic> doctorCategories = [
-  'Pediatrician',
-  'Dermatologist',
-  'Ophthalmologist',
-  'Cardiologist',
-  'Obstetrician',
-  'Neurologist',
-];
 
 List<Map<String, dynamic>> docCategories=[
   {"icon": "images/Doctor_types/pediatrician.png", "text": "Pediatrician"},
