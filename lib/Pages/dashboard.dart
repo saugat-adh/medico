@@ -71,7 +71,7 @@ class _Dash1State extends State<Dash1> {
         child: CircleAvatar(
           backgroundColor: Colors.white,
           radius: 70,
-          backgroundImage: new AssetImage('images/CircleProfile.jpg')
+          backgroundImage: new AssetImage('images/CircleProfile.png')
         ),
         );
   }

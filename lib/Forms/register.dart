@@ -10,7 +10,6 @@ import '../methods/register_method.dart';
 class SignUp extends StatefulWidget {
   static const String id = 'sign_up';
 
-
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -24,8 +23,7 @@ class _SignUpState extends State<SignUp> {
       new TextEditingController();
   final TextEditingController otpController = new TextEditingController();
   final TextEditingController nmcIdController = new TextEditingController();
-  final TextEditingController specialityController =
-      new TextEditingController();
+  final TextEditingController specialityController = new TextEditingController();
 
   @override
   void initState() {
@@ -130,15 +128,18 @@ class _SignUpState extends State<SignUp> {
                                                 0.05,
                                       ),
                                       _speciality(),
+                                      //_categoryDoc(),
                                       SizedBox(
-                                        height: MediaQuery.of(context).size.height * 0.05,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.05,
                                       ),
                                     ],
                                   )
                                 : SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-
+                                    height: MediaQuery.of(context).size.height *
+                                        0.01,
+                                  ),
                           ]),
                         ),
                       ),
@@ -150,8 +151,16 @@ class _SignUpState extends State<SignUp> {
                           });
                           if (_formKey.currentState.validate()) {
                             // If the form is valid, we want to show a loading Snackbar
-                            displaySnackBar('Verifying Your Number', _scaffoldKey);
-                            await signUp(cellnumberController, fnameController, lnameController, nmcIdController, specialityController, _scaffoldKey, this.context);
+                            displaySnackBar(
+                                'Verifying Your Number', _scaffoldKey);
+                            await signUp(
+                                cellnumberController,
+                                fnameController,
+                                lnameController,
+                                nmcIdController,
+                                specialityController,
+                                _scaffoldKey,
+                                this.context);
                           }
                           setState(() {
                             showSpinner = false;
@@ -254,6 +263,24 @@ class _SignUpState extends State<SignUp> {
       types: TextInputType.text,
     );
   }
+
+  // _categoryDoc() {
+  //   return DropdownButton(
+  //     items: doctorCategories.map((speciality) {
+  //       return DropdownMenuItem(
+  //         child: new Text(speciality),
+  //         value: speciality,
+  //       );
+  //     }).toList(),
+  //     hint: Text('Please choose your Speciality'),
+  //     //value: specialityController,
+  //     onChanged: (newValue) {
+  //       setState(() {
+  //         specialityController = newValue;
+  //       });
+  //     },
+  //   );
+  // }
 
   _buildFirstName() {
     return TextFieldForm(

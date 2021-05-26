@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medico/Forms/OtpLogin.dart';
 import 'package:medico/Wizards/forms.dart';
 import '../Wizards/buttons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';

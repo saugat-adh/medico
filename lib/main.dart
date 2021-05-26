@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medico/Pages/appointments/expain_page/doctor_explained.dart';
 import 'package:medico/Pages/bottom_nav.dart';
 import 'package:medico/Forms/info_form.dart';
 import 'Pages/home_page.dart';
@@ -32,6 +33,7 @@ class MedicoApp extends StatelessWidget {
           SignUp.id : (context) => SignUp(),
           BotNavBar.id : (context) => BotNavBar(),
           InfoForm.id : (context) => InfoForm(),
+          DoctorExp.id : (context) => DoctorExp(),
         },
       );}
     );
