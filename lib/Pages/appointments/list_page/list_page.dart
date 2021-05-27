@@ -15,7 +15,7 @@ class _ListPageState extends State<ListPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xffF0F2F8),
         appBar: AppBar(
           elevation: 0,
           title: Text(

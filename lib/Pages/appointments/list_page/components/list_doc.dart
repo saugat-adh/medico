@@ -11,7 +11,7 @@ class DocList extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           ...List.generate(
               5,
@@ -45,7 +45,7 @@ class DocCard extends StatelessWidget {
         onTap: press,
         child: SizedBox(
           width: MediaQuery.of(context).size.width - 40,
-          height: MediaQuery.of(context).size.height * 0.25,
+          height: MediaQuery.of(context).size.height * 0.22,
           child: Column(
             children: [
               Container(
@@ -53,12 +53,12 @@ class DocCard extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.2,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(40),
                   boxShadow: [
                     BoxShadow(
-                      spreadRadius: 5,
-                      blurRadius: 10,
-                      color: Colors.black12,
+                      spreadRadius: 2,
+                      blurRadius: 30,
+                      color: Color(0xffB1B8D3),
                     )
                   ]
                 ),
@@ -70,7 +70,7 @@ class DocCard extends StatelessWidget {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.35,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(30),
                           image: DecorationImage(
                             image: AssetImage('images/tmp.jpg'),
                             fit: BoxFit.fill,

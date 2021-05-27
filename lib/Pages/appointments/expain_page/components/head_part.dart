@@ -16,7 +16,7 @@ class HeadPart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.4,
+                width: MediaQuery.of(context).size.width * 0.47,
                 height: double.infinity,
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -28,9 +28,9 @@ class HeadPart extends StatelessWidget {
                   ],
                   image: DecorationImage(
                     image: AssetImage('images/tmp.jpg'),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   ),
-                  borderRadius: BorderRadius.circular(40),
+                  borderRadius: BorderRadius.circular(30),
                 ),
               ),
               SizedBox(
