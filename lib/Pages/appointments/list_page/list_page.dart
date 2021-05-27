@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medico/Components/search_field.dart';
 import 'package:medico/Pages/appointments/list_page/components/list_doc.dart';
 
 class ListPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _ListPageState extends State<ListPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xffF0F2F8),
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           title: Text(

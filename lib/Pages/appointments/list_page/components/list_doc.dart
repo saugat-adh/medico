@@ -53,12 +53,12 @@ class DocCard extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.2,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(40),
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
                       spreadRadius: 2,
                       blurRadius: 30,
-                      color: Color(0xffB1B8D3),
+                      color: Color(0xffe5e5e5),
                     )
                   ]
                 ),
@@ -97,7 +97,7 @@ class DocCard extends StatelessWidget {
                           SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
                           Row(
                             children: [
-                              ...List.generate(5, (index) => Icon(FeatherIcons.star, size: MediaQuery.of(context).size.width * 0.04,)),
+                              ...List.generate(5, (index) => Icon(FeatherIcons.star, size: MediaQuery.of(context).size.width * 0.04,color: Colors.amber,)),
                               SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                               Text(
                                 '4.5',

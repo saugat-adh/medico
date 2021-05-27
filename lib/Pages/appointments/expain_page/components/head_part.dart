@@ -69,7 +69,7 @@ class HeadPart extends StatelessWidget {
                               padding: const EdgeInsets.all(5.0),
                               child: Icon(
                           FeatherIcons.star,
-                          color: Color(0xFFAAAA03),
+                          color: Colors.amber,
                                 size: MediaQuery.of(context).size.width * 0.06,
                         ),
                             )),
