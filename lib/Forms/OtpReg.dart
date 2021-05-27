@@ -19,7 +19,8 @@ class OtpScreenReg extends StatefulWidget {
   final nmcIdController;
   final specialityController;
 
-  const OtpScreenReg(this.cellnumberController, this.fnameController, this.lnameController, this.nmcIdController, this.specialityController);
+  const OtpScreenReg(this.cellnumberController, this.fnameController,
+      this.lnameController, this.nmcIdController, this.specialityController);
 
   @override
   _OtpScreenRegState createState() => _OtpScreenRegState();
@@ -91,88 +92,107 @@ class _OtpScreenRegState extends State<OtpScreenReg> {
                             setState(() {
                               showSpinner = true;
                             });
-                            displaySnackBar('Verifying Your Code', _scaffoldKey);
+                            displaySnackBar(
+                                'Verifying Your Code', _scaffoldKey);
                             try {
                               await _auth
                                   .signInWithCredential(
-                                  PhoneAuthProvider.credential(
-                                      verificationId: verificationCode,
-                                      smsCode:
-                                      otpController.text.toString()))
+                                      PhoneAuthProvider.credential(
+                                          verificationId: verificationCode,
+                                          smsCode:
+                                              otpController.text.toString()))
                                   .then((user) async => {
-                                //sign in was success
-                                if (user != null)
-                                  {
-                                    //store registration details in firestore database
-                                    _commonUserDB(),
-                                    if (isUserADoctor)
-                                      {
-                                        await _firestore
-                                            .collection('doctors')
-                                            .doc(_auth.currentUser.uid)
-                                            .set(
-                                            {
-                                              'First name':
-                                              widget.fnameController.text
-                                                  .trim(),
-                                              'Last name':
-                                              widget.lnameController.text
-                                                  .trim(),
-                                              'cellnumber':
-                                              widget.cellnumberController
-                                                  .text
-                                                  .trim(),
-                                              "nmcID": widget.nmcIdController
-                                                  .text
-                                                  .trim(),
-                                              "speciality":
-                                              widget.specialityController
-                                                  .text
-                                                  .trim(),
-                                            },
-                                            SetOptions(
-                                                merge: true)).then(
-                                                (value) => {
-                                              //then move to authorised area
-                                            }),
-                                      }
-                                    else
-                                      {
-                                        await _firestore
-                                            .collection('patients')
-                                            .doc(_auth.currentUser.uid)
-                                            .set(
-                                            {
-                                              'First name':
-                                              widget.fnameController.text
-                                                  .trim(),
-                                              'Last name':
-                                              widget.lnameController.text
-                                                  .trim(),
-                                              'cellnumber':
-                                              widget.cellnumberController
-                                                  .text
-                                                  .trim(),
-                                            },
-                                            SetOptions(
-                                                merge: true)).then(
-                                                (value) => {
-                                              //then move to authorised area
-                                            }),
-                                      },
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (BuildContext context) =>
-                                            InfoForm(),
-                                      ),
-                                          (route) => false,
-                                    )
-                                  }
-                              });
+                                        //sign in was success
+                                        if (user != null)
+                                          {
+                                            //store registration details in firestore database
+                                            _commonUserDB(),
+                                            if (isUserADoctor)
+                                              {
+                                                await _firestore
+                                                    .collection('doctors')
+                                                    .doc(_auth.currentUser.uid)
+                                                    .set(
+                                                        {
+                                                      'First name': widget
+                                                          .fnameController.text
+                                                          .trim(),
+                                                      'Last name': widget
+                                                          .lnameController.text
+                                                          .trim(),
+                                                      'cellnumber': widget
+                                                          .cellnumberController
+                                                          .text
+                                                          .trim(),
+                                                      "nmcID": widget
+                                                          .nmcIdController.text
+                                                          .trim(),
+                                                      "speciality": widget
+                                                          .specialityController
+                                                          .text
+                                                          .trim(),
+                                                      "address": "",
+                                                      "email": "",
+                                                      "gender": "",
+                                                      "height": "",
+                                                      "weight": "",
+                                                    },
+                                                        SetOptions(
+                                                            merge: true)).then(
+                                                        (value) => {
+                                                              //then move to authorised area
+                                                            }),
+                                              }
+                                            else
+                                              {
+                                                await _firestore
+                                                    .collection('patients')
+                                                    .doc(_auth.currentUser.uid)
+                                                    .set(
+                                                        {
+                                                      'First name': widget
+                                                          .fnameController.text
+                                                          .trim(),
+                                                      'Last name': widget
+                                                          .lnameController.text
+                                                          .trim(),
+                                                      'cellnumber': widget
+                                                          .cellnumberController
+                                                          .text
+                                                          .trim(),
+                                                      "DOB": DateTime.now(),
+                                                      "address": "",
+                                                      "email": "",
+                                                      "gender": "",
+                                                      "height": "",
+                                                      "weight": "",
+                                                    },
+                                                        SetOptions(
+                                                            merge: true)).then(
+                                                        (value) => {
+                                                              //then move to authorised area
+                                                            }),
+                                              },
+
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    InfoForm(
+                                                        category: isUserADoctor
+                                                            ? "doctors"
+                                                            : "patients",
+                                                        auth: _auth
+                                                            .currentUser.uid),
+                                              ),
+                                              (route) => false,
+                                            )
+                                          }
+                                      });
                             } catch (e) {
-                              displaySnackBar('OTP doesn\'t match', _scaffoldKey);
+                              displaySnackBar(
+                                  'OTP doesn\'t match', _scaffoldKey);
                               setState(() {
                                 showSpinner = false;
                               });
@@ -267,6 +287,4 @@ class _OtpScreenRegState extends State<OtpScreenReg> {
       "phone": widget.cellnumberController.text.trim()
     });
   }
-
 }
-

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -8,13 +10,23 @@ import 'package:enum_to_string/enum_to_string.dart';
 import '../Pages/bottom_nav.dart';
 
 class InfoForm extends StatefulWidget {
+  final String category;
+  final String auth;
   static const String id = 'info_form';
+
+  const InfoForm({@required this.category, @required this.auth});
 
   @override
   _InfoFormState createState() => _InfoFormState();
 }
 
 class _InfoFormState extends State<InfoForm> {
+  TextEditingController addressController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
+  bool isLoading = false;
   String infoGender;
 
   @override
@@ -29,6 +41,11 @@ class _InfoFormState extends State<InfoForm> {
       },
       child: SafeArea(
         child: Stack(children: [
+          isLoading
+              ? CircularProgressIndicator()
+              : SizedBox(
+                  height: 0,
+                ),
           Scaffold(
               body: Container(
             width: double.infinity,
@@ -49,10 +66,21 @@ class _InfoFormState extends State<InfoForm> {
                 children: [
                   _buildBackIcon(),
                   Row(
-                    children: [SizedBox(width: 30,),_buildText()],),
-                  SizedBox(height: 30,),
+                    children: [
+                      SizedBox(
+                        width: 30,
+                      ),
+                      _buildText()
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
                   Center(child: _buildFormContainer()),
-                  SizedBox(height: 30,),
+
+                  SizedBox(
+                    height: 30,
+                  ),
                   //_buildButton(),
                 ],
               ),
@@ -62,7 +90,6 @@ class _InfoFormState extends State<InfoForm> {
       ),
     );
   }
-
 
   _buildText() {
     return Text(
@@ -125,7 +152,9 @@ class _InfoFormState extends State<InfoForm> {
           Row(
             children: [
               Expanded(child: _buildUserHeight()),
-              SizedBox(width: 10,),
+              SizedBox(
+                width: 10,
+              ),
               Expanded(child: _buildUserWeight())
             ],
           ),
@@ -134,7 +163,9 @@ class _InfoFormState extends State<InfoForm> {
           ),
           textGender(),
           _genderWidget(true, true),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           _buildButton(),
         ],
       ),
@@ -181,6 +212,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserEmail() {
     return TextFieldForm(
+      cntrl: emailController,
       ico: Icon(FeatherIcons.mail),
       labelTxt: 'Email',
       txt: 'Enter Your Email',
@@ -190,6 +222,7 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserAddress() {
     return TextFieldForm(
+      cntrl: addressController,
       ico: Icon(FeatherIcons.map),
       labelTxt: 'Address',
       txt: 'Enter Your Address',
@@ -199,15 +232,17 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserHeight() {
     return TextFieldForm(
+      cntrl: heightController,
       ico: Icon(FeatherIcons.chevronsDown),
       labelTxt: 'Height',
-        txt: 'Height',
-        types: TextInputType.number,
-        );
+      txt: 'Height',
+      types: TextInputType.number,
+    );
   }
 
   _buildUserWeight() {
     return TextFieldForm(
+      cntrl: weightController,
       ico: Icon(FeatherIcons.chevronsLeft),
       labelTxt: 'Weight',
       txt: 'Weight',
@@ -218,6 +253,7 @@ class _InfoFormState extends State<InfoForm> {
   _buildButton() {
     return ElevatedButton(
       onPressed: () {
+        _setInformationToDatabase();
         Navigator.pushNamed(context, BotNavBar.id);
       },
       child: Container(
@@ -253,13 +289,59 @@ class _InfoFormState extends State<InfoForm> {
     );
   }
 
-  _buildDOB() {
-    return TextFieldForm(
-      ico: Icon(FeatherIcons.calendar),
-      labelTxt: 'Date Of Birth',
-      txt: 'Enter Your DOB',
-      types: TextInputType.datetime,
-    );
+  Future<void> _setInformationToDatabase() async {
+    print("DEBUH 101");
+    setState(() {
+      isLoading = true;
+    });
+    await FirebaseFirestore.instance
+        .collection(widget.category)
+        .doc(widget.auth)
+        .update({
+      "DOB": dobController.text,
+      "address": addressController.text,
+      "email": emailController.text,
+      "gender": infoGender,
+      "height": heightController.text,
+      "weight": weightController.text
+    });
+    setState(() {
+      isLoading = false;
+    });
   }
 
+  _buildDOB() {
+    return TextFormField(
+      controller: dobController,
+      textInputAction: TextInputAction.next,
+      onEditingComplete: () => FocusScope.of(context).nextFocus(),
+      decoration: InputDecoration(
+        suffixIcon: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.calendar_view_day_rounded),
+        ),
+        labelText: 'Date Of Birth',
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        labelStyle: TextStyle(
+          fontFamily: 'Muli',
+        ),
+        contentPadding: EdgeInsets.all(15),
+        hintText: 'Enter Your DOB',
+        hintStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: MediaQuery.of(context).size.width * 0.04,
+          fontFamily: 'Muli',
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(
+              color: Colors.grey,
+              width: 2,
+            )),
+      ),
+    );
+  }
 }
