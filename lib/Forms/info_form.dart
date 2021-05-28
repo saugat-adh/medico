@@ -290,7 +290,6 @@ class _InfoFormState extends State<InfoForm> {
   }
 
   Future<void> _setInformationToDatabase() async {
-    print("DEBUH 101");
     setState(() {
       isLoading = true;
     });
