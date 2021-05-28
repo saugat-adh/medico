@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
 class Dash1 extends StatefulWidget {
   @override
   _Dash1State createState() => _Dash1State();
@@ -17,7 +18,7 @@ class _Dash1State extends State<Dash1> {
     return Stack(
       children: [
         Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Color(0xffF0F2F8),
             body: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -33,11 +34,11 @@ class _Dash1State extends State<Dash1> {
                     ],
                   ),
                   SizedBox(
-                    height: 70.0,
+                    height: 60.0,
                   ),
                   _covidTracker(),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   _patientDetails(),
                 ],
@@ -67,22 +68,25 @@ class _Dash1State extends State<Dash1> {
 
   _buildUserPic() {
     return Positioned(
-        top: 40,
-        child: CircleAvatar(
+      top: 40,
+      right:20,
+      child: CircleAvatar(
           backgroundColor: Colors.white,
           radius: 70,
           backgroundImage: new AssetImage('images/CircleProfile.png')
-        ),
-        );
+      ),
+    );
   }
 
   _buildUserName() {
     return Positioned(
-      bottom: 50,
-      child: Text(
-        'User Name',
-       style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
-      )
+        bottom: 100,
+        left: 50,
+        width: MediaQuery.of(context).size.width*0.4,
+        child: Text(
+          'User Name Here',
+          style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
+        )
     );
   }
 
@@ -139,115 +143,153 @@ class _Dash1State extends State<Dash1> {
 
   _covidTracker() {
     return Container(
-      height: 120,
-      width: MediaQuery.of(context).size.width - 20,
+      height: 130,
+      width: MediaQuery.of(context).size.width-20 ,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            Colors.orangeAccent,
-            Colors.deepOrangeAccent,
+            Colors.white70,
+            Colors.white60,
           ],
         ),
-        borderRadius: BorderRadius.all(Radius.circular(22)),
+
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
-            spreadRadius: 5.5,
-            blurRadius: 5.5,
+            spreadRadius: 0.3,
+            blurRadius: 1.1,
           )
         ],
+        borderRadius: BorderRadius.circular(10),
       ),
 
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children:[
-        Text(
-        'Cases In Nepal',
-        style:
-        TextStyle(color: Colors.black, fontSize: 16, fontFamily: 'RobotoReg'),
-      ),
-      Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children:[
-          Text(
-          'Total',
-          style:
-              TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'RobotoReg'),
-        ),
-          Text(
-            'Recovered',
-            style:
-            TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'RobotoReg'),
-          ),
+          mainAxisAlignment: MainAxisAlignment.start,
 
-          Text(
-              'Death',
-            style:
-            TextStyle(color: Colors.black, fontSize: 14, fontFamily: 'RobotoReg'),
-          )
-        ]
-      ),
-    ]),
+          children:<Widget>[
+
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.width*0.02),
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: <Widget>[
+                    Text('Covid Cases In Nepal',style: TextStyle(color: Colors.black, fontSize: 15, fontFamily: 'RobotoReg'),),
+                  ],
+                ),
+              ),
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children:<Widget>[
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width*0.05,
+                          vertical: MediaQuery.of(context).size.width*0.04),
+
+                      child: Column(
+                        children: <Widget>[
+                          Text('Total',style: TextStyle(color: Colors.orangeAccent, fontSize: 14, fontFamily: 'RobotoReg'),),
+                          SizedBox(height: MediaQuery.of(context).size.width*0.02),
+                          Text('1111',style: TextStyle(color: Colors.orangeAccent, fontSize: 14, fontFamily: 'Droid Sans'),)
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width*0.05,
+                          vertical: MediaQuery.of(context).size.width*0.04),
+                      child: Column(
+                        children: <Widget>[
+                          Text('Recovered',style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: 'RobotoReg'),),
+                          SizedBox(height: MediaQuery.of(context).size.width*0.02),
+                          Text('99999999',style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: 'Droid Sans'),)
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width*0.05,
+                          vertical: MediaQuery.of(context).size.width*0.04),
+                      child: Column(
+                        children: <Widget>[
+                          Text('Death',style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: 'RobotoReg'),),
+                          SizedBox(height: MediaQuery.of(context).size.width*0.02),
+                          Text('111',style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: 'Droid Sans'),)
+                        ],
+                      ),
+                    ),
+                  ),
+                ]
+            ),
+          ]),
     );
   }
 
   _patientDetails() {
     return Container(
-      height: 250.0,
-      width: MediaQuery.of(context).size.width - 20,
-      padding: EdgeInsets.all(10),
+        height: 250.0,
+        width: MediaQuery.of(context).size.width - 20,
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.001),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
+              Colors.white70,
               Colors.white60,
-              Colors.white30,
             ],
           ),
-          borderRadius: BorderRadius.all(Radius.circular(22)),
+
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              spreadRadius: 5.5,
-              blurRadius: 5.5,
+              spreadRadius: 0.3,
+              blurRadius: 1.1,
             )
           ],
+          borderRadius: BorderRadius.all(Radius.circular(22)),
         ),
-      child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children:[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              'Height',
-              style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
-            ),
-            Text(
-              'Weight',
-              style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
-            )
-          ],
-        ),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                'Age',
-                style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
+        child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children:[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Height',
+                    style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
+                  ),
+                  Text(
+                    'Weight',
+                    style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
+                  )
+                ],
               ),
 
-              Text(
-                'BMI',
-                style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Age',
+                    style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
+                  ),
+
+                  Text(
+                    'BMI',
+                    style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
+                  )
+                ],
               )
-            ],
-          )
-      ])
+            ])
 
     );
   }
@@ -258,3 +300,4 @@ class _Dash1State extends State<Dash1> {
         MaterialPageRoute(builder: (BuildContext context) => HomePage())));
   }
 }
+
