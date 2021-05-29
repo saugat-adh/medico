@@ -62,7 +62,7 @@ class _DoctorExpState extends State<DoctorExp> {
                             fontSize: MediaQuery.of(context).size.width * 0.05
                           ),
                         ),
-                        IconButton(onPressed: () {}, icon: Icon(FeatherIcons.plus), color: Colors.white,)
+                        Icon(FeatherIcons.plus, color: Colors.white,),
                       ],
                     ),
                   )
