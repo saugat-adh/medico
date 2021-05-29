@@ -3,6 +3,7 @@ import 'package:medico/Pages/home_page.dart';
 import 'package:medico/Wizards/icons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:medico/main.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -145,29 +146,14 @@ class _Dash1State extends State<Dash1> {
     return Container(
       height: 130,
       width: MediaQuery.of(context).size.width-20 ,
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.width*0.02),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.white70,
-            Colors.white60,
-          ],
-        ),
-
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 0.3,
-            blurRadius: 1.1,
-          )
-        ],
-        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
-
       child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
           children:<Widget>[
 
@@ -178,7 +164,18 @@ class _Dash1State extends State<Dash1> {
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   children: <Widget>[
-                    Text('Covid Cases In Nepal',style: TextStyle(color: Colors.black, fontSize: 15, fontFamily: 'RobotoReg'),),
+                    Text('Covid Cases In Nepal',style: TextStyle(
+                        color: Colors.black,
+                        shadows: <Shadow>[
+                          Shadow(
+                            offset: Offset(0.5,0.5),
+                            blurRadius: 1.8,
+                            color: Color.fromARGB(255, 116, 112, 112),
+                          ),
+                        ],
+                        fontSize: 15,
+                        fontFamily: 'RobotoReg'),
+                    ),
                   ],
                 ),
               ),
@@ -194,9 +191,27 @@ class _Dash1State extends State<Dash1> {
 
                       child: Column(
                         children: <Widget>[
-                          Text('Total',style: TextStyle(color: Colors.orangeAccent, fontSize: 14, fontFamily: 'RobotoReg'),),
+                          Text('Total',
+                            maxLines: 1,
+                            style: TextStyle(color: Colors.orangeAccent,
+                              fontSize: 14,
+                              fontFamily: 'RobotoReg',
+                              shadows: <Shadow>[
+                              Shadow(
+                                offset: Offset(2.4,2.4),
+                                blurRadius: 8.7,
+                              color: Color.fromARGB(100, 246, 210, 74),
+                              ),]
+                          ),
+                          ),
                           SizedBox(height: MediaQuery.of(context).size.width*0.02),
-                          Text('1111',style: TextStyle(color: Colors.orangeAccent, fontSize: 14, fontFamily: 'Droid Sans'),)
+                          Text('1111',
+                            maxLines: 1,
+                            style: TextStyle(color: Colors.orangeAccent,
+                              fontSize: 14,
+                              fontFamily: 'Droid Sans',
+                          ),
+                          )
                         ],
                       ),
                     ),
@@ -208,9 +223,27 @@ class _Dash1State extends State<Dash1> {
                           vertical: MediaQuery.of(context).size.width*0.04),
                       child: Column(
                         children: <Widget>[
-                          Text('Recovered',style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: 'RobotoReg'),),
+                          Text('Recovered',style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 14,
+                              fontFamily: 'RobotoReg',
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(2.4,2.4),
+                                  blurRadius: 8.7,
+                                  color: Color.fromARGB(100, 158, 238, 93),
+                                ),]
+                          ),
+                          ),
                           SizedBox(height: MediaQuery.of(context).size.width*0.02),
-                          Text('99999999',style: TextStyle(color: Colors.green, fontSize: 14, fontFamily: 'Droid Sans'),)
+                          Text('99999999',
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 14,
+                              fontFamily: 'Droid Sans'
+                          ),
+                          )
                         ],
                       ),
                     ),
@@ -222,9 +255,22 @@ class _Dash1State extends State<Dash1> {
                           vertical: MediaQuery.of(context).size.width*0.04),
                       child: Column(
                         children: <Widget>[
-                          Text('Death',style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: 'RobotoReg'),),
+                          Text('Death',style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                              fontFamily: 'RobotoReg',
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(2.4,2.4),
+                                  blurRadius: 8.7,
+                                  color: Color.fromARGB(100, 245, 84, 84),
+                                ),]
+                          ),
+                          ),
                           SizedBox(height: MediaQuery.of(context).size.width*0.02),
-                          Text('111',style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: 'Droid Sans'),)
+                          Text('111',
+                            maxLines: 1,
+                            style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: 'Droid Sans'),)
                         ],
                       ),
                     ),
@@ -240,59 +286,197 @@ class _Dash1State extends State<Dash1> {
         height: 250.0,
         width: MediaQuery.of(context).size.width - 20,
         padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.001),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.white70,
-              Colors.white60,
-            ],
-          ),
-
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              spreadRadius: 0.3,
-              blurRadius: 1.1,
-            )
-          ],
-          borderRadius: BorderRadius.all(Radius.circular(22)),
-        ),
-        child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children:[
+        child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children:<Widget>[
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'Height',
-                    style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
-                  ),
-                  Text(
-                    'Weight',
-                    style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
-                  )
-                ],
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children:<Widget>[
+                    Container(
+                        height: MediaQuery.of(context).size.height*0.12,
+                        width: MediaQuery.of(context).size.width*0.45,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width*0.05,
+                            vertical: MediaQuery.of(context).size.width*0.04),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              spreadRadius: 0.5,
+                              blurRadius: 11.2,
+                            )
+                          ],
+                        ),
+
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+
+                            Text('Height',style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontFamily: 'RobotoReg',
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.5,0.5),
+                                    blurRadius: 1.8,
+                                    color: Color.fromARGB(255, 116, 112, 112),
+                                  ),]
+                            ),
+                            ),
+                            SizedBox(height: MediaQuery.of(context).size.width*0.02),
+                            Text('180',
+                              style: TextStyle(color: Colors.black,
+                                fontSize: 14,
+                                fontFamily: 'Droid Sans',
+                              ),
+                            )
+                          ],
+                        ),
+                    ),
+                      Container(
+                        height: MediaQuery.of(context).size.height*0.12,
+                        width: MediaQuery.of(context).size.width*0.45,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width*0.05,
+                            vertical: MediaQuery.of(context).size.width*0.04),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              spreadRadius: 0.5,
+                              blurRadius: 11.2,
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('Weight',style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontFamily: 'RobotoReg',
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.5,0.5),
+                                    blurRadius: 1.8,
+                                    color: Color.fromARGB(255, 116, 112, 112),
+                                  ),]
+                            ),
+                            ),
+                            SizedBox(height: MediaQuery.of(context).size.width*0.02),
+                            Text('60',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontFamily: 'Droid Sans'
+                              ),
+                            )
+                          ],
+                      ),
+                    ),
+                  ]
               ),
 
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'Age',
-                    style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
-                  ),
-
-                  Text(
-                    'BMI',
-                    style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'RobotoReg'),
-                  )
-                ],
-              )
-            ])
-
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children:<Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height*0.12,
+                      width: MediaQuery.of(context).size.width*0.45,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width*0.05,
+                          vertical: MediaQuery.of(context).size.width*0.04),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            spreadRadius: 0.5,
+                            blurRadius: 11.2,
+                          )
+                        ],
+                      ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('Age',style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontFamily: 'RobotoReg',
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.5,0.5),
+                                    blurRadius: 1.8,
+                                    color: Color.fromARGB(255, 116, 112, 112),
+                                  ),]
+                            ),
+                            ),
+                            SizedBox(height: MediaQuery.of(context).size.width*0.02),
+                            Text('21',
+                              style: TextStyle(color: Colors.black,
+                                fontSize: 14,
+                                fontFamily: 'Droid Sans',
+                              ),
+                            )
+                          ],
+                        ),
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height*0.12,
+                      width: MediaQuery.of(context).size.width*0.45,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width*0.05,
+                            vertical: MediaQuery.of(context).size.width*0.04),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              spreadRadius: 0.5,
+                              blurRadius: 11.2,
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('BMI',style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontFamily: 'RobotoReg',
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.5,0.5),
+                                    blurRadius: 1.8,
+                                    color: Color.fromARGB(255, 116, 112, 112),
+                                  ),]
+                            ),
+                            ),
+                            SizedBox(height: MediaQuery.of(context).size.width*0.02),
+                            Text('88',
+                              maxLines: 1,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontFamily: 'Droid Sans'
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                  ]
+              ),
+            ]),
     );
   }
+
+
 
   signOut() {
     //redirect
