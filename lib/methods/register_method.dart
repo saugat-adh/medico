@@ -8,12 +8,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-Future signUp(cellnumberController, fnameController, lnameController, nmcIdController, specialityController, skey, context) async {
+Future signUp(cellnumberController, fnameController, lnameController,
+    nmcIdController, speciality, skey, context) async {
   var isValidUser = false;
   var number = cellnumberController.text.trim();
 
   await _firestore
-      .collection('patients',)
+      .collection(
+        'patients',
+      )
       .where('cellnumber', isEqualTo: number)
       .get()
       .then((result) {
@@ -23,7 +26,9 @@ Future signUp(cellnumberController, fnameController, lnameController, nmcIdContr
   });
 
   await _firestore
-      .collection('doctors',)
+      .collection(
+        'doctors',
+      )
       .where('cellnumber', isEqualTo: number)
       .get()
       .then((result) {
@@ -46,12 +51,11 @@ Future signUp(cellnumberController, fnameController, lnameController, nmcIdContr
       },
       codeSent: (verificationId, [forceResendingToken]) {
         debugPrint('Gideon test 5');
-          verificationCode = verificationId;
-
+        verificationCode = verificationId;
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         debugPrint('Gideon test 6');
-          verificationCode = verificationId;
+        verificationCode = verificationId;
       },
       timeout: Duration(seconds: 60),
     );
@@ -61,13 +65,13 @@ Future signUp(cellnumberController, fnameController, lnameController, nmcIdContr
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => OtpScreenReg(cellnumberController, fnameController, lnameController, nmcIdController, specialityController),
+        builder: (BuildContext context) => OtpScreenReg(cellnumberController,
+            fnameController, lnameController, nmcIdController, speciality),
       ),
-          (route) => true,
+      (route) => true,
     );
   } else {
     displaySnackBar('Already Have an account', skey);
     return;
   }
-
 }

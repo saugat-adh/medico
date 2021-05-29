@@ -23,7 +23,6 @@ class _SignUpState extends State<SignUp> {
       new TextEditingController();
   final TextEditingController otpController = new TextEditingController();
   final TextEditingController nmcIdController = new TextEditingController();
-  final TextEditingController specialityController = new TextEditingController();
 
   @override
   void initState() {
@@ -158,7 +157,7 @@ class _SignUpState extends State<SignUp> {
                                 fnameController,
                                 lnameController,
                                 nmcIdController,
-                                specialityController,
+                                _dropDownSelectedValue,
                                 _scaffoldKey,
                                 this.context);
                           }
@@ -254,13 +253,61 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+  List<String> docCategories = [
+    "Pediatrician",
+    "Dermatologist",
+    "Ophthalmologist",
+    "Cardiologist",
+    "Obstetrician",
+    "Neurologist",
+    "Oncologist",
+    "Anesthesiologist",
+    "Physiotherapist",
+  ];
+
+  String _dropDownSelectedValue;
+
   _speciality() {
-    return TextFieldForm(
-      ico: Icon(FeatherIcons.user),
-      labelTxt: 'Speciality',
-      txt: 'Enter Your Speciality',
-      cntrl: specialityController,
-      types: TextInputType.text,
+    return Container(
+      padding: EdgeInsets.only(left: 8, right: 8),
+      width: double.infinity,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey)),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton(
+          value: _dropDownSelectedValue,
+          icon: Icon(
+            // Add this
+            Icons.arrow_drop_down, // Add this
+            color: Colors.grey, // Add this
+          ),
+          isExpanded: true,
+          elevation: 0,
+          hint: Text(
+            "Choose Your Speciality",
+            style: TextStyle(
+              color: Colors.green,
+              fontFamily: 'Muli',
+              fontSize: MediaQuery.of(context).size.width * 0.04,
+            ),
+          ),
+          dropdownColor: Colors.white,
+          onChanged: (newValue) {
+            setState(() {
+              _dropDownSelectedValue = newValue;
+            });
+          },
+          items: docCategories.map((valueItem) {
+            return DropdownMenuItem(
+                value: valueItem,
+                child: Text(
+                  valueItem,
+                  style: TextStyle(color: Colors.black),
+                ));
+          }).toList(),
+        ),
+      ),
     );
   }
 

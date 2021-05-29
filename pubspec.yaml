@@ -23,6 +23,7 @@ dependencies:
   flutter_svg: ^0.20.0-nullsafety
   flutter_swiper: ^1.1.6
   readmore: ^2.0.0
+  pattern_formatter: ^2.0.0
 
 dev_dependencies:
   flutter_test:

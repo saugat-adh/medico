@@ -8,6 +8,7 @@ import 'package:gender_picker/source/enums.dart';
 import '../Wizards/forms.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import '../Pages/bottom_nav.dart';
+import 'package:pattern_formatter/pattern_formatter.dart';
 
 class InfoForm extends StatefulWidget {
   final String category;
@@ -311,6 +312,10 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildDOB() {
     return TextFormField(
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        DateInputFormatter(),
+      ],
       controller: dobController,
       textInputAction: TextInputAction.next,
       onEditingComplete: () => FocusScope.of(context).nextFocus(),
@@ -325,7 +330,7 @@ class _InfoFormState extends State<InfoForm> {
           fontFamily: 'Muli',
         ),
         contentPadding: EdgeInsets.all(15),
-        hintText: 'Enter Your DOB',
+        hintText: 'DD/MM/YYYY',
         hintStyle: TextStyle(
           color: Colors.grey,
           fontSize: MediaQuery.of(context).size.width * 0.04,

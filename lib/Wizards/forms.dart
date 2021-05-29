@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InForm extends StatelessWidget {
   InForm({this.childNote});
@@ -19,7 +20,13 @@ class InForm extends StatelessWidget {
 
 class TextFieldForm extends StatelessWidget {
   TextFieldForm(
-      {@required this.txt, this.types, this.pass, this.cntrl, this.labelTxt, this.ico});
+      {@required this.txt,
+      this.types,
+      this.pass,
+      this.cntrl,
+      this.labelTxt,
+      this.ico,
+      this.formatters});
 
   final String txt;
   final TextInputType types;
@@ -27,10 +34,12 @@ class TextFieldForm extends StatelessWidget {
   final TextEditingController cntrl;
   final String labelTxt;
   final Icon ico;
+  final List<TextInputFormatter> formatters;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: formatters,
       controller: cntrl,
       obscureText: pass ?? false,
       keyboardType: types,
