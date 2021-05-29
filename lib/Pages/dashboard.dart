@@ -81,12 +81,26 @@ class _Dash1State extends State<Dash1> {
 
   _buildUserName() {
     return Positioned(
-        bottom: 100,
-        left: 50,
-        width: MediaQuery.of(context).size.width*0.4,
-        child: Text(
-          'User Name Here',
-          style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
+        bottom: 90,
+        left: 40,
+        width: MediaQuery.of(context).size.width*0.5,
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                  'Hello,',
+                style: TextStyle(color: Colors.white, fontSize: 22, fontFamily: 'Droid Sans'),
+              ),
+              Text(
+                'Ashutosh\n''Saughat\n''Sudip\n''K xa kbr',
+                maxLines: 4,
+                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
+              ),
+
+            ]
+          )
+
         )
     );
   }
@@ -193,21 +207,21 @@ class _Dash1State extends State<Dash1> {
                         children: <Widget>[
                           Text('Total',
                             maxLines: 1,
-                            style: TextStyle(color: Colors.orangeAccent,
+                            style: TextStyle(color: Colors.blue,
                               fontSize: 14,
                               fontFamily: 'RobotoReg',
                               shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(2.4,2.4),
                                 blurRadius: 8.7,
-                              color: Color.fromARGB(100, 246, 210, 74),
+                              color: Color.fromARGB(100, 74, 206, 246),
                               ),]
                           ),
                           ),
                           SizedBox(height: MediaQuery.of(context).size.width*0.02),
                           Text('1111',
                             maxLines: 1,
-                            style: TextStyle(color: Colors.orangeAccent,
+                            style: TextStyle(color: Colors.blue,
                               fontSize: 14,
                               fontFamily: 'Droid Sans',
                           ),
@@ -317,12 +331,6 @@ class _Dash1State extends State<Dash1> {
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontFamily: 'RobotoReg',
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(0.5,0.5),
-                                    blurRadius: 1.8,
-                                    color: Color.fromARGB(255, 116, 112, 112),
-                                  ),]
                             ),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.width*0.02),
@@ -359,12 +367,6 @@ class _Dash1State extends State<Dash1> {
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontFamily: 'RobotoReg',
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(0.5,0.5),
-                                    blurRadius: 1.8,
-                                    color: Color.fromARGB(255, 116, 112, 112),
-                                  ),]
                             ),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.width*0.02),
@@ -408,12 +410,6 @@ class _Dash1State extends State<Dash1> {
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontFamily: 'RobotoReg',
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(0.5,0.5),
-                                    blurRadius: 1.8,
-                                    color: Color.fromARGB(255, 116, 112, 112),
-                                  ),]
                             ),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.width*0.02),
@@ -450,12 +446,6 @@ class _Dash1State extends State<Dash1> {
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontFamily: 'RobotoReg',
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(0.5,0.5),
-                                    blurRadius: 1.8,
-                                    color: Color.fromARGB(255, 116, 112, 112),
-                                  ),]
                             ),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.width*0.02),
