@@ -1,33 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/appointments/expain_page/doctor_explained.dart';
 import '../../components/doc_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class DocList extends StatelessWidget {
-  const DocList({Key key}) : super(key: key);
+  DocList({this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          ...List.generate(
-              5,
-              (index) => DocCard(
-                    text: 'Doctor Name',
-                    speciality: 'Speciality',
-                    press: () { Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => DoctorExp()),
-                      );
-                    },
-                  ))
-        ],
-      ),
+    return StreamBuilder(
+      stream: _firestore.collection('doctors').where('speciality', isEqualTo: title).snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData){
+          return Text('');
+        } else {
+          return SingleChildScrollView(
+            child: Column(
+              children: snapshot.data.docs.map((document) {
+                return DocCard(
+                  text: document['First name'],
+                  speciality: document['speciality'],
+                  press: () { Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => DoctorExp(snapshot)),
+                  );
+                  },
+                );
+              }).toList(),
+            ),
+          );
+        }
+      },
     );
   }
 }
-

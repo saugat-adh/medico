@@ -15,7 +15,7 @@ class InfoForm extends StatefulWidget {
   final String auth;
   static const String id = 'info_form';
 
-  const InfoForm({@required this.category, @required this.auth});
+  const InfoForm({this.category, this.auth});
 
   @override
   _InfoFormState createState() => _InfoFormState();

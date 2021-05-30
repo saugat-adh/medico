@@ -15,9 +15,9 @@ class DocCard extends StatelessWidget {
         onTap: press,
         child: SizedBox(
           width: MediaQuery.of(context).size.width - 40,
-          height: MediaQuery.of(context).size.height * 0.22,
+          height: MediaQuery.of(context).size.height * 0.25,
           child: Card(
-            margin: EdgeInsets.only(bottom: 20, left: 10),
+            margin: EdgeInsets.only(bottom: 20, left: 10, top: 10),
             elevation: 20,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),

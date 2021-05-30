@@ -3,8 +3,6 @@ import 'package:medico/Pages/home_page.dart';
 import 'package:medico/Wizards/icons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:medico/main.dart';
-
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
@@ -128,16 +126,19 @@ class _Dash1State extends State<Dash1> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IcoBtn(
+                  onClick: () {},
                   ico: Icon(
                     FeatherIcons.settings,
                   ),
                 ),
                 IcoBtn(
+                  onClick: () {},
                   ico: Icon(
                     FeatherIcons.shoppingCart,
                   ),
                 ),
                 IcoBtn(
+                  onClick: () {},
                   ico: Icon(
                     FeatherIcons.bell,
                   ),
