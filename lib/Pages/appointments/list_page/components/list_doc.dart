@@ -22,7 +22,7 @@ class DocList extends StatelessWidget {
             child: Column(
               children: snapshot.data.docs.map((document) {
                 return DocCard(
-                  text: document['First name'],
+                  text: document['First name'] + " " + document['Last name'],
                   speciality: document['speciality'],
                   press: () { Navigator.push(
                     context,
