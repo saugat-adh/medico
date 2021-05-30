@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:medico/Pages/appointments/expain_page/components/body_part.dart';
@@ -5,7 +6,7 @@ import 'package:medico/Pages/appointments/expain_page/components/head_part.dart'
 
 class DoctorExp extends StatefulWidget {
   static const String id = 'doctor_explained';
-  final AsyncSnapshot docs;
+  final QueryDocumentSnapshot docs;
 
   const DoctorExp(this.docs);
 
@@ -21,22 +22,18 @@ class _DoctorExpState extends State<DoctorExp> {
           backgroundColor: Color(0xfff7f7fc),
           body: SingleChildScrollView(
             child: Column(
-              children: widget.docs.data.docs.map<Widget>((document) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildBackButton(),
-                    HeadPart(fName: document['First name'],lName: document['Last name'],speciality: document['speciality'],),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    BodyPart(address: document['address'], email: document['email'], number: document['cellnumber'],),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                  ],
-                );
-              }).toList(),
+                crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildBackButton(),
+                HeadPart(fName: widget.docs['First name'],lName: widget.docs['Last name'],speciality: widget.docs['speciality'],),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
+                ),
+                BodyPart(address: widget.docs['address'], email: widget.docs['email'], number: widget.docs['cellnumber'],),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+              ],
             ),
           ),
           bottomNavigationBar: Container(
@@ -107,6 +104,3 @@ class _DoctorExpState extends State<DoctorExp> {
     );
   }
 }
-// [
-//
-// ],
