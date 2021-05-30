@@ -27,7 +27,7 @@ class DocList extends StatelessWidget {
                   press: () { Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => DoctorExp(snapshot)),
+                        builder: (BuildContext context) => DoctorExp(document)),
                   );
                   },
                 );
