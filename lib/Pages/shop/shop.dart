@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medico/Pages/shop/components/popular_products.dart';
 import 'package:medico/Pages/shop/components/discount_box.dart';
 import 'package:medico/Pages/shop/components/categories.dart';
@@ -112,7 +111,6 @@ class DataSearch extends SearchDelegate<String> {
           close(context, null);
         });
 
-    throw UnimplementedError();
   }
 
   @override
@@ -128,7 +126,6 @@ class DataSearch extends SearchDelegate<String> {
         ),
       ),
     );
-    throw UnimplementedError();
   }
 
   @override
@@ -157,6 +154,5 @@ class DataSearch extends SearchDelegate<String> {
       ),
       itemCount: suggestionList.length,
     );
-    throw UnimplementedError();
   }
 }

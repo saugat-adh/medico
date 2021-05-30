@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../components/doc_card.dart';
-import '../expain_page/doctor_explained.dart';
 
 class AppointmentSwiper extends StatelessWidget {
   const AppointmentSwiper({Key key}) : super(key: key);

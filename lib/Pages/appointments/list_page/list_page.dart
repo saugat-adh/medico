@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/appointments/list_page/components/list_doc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class ListPage extends StatefulWidget {
   const ListPage(this.title);

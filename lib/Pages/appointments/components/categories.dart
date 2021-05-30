@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medico/Pages/appointments/expain_page/doctor_explained.dart';
 import 'package:medico/Pages/appointments/list_page/list_page.dart';
 import 'package:medico/constants.dart';
 
