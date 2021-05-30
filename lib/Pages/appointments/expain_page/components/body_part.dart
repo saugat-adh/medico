@@ -3,7 +3,11 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:readmore/readmore.dart';
 
 class BodyPart extends StatelessWidget {
-  const BodyPart({Key key}) : super(key: key);
+  BodyPart({this.number, this.address, this.email});
+
+  final String number;
+  final String address;
+  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +76,11 @@ class BodyPart extends StatelessWidget {
                   Icon(FeatherIcons.mail, color: Colors.grey,),
                   SizedBox(width: 10,),
                   Text(
-                    'nxxix@gmail.com',
+                    email,
                     style: TextStyle(
                       color: Colors.grey,
                       fontFamily: 'Muli',
-                      fontSize: MediaQuery.of(context).size.width * 0.047,
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
                     ),
                   ),
                 ],
@@ -87,11 +91,11 @@ class BodyPart extends StatelessWidget {
                   Icon(FeatherIcons.phone, color: Colors.grey,),
                   SizedBox(width: 10,),
                   Text(
-                    '+977 1234567890',
+                    '+977' + number,
                     style: TextStyle(
                       color: Colors.grey,
                       fontFamily: 'Muli',
-                      fontSize: MediaQuery.of(context).size.width * 0.047,
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
                     ),
                   ),
                 ],
@@ -102,11 +106,11 @@ class BodyPart extends StatelessWidget {
                   Icon(FeatherIcons.map, color: Colors.grey,),
                   SizedBox(width: 10,),
                   Text(
-                    'Bharatpur, Chitwan',
+                    address,
                     style: TextStyle(
                       color: Colors.grey,
                       fontFamily: 'Muli',
-                      fontSize: MediaQuery.of(context).size.width * 0.047,
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
                     ),
                   ),
                 ],

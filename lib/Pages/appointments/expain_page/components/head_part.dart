@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class HeadPart extends StatelessWidget {
-  const HeadPart({Key key}) : super(key: key);
+  HeadPart({this.fName, this.lName, this.speciality});
+
+  final String fName;
+  final String lName;
+  final String speciality;
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +45,13 @@ class HeadPart extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Doctor Name',
+                    Text(fName + ' ' + lName,
                         style: TextStyle(
                             fontFamily: 'Bebas',
                             fontWeight: FontWeight.w500,
                             fontSize:
-                                MediaQuery.of(context).size.width * 0.07)),
-                    Text('Speciality',
+                                MediaQuery.of(context).size.width * 0.06)),
+                    Text(speciality,
                         style: TextStyle(
                           fontFamily: 'Muli',
                           fontWeight: FontWeight.w500,

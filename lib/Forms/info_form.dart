@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -8,13 +7,14 @@ import 'package:gender_picker/source/enums.dart';
 import '../Wizards/forms.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import '../Pages/bottom_nav.dart';
+import 'package:pattern_formatter/pattern_formatter.dart';
 
 class InfoForm extends StatefulWidget {
   final String category;
   final String auth;
   static const String id = 'info_form';
 
-  const InfoForm({@required this.category, @required this.auth});
+  const InfoForm({this.category, this.auth});
 
   @override
   _InfoFormState createState() => _InfoFormState();
@@ -290,7 +290,6 @@ class _InfoFormState extends State<InfoForm> {
   }
 
   Future<void> _setInformationToDatabase() async {
-    print("DEBUH 101");
     setState(() {
       isLoading = true;
     });
@@ -312,6 +311,10 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildDOB() {
     return TextFormField(
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        DateInputFormatter(),
+      ],
       controller: dobController,
       textInputAction: TextInputAction.next,
       onEditingComplete: () => FocusScope.of(context).nextFocus(),
@@ -326,7 +329,7 @@ class _InfoFormState extends State<InfoForm> {
           fontFamily: 'Muli',
         ),
         contentPadding: EdgeInsets.all(15),
-        hintText: 'Enter Your DOB',
+        hintText: 'DD/MM/YYYY',
         hintStyle: TextStyle(
           color: Colors.grey,
           fontSize: MediaQuery.of(context).size.width * 0.04,

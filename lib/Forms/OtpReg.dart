@@ -17,10 +17,10 @@ class OtpScreenReg extends StatefulWidget {
   final fnameController;
   final lnameController;
   final nmcIdController;
-  final specialityController;
+  final speciality;
 
   const OtpScreenReg(this.cellnumberController, this.fnameController,
-      this.lnameController, this.nmcIdController, this.specialityController);
+      this.lnameController, this.nmcIdController, this.speciality);
 
   @override
   _OtpScreenRegState createState() => _OtpScreenRegState();
@@ -127,10 +127,8 @@ class _OtpScreenRegState extends State<OtpScreenReg> {
                                                       "nmcID": widget
                                                           .nmcIdController.text
                                                           .trim(),
-                                                      "speciality": widget
-                                                          .specialityController
-                                                          .text
-                                                          .trim(),
+                                                      "speciality":
+                                                          widget.speciality,
                                                       "address": "",
                                                       "email": "",
                                                       "gender": "",

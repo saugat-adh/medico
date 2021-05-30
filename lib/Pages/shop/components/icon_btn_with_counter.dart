@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
-class iconButtonWithCounter extends StatelessWidget {
+class IconButtonWithCounter extends StatelessWidget {
 
-  const iconButtonWithCounter({
+  const IconButtonWithCounter({
     @required this.svgSrc,
     this.numOfItems = 0,
     @required this.press,

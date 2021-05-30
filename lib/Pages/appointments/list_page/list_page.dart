@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medico/Components/search_field.dart';
 import 'package:medico/Pages/appointments/list_page/components/list_doc.dart';
+
 
 class ListPage extends StatefulWidget {
   const ListPage(this.title);
@@ -12,6 +12,17 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,10 +44,12 @@ class _ListPageState extends State<ListPage> {
         ),
         body: Container(
           child: SingleChildScrollView(
-            child: DocList(),
+            child: DocList(title: widget.title,),
           ),
         ),
       ),
     );
   }
 }
+
+

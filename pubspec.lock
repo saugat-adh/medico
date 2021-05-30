@@ -7,7 +7,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.1"
+    version: "2.5.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -233,6 +233,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.1"
+  pattern_formatter:
+    dependency: "direct main"
+    description:
+      name: pattern_formatter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   petitparser:
     dependency: transitive
     description:
@@ -307,7 +314,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0"
+    version: "0.2.19"
   transformer_page_view:
     dependency: transitive
     description:
