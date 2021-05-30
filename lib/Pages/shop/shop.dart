@@ -40,12 +40,6 @@ class _Dash3State extends State<Dash3> {
                   SizedBox(height: MediaQuery.of(context).size.width*0.02,),
                   SpecialOffers(),
                   SizedBox(height: MediaQuery.of(context).size.height*0.02),
-                  SectionTitle(
-                    text:"Trending Products",
-                    press: (){
-
-                    },
-                  ),
                   SizedBox(height: MediaQuery.of(context).size.width*0.04,),
                   PopUpProducts(),
 

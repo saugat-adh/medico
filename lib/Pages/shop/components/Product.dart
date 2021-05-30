@@ -32,7 +32,6 @@ List<Product> demoProducts = [
     price: 90.00,
     description: description,
     rating: 4.8,
-    isFavourite: true,
     isPopular: true,
   ),
   Product(
@@ -55,7 +54,6 @@ List<Product> demoProducts = [
     price: 36.55,
     description: description,
     rating: 4.1,
-    isFavourite: true,
     isPopular: true,
   ),
   Product(
@@ -69,6 +67,7 @@ List<Product> demoProducts = [
     description: description,
     rating: 4.1,
     isFavourite: true,
+    isPopular:false,
   ),
 ];
 const String description =
