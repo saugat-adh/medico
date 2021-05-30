@@ -34,7 +34,7 @@ class PopUpProducts extends StatelessWidget {
               ...List.generate(
                 demoProducts.length,
                     (index) {
-                  if (demoProducts[index].isPopular)
+                   if (demoProducts[index].isPopular)
                     return ProductCard(product: demoProducts[index],
                       press:()=>
                       Navigator.pushNamed(context, '/details',
@@ -49,7 +49,7 @@ class PopUpProducts extends StatelessWidget {
               SizedBox(width: MediaQuery
                   .of(context)
                   .size
-                  .height * 0.01),
+                  .height * 0.04),
             ],
           ),
         )

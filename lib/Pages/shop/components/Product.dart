@@ -31,7 +31,7 @@ List<Product> demoProducts = [
     title: "BRUFEN 400mg",
     price: 90.00,
     description: description,
-    rating: 4.8,
+    rating: 4.9,
     isPopular: true,
   ),
   Product(
@@ -42,7 +42,7 @@ List<Product> demoProducts = [
     title: "Cholecalciferol 60k",
     price: 50.5,
     description: description,
-    rating: 4.1,
+    rating: 4.6,
     isPopular: true,
   ),
   Product(
@@ -53,7 +53,7 @@ List<Product> demoProducts = [
     title: "Pantrozole 40mg",
     price: 36.55,
     description: description,
-    rating: 4.1,
+    rating: 3.1,
     isPopular: true,
   ),
   Product(
@@ -66,7 +66,6 @@ List<Product> demoProducts = [
     price: 20.20,
     description: description,
     rating: 4.1,
-    isFavourite: true,
     isPopular:false,
   ),
 ];
