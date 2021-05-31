@@ -3,10 +3,13 @@ import 'package:medico/Pages/home_page.dart';
 import 'package:medico/Wizards/icons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 
 class Dash1 extends StatefulWidget {
+
   @override
   _Dash1State createState() => _Dash1State();
 }
@@ -90,10 +93,21 @@ class _Dash1State extends State<Dash1> {
                   'Hello,',
                 style: TextStyle(color: Colors.white, fontSize: 22, fontFamily: 'Droid Sans'),
               ),
-              Text(
-                'Ashutosh\n''Saughat\n''Sudip\n''K xa kbr',
-                maxLines: 4,
-                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
+
+              FutureBuilder(
+                future: _fetchName(),
+                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  String username = snapshot.data;
+                  if (snapshot.connectionState != ConnectionState.done)
+                    return Text("Fetching data...",
+                      maxLines: 2,
+                      style: TextStyle(color: Colors.white, fontSize: 10, fontFamily: 'Roboto'),
+                    );
+                  return Text(username,
+                    maxLines: 2,
+                    style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
+                  );
+                },
               ),
 
             ]
@@ -178,8 +192,10 @@ class _Dash1State extends State<Dash1> {
                     vertical: MediaQuery.of(context).size.width*0.02),
                 width: MediaQuery.of(context).size.width,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text('Covid Cases In Nepal',style: TextStyle(
+                    Text('Covid Cases In Nepal',
+                      style: TextStyle(
                         color: Colors.black,
                         shadows: <Shadow>[
                           Shadow(
@@ -208,21 +224,21 @@ class _Dash1State extends State<Dash1> {
                         children: <Widget>[
                           Text('Total',
                             maxLines: 1,
-                            style: TextStyle(color: Colors.blue,
+                            style: TextStyle(color: Colors.amber,
                               fontSize: 14,
                               fontFamily: 'RobotoReg',
                               shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(2.4,2.4),
                                 blurRadius: 8.7,
-                              color: Color.fromARGB(100, 74, 206, 246),
+                              color: Color.fromARGB(100, 245, 217, 82),
                               ),]
                           ),
                           ),
                           SizedBox(height: MediaQuery.of(context).size.width*0.02),
-                          Text('1111',
+                          Text('540654',
                             maxLines: 1,
-                            style: TextStyle(color: Colors.blue,
+                            style: TextStyle(color: Colors.amber,
                               fontSize: 14,
                               fontFamily: 'Droid Sans',
                           ),
@@ -251,7 +267,7 @@ class _Dash1State extends State<Dash1> {
                           ),
                           ),
                           SizedBox(height: MediaQuery.of(context).size.width*0.02),
-                          Text('99999999',
+                          Text('420765',
                             maxLines: 1,
                             style: TextStyle(
                               color: Colors.green,
@@ -283,7 +299,7 @@ class _Dash1State extends State<Dash1> {
                           ),
                           ),
                           SizedBox(height: MediaQuery.of(context).size.width*0.02),
-                          Text('111',
+                          Text('1076',
                             maxLines: 1,
                             style: TextStyle(color: Colors.red, fontSize: 14, fontFamily: 'Droid Sans'),)
                         ],
@@ -335,12 +351,26 @@ class _Dash1State extends State<Dash1> {
                             ),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.width*0.02),
-                            Text('180',
-                              style: TextStyle(color: Colors.black,
-                                fontSize: 14,
-                                fontFamily: 'Droid Sans',
-                              ),
-                            )
+                            FutureBuilder(
+                              future: _fetchHeight(),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                String height = snapshot.data;
+                                if (snapshot.connectionState != ConnectionState.done)
+                                  return Text("Fetching data...",
+                                    maxLines: 2,
+                                    style: TextStyle(color: Colors.black,
+                                      fontSize: 10,
+                                      fontFamily: 'Droid Sans',),
+                                  );
+                                return Text(height,
+                                  maxLines: 2,
+                                  style: TextStyle(color: Colors.black,
+                                    fontSize: 14,
+                                    fontFamily: 'Droid Sans',
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                         ),
                     ),
@@ -371,13 +401,26 @@ class _Dash1State extends State<Dash1> {
                             ),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.width*0.02),
-                            Text('60',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontFamily: 'Droid Sans'
-                              ),
-                            )
+                            FutureBuilder(
+                              future: _fetchWeight(),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                String weight = snapshot.data;
+                                if (snapshot.connectionState != ConnectionState.done)
+                                  return Text("Fetching data...",
+                                    maxLines: 2,
+                                    style: TextStyle(color: Colors.black,
+                                      fontSize: 10,
+                                      fontFamily: 'Droid Sans',),
+                                  );
+                                return Text(weight,
+                                  maxLines: 2,
+                                  style: TextStyle(color: Colors.black,
+                                    fontSize: 14,
+                                    fontFamily: 'Droid Sans',
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                       ),
                     ),
@@ -467,6 +510,66 @@ class _Dash1State extends State<Dash1> {
     );
   }
 
+
+  Future<String> _fetchName() async {
+    String username;
+    String height;
+    String weight;
+
+    final firebaseUser = await _auth.currentUser;
+    if (firebaseUser != null)
+      await _firestore
+          .collection('patients')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        username = documentSnapshot.get('First name');
+        height = documentSnapshot.get('height');
+        weight = documentSnapshot.get('weight');
+        print (username);
+        print (height);
+        print (weight);
+      }).catchError((e) {
+        print(e);
+      });
+    return username;
+  }
+
+  Future<String> _fetchHeight() async {
+    String height;
+
+    final firebaseUser = await _auth.currentUser;
+    if (firebaseUser != null)
+      await _firestore
+          .collection('patients')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        height = documentSnapshot.get('height');
+        print (height);
+      }).catchError((e) {
+        print(e);
+      });
+    return height;
+  }
+
+  Future<String> _fetchWeight() async {
+    String weight;
+
+    final firebaseUser = await _auth.currentUser;
+    if (firebaseUser != null)
+      await _firestore
+          .collection('patients')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        weight = documentSnapshot.get('weight');
+        print (weight);
+      }).catchError((e) {
+        print(e);
+      });
+    return weight;
+  }
 
 
   signOut() {
