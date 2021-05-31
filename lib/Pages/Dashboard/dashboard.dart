@@ -493,14 +493,26 @@ class _Dash1State extends State<Dash1> {
                             ),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.width*0.02),
-                            Text('88',
-                              maxLines: 1,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontFamily: 'Droid Sans'
-                              ),
-                            )
+                            FutureBuilder(
+                              future: _fetchBMI(),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                String bmi = snapshot.data;
+                                if (snapshot.connectionState != ConnectionState.done)
+                                  return Text("Fetching data...",
+                                    maxLines: 2,
+                                    style: TextStyle(color: Colors.black,
+                                      fontSize: 10,
+                                      fontFamily: 'Droid Sans',),
+                                  );
+                                return Text(bmi.toString(),
+                                  maxLines: 2,
+                                  style: TextStyle(color: Colors.black,
+                                    fontSize: 14,
+                                    fontFamily: 'Droid Sans',
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -551,6 +563,32 @@ class _Dash1State extends State<Dash1> {
         print(e);
       });
     return height;
+  }
+
+  Future<String> _fetchBMI() async {
+    String weight;
+    String height;
+    String bmiFixed;
+    double bmi,h,w;
+
+    final firebaseUser = await _auth.currentUser;
+    if (firebaseUser != null)
+      await _firestore
+          .collection('patients')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        weight = documentSnapshot.get('weight');
+        height = documentSnapshot.get('height');
+        w = double.parse(weight);
+        h = double.parse(height);
+        bmi = (w/(h*h))*10000;
+        bmiFixed = bmi.toStringAsFixed(2);
+        print (bmiFixed);
+      }).catchError((e) {
+        print(e);
+      });
+    return bmiFixed;
   }
 
   Future<String> _fetchWeight() async {
