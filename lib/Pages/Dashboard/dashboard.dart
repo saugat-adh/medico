@@ -4,6 +4,8 @@ import 'package:medico/Wizards/icons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:age/age.dart';
+import 'package:intl/intl.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -457,12 +459,25 @@ class _Dash1State extends State<Dash1> {
                             ),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.width*0.02),
-                            Text('21',
-                              style: TextStyle(color: Colors.black,
-                                fontSize: 14,
-                                fontFamily: 'Droid Sans',
-                              ),
-                            )
+                            FutureBuilder(
+                              future: _fetchAge(),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                String age = snapshot.data;
+                                if (snapshot.connectionState != ConnectionState.done)
+                                  return Text("Fetching data...",
+                                    maxLines: 2,
+                                    style: TextStyle(color: Colors.black,
+                                      fontSize: 10,
+                                      fontFamily: 'Droid Sans',),
+                                  );
+                                return Text(age,
+                                  style: TextStyle(color: Colors.black,
+                                    fontSize: 14,
+                                    fontFamily: 'Droid Sans',
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                         ),
                     ),
@@ -565,6 +580,51 @@ class _Dash1State extends State<Dash1> {
     return height;
   }
 
+
+  Future<String> _fetchWeight() async {
+    String weight;
+
+    final firebaseUser = await _auth.currentUser;
+    if (firebaseUser != null)
+      await _firestore
+          .collection('patients')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        weight = documentSnapshot.get('weight');
+        print (weight);
+      }).catchError((e) {
+        print(e);
+      });
+    return weight;
+  }
+
+  Future<String> _fetchAge() async {
+    String bornDate;
+    DateTime today = DateTime.now();
+    String ageFinal;
+
+    final firebaseUser = await _auth.currentUser;
+    if (firebaseUser != null)
+      await _firestore
+          .collection('patients')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        bornDate = documentSnapshot.get('DOB');
+        DateTime bd = new DateFormat('dd/MM/yyyy').parse(bornDate);
+        int age = today.year - bd.year;
+        if (today.month<bd.month || ( today.month == bd.month && today.day<bd.day))
+          age=age-1;
+        print(age);
+        ageFinal=age.toString();
+      }).catchError((e) {
+        print(e);
+      });
+    return ageFinal;
+  }
+
+
   Future<String> _fetchBMI() async {
     String weight;
     String height;
@@ -589,24 +649,6 @@ class _Dash1State extends State<Dash1> {
         print(e);
       });
     return bmiFixed;
-  }
-
-  Future<String> _fetchWeight() async {
-    String weight;
-
-    final firebaseUser = await _auth.currentUser;
-    if (firebaseUser != null)
-      await _firestore
-          .collection('patients')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        weight = documentSnapshot.get('weight');
-        print (weight);
-      }).catchError((e) {
-        print(e);
-      });
-    return weight;
   }
 
 
