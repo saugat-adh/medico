@@ -9,7 +9,6 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 
-
 class Dash1 extends StatefulWidget {
 
   @override
@@ -37,9 +36,9 @@ class _Dash1State extends State<Dash1> {
                       _buildSettingPanel(),
                     ],
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.04),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.08),
                   _covidTracker(),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.02),
                   _patientDetails(),
                 ],
               ),
