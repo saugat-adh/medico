@@ -20,10 +20,6 @@ class Body extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  product.title,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width*0.04,
@@ -54,6 +50,7 @@ class TopRoundedContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      child: child,
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.width*0.02),
       margin: EdgeInsets.only(top: MediaQuery.of(context).size.width*0.02),
       width: double.infinity,
