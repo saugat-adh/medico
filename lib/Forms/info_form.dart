@@ -28,6 +28,7 @@ class _InfoFormState extends State<InfoForm> {
   TextEditingController dobController = TextEditingController();
   bool isLoading = false;
   String infoGender;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -121,53 +122,56 @@ class _InfoFormState extends State<InfoForm> {
   }
 
   _buildFormContainer() {
-    return Container(
-      width: MediaQuery.of(context).size.width - 20,
-      padding: EdgeInsets.all(30),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(28)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 5.5,
-            blurRadius: 5.5,
-          )
-        ],
-      ),
-      child: Column(
-        children: [
-          _buildDOB(),
-          SizedBox(
-            height: 10,
-          ),
-          _buildUserAddress(),
-          SizedBox(
-            height: 10,
-          ),
-          _buildUserEmail(),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              Expanded(child: _buildUserHeight()),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(child: _buildUserWeight())
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          textGender(),
-          _genderWidget(true, true),
-          SizedBox(
-            height: 30,
-          ),
-          _buildButton(),
-        ],
+    return Form(
+      key: _formKey,
+      child: Container(
+        width: MediaQuery.of(context).size.width - 20,
+        padding: EdgeInsets.all(30),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(28)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              spreadRadius: 5.5,
+              blurRadius: 5.5,
+            )
+          ],
+        ),
+        child: Column(
+          children: [
+            _buildDOB(),
+            SizedBox(
+              height: 10,
+            ),
+            _buildUserAddress(),
+            SizedBox(
+              height: 10,
+            ),
+            _buildUserEmail(),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Expanded(child: _buildUserHeight()),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(child: _buildUserWeight())
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            textGender(),
+            _genderWidget(true, true),
+            SizedBox(
+              height: 30,
+            ),
+            _buildButton(),
+          ],
+        ),
       ),
     );
   }
@@ -212,6 +216,20 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserEmail() {
     return TextFieldForm(
+      onChanged: (value) {
+        setState(() {
+          isFormValid();
+        });
+      },
+      validator: (value) {
+        if (!value.contains("@")) {
+          return 'Email not valid';
+        }
+        if (value.isEmpty) {
+          return 'Please enter your Email';
+        }
+        return null;
+      },
       cntrl: emailController,
       ico: Icon(FeatherIcons.mail),
       labelTxt: 'Email',
@@ -222,6 +240,17 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserAddress() {
     return TextFieldForm(
+      onChanged: (value) {
+        setState(() {
+          isFormValid();
+        });
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter your Address';
+        }
+        return null;
+      },
       cntrl: addressController,
       ico: Icon(FeatherIcons.map),
       labelTxt: 'Address',
@@ -232,6 +261,17 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserHeight() {
     return TextFieldForm(
+      onChanged: (value) {
+        setState(() {
+          isFormValid();
+        });
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return '*Required';
+        }
+        return null;
+      },
       cntrl: heightController,
       ico: Icon(FeatherIcons.chevronsDown),
       labelTxt: 'Height',
@@ -242,6 +282,17 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildUserWeight() {
     return TextFieldForm(
+      onChanged: (value) {
+        setState(() {
+          isFormValid();
+        });
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return '*Required';
+        }
+        return null;
+      },
       cntrl: weightController,
       ico: Icon(FeatherIcons.chevronsLeft),
       labelTxt: 'Weight',
@@ -253,8 +304,10 @@ class _InfoFormState extends State<InfoForm> {
   _buildButton() {
     return ElevatedButton(
       onPressed: () {
-        _setInformationToDatabase();
-        Navigator.pushNamed(context, BotNavBar.id);
+        if (isFormValid()) {
+          _setInformationToDatabase();
+          Navigator.pushNamed(context, BotNavBar.id);
+        }
       },
       child: Container(
         constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
@@ -311,6 +364,17 @@ class _InfoFormState extends State<InfoForm> {
 
   _buildDOB() {
     return TextFormField(
+      onChanged: (value) {
+        setState(() {
+          isFormValid();
+        });
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter your DOB';
+        }
+        return null;
+      },
       keyboardType: TextInputType.number,
       inputFormatters: [
         DateInputFormatter(),
@@ -346,5 +410,12 @@ class _InfoFormState extends State<InfoForm> {
             )),
       ),
     );
+  }
+
+  bool isFormValid() {
+    if (_formKey.currentState.validate()) {
+      return true;
+    }
+    return false;
   }
 }

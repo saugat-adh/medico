@@ -26,27 +26,36 @@ class TextFieldForm extends StatelessWidget {
       this.cntrl,
       this.labelTxt,
       this.ico,
-      this.formatters});
+      this.formatters,
+      this.validator,
+      this.onChanged,
+      this.error});
 
   final String txt;
   final TextInputType types;
+  String Function(String) validator;
   final bool pass;
   final TextEditingController cntrl;
   final String labelTxt;
   final Icon ico;
   final List<TextInputFormatter> formatters;
+  Function(String) onChanged;
+  String error;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       inputFormatters: formatters,
+      onChanged: onChanged,
       controller: cntrl,
+      validator: validator,
       obscureText: pass ?? false,
       keyboardType: types,
       textInputAction: TextInputAction.next,
       onEditingComplete: () => FocusScope.of(context).nextFocus(),
       decoration: InputDecoration(
         suffixIcon: ico,
+        errorText: error,
         labelText: labelTxt,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         labelStyle: TextStyle(
