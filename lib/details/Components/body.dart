@@ -8,6 +8,20 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ProductDescription(product: product);
+  }
+}
+
+class ProductDescription extends StatelessWidget {
+  const ProductDescription({
+    Key key,
+    @required this.product,
+  }) : super(key: key);
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         ProductImages(product: product),
@@ -20,6 +34,7 @@ class Body extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 10,),
                 Padding(
                   padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width*0.04,
@@ -28,7 +43,30 @@ class Body extends StatelessWidget {
                     product.title,
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                )
+                ),
+                SizedBox(height: 10,),
+                Padding(
+                  padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04),
+                  child: Text(product.description,
+                  style: TextStyle(
+                    color: Colors.grey[400],
+                    fontSize: 15,
+                  ),
+
+                  maxLines: 4,),
+                ),
+                SizedBox(height: 10,),
+                Padding(
+                  padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04),
+                  child: Text("See More Details",
+                    style: TextStyle(
+                      color: Colors.blue[300],
+                      fontSize: 15,
+                    ),
+
+                    maxLines: 4,),
+                ),
+
               ],
             ),
           ),
