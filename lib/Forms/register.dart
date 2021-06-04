@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import '../Wizards/buttons.dart';
@@ -23,6 +24,13 @@ class _SignUpState extends State<SignUp> {
       new TextEditingController();
   final TextEditingController otpController = new TextEditingController();
   final TextEditingController nmcIdController = new TextEditingController();
+
+  bool isFormValid() {
+    if (_formKey.currentState.validate()) {
+      return true;
+    }
+    return false;
+  }
 
   @override
   void initState() {
@@ -148,6 +156,7 @@ class _SignUpState extends State<SignUp> {
                           setState(() {
                             showSpinner = true;
                           });
+
                           if (_formKey.currentState.validate()) {
                             // If the form is valid, we want to show a loading Snackbar
                             displaySnackBar(
@@ -235,6 +244,20 @@ class _SignUpState extends State<SignUp> {
 
   _buildPhoneNumber() {
     return TextFieldForm(
+      onChanged: (value) {
+        setState(() {
+          isFormValid();
+        });
+      },
+      validator: (value) {
+        if (value.length != 10) {
+          return 'Invalid Phone Number';
+        }
+        if (value.isEmpty) {
+          return 'Please enter your Phone Number';
+        }
+        return null;
+      },
       ico: Icon(FeatherIcons.phone),
       labelTxt: 'Phone Number',
       txt: 'Enter Your Phone Number',
@@ -243,13 +266,84 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+  String validationText;
+  isNotTaken({@required String query}) async {
+    try {
+      final QuerySnapshot result = await FirebaseFirestore.instance
+          .collection('doctors')
+          .where('nmcID', isEqualTo: query)
+          .get();
+
+      //converts results to a list of documents
+      final List<DocumentSnapshot> documents = result.docs;
+
+      if (documents.length > 0) {
+        isNMCTaken = true;
+      } else {
+        isNMCTaken = false;
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  checkForNmCId({@required String providedNMCID}) async {
+    try {
+      final ref = FirebaseFirestore.instance.collection('NMCIDS');
+      DocumentSnapshot doc = await ref.doc(providedNMCID).get();
+
+      if (doc.exists) {
+        isNMCVALID = true;
+        return 'NMC ID Valid';
+      }
+      isNMCVALID = false;
+      return 'Invalid NMC Id';
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   _buildNMCId() {
     return TextFieldForm(
       ico: Icon(FeatherIcons.user),
       labelTxt: 'NMC ID',
       txt: 'Enter Your NMC Id',
       cntrl: nmcIdController,
-      types: TextInputType.text,
+      onChanged: (value) async {
+        if (value.length > 0) {
+          isNotTaken(query: value);
+          setState(() {});
+          if (value.isNotEmpty) {
+            String temp = await checkForNmCId(providedNMCID: value);
+            if (isNMCTaken) {
+              validationText = "Already Taken";
+            } else if (temp.isNotEmpty) {
+              validationText = temp;
+            }
+          }
+          if (value.isEmpty) {
+            validationText = "";
+          }
+          setState(() {
+            isFormValid();
+          });
+        }
+      },
+      error: validationText,
+      validator: (value) {
+        checkForNmCId(providedNMCID: value);
+        if (value.isEmpty) {
+          return "Cannot be Empty";
+        }
+        if (isNMCTaken) {
+          return "NMC Already Taken";
+        }
+        if (!isNMCVALID) {
+          return "Invalid NMC ID";
+        }
+        return null;
+      },
+      types: TextInputType.number,
     );
   }
 
@@ -264,6 +358,7 @@ class _SignUpState extends State<SignUp> {
     "Anesthesiologist",
     "Physiotherapist",
   ];
+  bool isNMCTaken = false;
 
   String _dropDownSelectedValue;
 
@@ -311,26 +406,24 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  // _categoryDoc() {
-  //   return DropdownButton(
-  //     items: doctorCategories.map((speciality) {
-  //       return DropdownMenuItem(
-  //         child: new Text(speciality),
-  //         value: speciality,
-  //       );
-  //     }).toList(),
-  //     hint: Text('Please choose your Speciality'),
-  //     //value: specialityController,
-  //     onChanged: (newValue) {
-  //       setState(() {
-  //         specialityController = newValue;
-  //       });
-  //     },
-  //   );
-  // }
+  bool isNMCVALID = false;
 
   _buildFirstName() {
     return TextFieldForm(
+      onChanged: (value) {
+        setState(() {
+          isFormValid();
+        });
+      },
+      validator: (value) {
+        if (value.length > 15) {
+          return 'First Name cannot be longer than 15 characters';
+        }
+        if (value.isEmpty) {
+          return 'Please enter your First Name';
+        }
+        return null;
+      },
       ico: Icon(FeatherIcons.user),
       labelTxt: 'First Name',
       txt: 'Enter Your First Name',
@@ -341,6 +434,20 @@ class _SignUpState extends State<SignUp> {
 
   _buildLastName() {
     return TextFieldForm(
+      onChanged: (value) {
+        setState(() {
+          isFormValid();
+        });
+      },
+      validator: (value) {
+        if (value.length > 15) {
+          return 'Last Name cannot be longer than 15 characters';
+        }
+        if (value.isEmpty) {
+          return 'Please enter your Last Name';
+        }
+        return null;
+      },
       ico: Icon(FeatherIcons.user),
       labelTxt: 'Last Name',
       txt: 'Enter Your Last Name',

@@ -24,6 +24,7 @@ dependencies:
   flutter_swiper: ^1.1.6
   readmore: ^2.0.0
   pattern_formatter: ^2.0.0
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:
