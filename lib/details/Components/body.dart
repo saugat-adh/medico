@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:medico/Components/rounded_icon_btn.dart';
 import 'package:medico/Pages/shop/components/Product.dart';
 import 'package:medico/details/Components/product_images.dart';
 class Body extends StatelessWidget {
@@ -25,6 +27,7 @@ class ProductDescription extends StatelessWidget {
     return Column(
       children: [
         ProductImages(product: product),
+        SizedBox(height: 20,),
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width*0.04,
@@ -38,6 +41,7 @@ class ProductDescription extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width*0.04,
+                    vertical: MediaQuery.of(context).size.height*0.019,
                 ),
                   child: Text(
                     product.title,
@@ -50,27 +54,56 @@ class ProductDescription extends StatelessWidget {
                   child: Text(product.description,
                   style: TextStyle(
                     color: Colors.grey[400],
-                    fontSize: 15,
+                    fontSize: 14,
                   ),
 
-                  maxLines: 4,),
+                  maxLines: 3,),
                 ),
                 SizedBox(height: 10,),
                 Padding(
-                  padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04),
+                  padding:  EdgeInsets.all( MediaQuery.of(context).size.width*0.04),
                   child: Text("See More Details",
                     style: TextStyle(
                       color: Colors.blue[300],
                       fontSize: 15,
                     ),
 
-                    maxLines: 4,),
+                    maxLines: 3,),
                 ),
 
               ],
             ),
           ),
-        )
+        ), //Product Description
+        SizedBox(height: 40,),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.08),
+          child: SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ElevatedButton.icon(
+              icon: Icon(FeatherIcons.shoppingCart),
+             label: Text(
+                "Add to Cart".toUpperCase(),
+                style: TextStyle(fontSize: 15),
+              ),
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(color: Colors.red)
+                      )
+                  ),
+              ),
+
+              onPressed: (){},
+
+
+            ),
+          ),
+        ), //Add to cart option
       ],
     );
   }
@@ -81,8 +114,10 @@ class TopRoundedContainer extends StatelessWidget {
 
     Key key,
     @required this.child,@required this.color,
+    @required this.press,
   }) : super(key: key);
   final Widget child;
+  final GestureTapCallback press;
   final Color color;
 
   @override
@@ -98,6 +133,8 @@ class TopRoundedContainer extends StatelessWidget {
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
         )
 
       ),

@@ -21,11 +21,12 @@ class ProductImages extends StatelessWidget {
               aspectRatio: 1.2,
               child: Container(
                   decoration: BoxDecoration(
+                    color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.blue.shade200),
+                      //border: Border.all(color: Colors.blue.shade200),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.lightBlue.withOpacity(0.05),
+                          color: Colors.greenAccent.withOpacity(0.1),
                           spreadRadius: 5,
                           blurRadius: 7,
                           offset: Offset(0,3),
