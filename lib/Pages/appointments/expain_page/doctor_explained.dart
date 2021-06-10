@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:medico/Pages/appointments/book_page/book_page.dart';
 import 'package:medico/Pages/appointments/expain_page/components/body_part.dart';
 import 'package:medico/Pages/appointments/expain_page/components/head_part.dart';
 
@@ -59,7 +60,13 @@ class _DoctorExpState extends State<DoctorExp> {
                   width: MediaQuery.of(context).size.width - 90,
                   child: Center(
                       child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => BookPage()),
+                      );
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

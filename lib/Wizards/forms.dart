@@ -33,14 +33,14 @@ class TextFieldForm extends StatelessWidget {
 
   final String txt;
   final TextInputType types;
-  String Function(String) validator;
+  final String Function(String) validator;
   final bool pass;
   final TextEditingController cntrl;
   final String labelTxt;
   final Icon ico;
   final List<TextInputFormatter> formatters;
-  Function(String) onChanged;
-  String error;
+  final Function(String) onChanged;
+  final String error;
 
   @override
   Widget build(BuildContext context) {

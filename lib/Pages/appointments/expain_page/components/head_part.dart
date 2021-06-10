@@ -23,6 +23,7 @@ class HeadPart extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.47,
                 height: double.infinity,
                 decoration: BoxDecoration(
+                  color: Colors.grey,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black12,
@@ -30,10 +31,10 @@ class HeadPart extends StatelessWidget {
                       blurRadius: 20,
                     )
                   ],
-                  image: DecorationImage(
-                    image: AssetImage('images/tmp.jpg'),
-                    fit: BoxFit.fill,
-                  ),
+                  // image: DecorationImage(
+                  //   image: NetworkImage('gs://medico-7af3f.appspot.com/doctor-1.jpg'),
+                  //   fit: BoxFit.fill,
+                  // ),
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
@@ -49,8 +50,9 @@ class HeadPart extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: 'Bebas',
                             fontWeight: FontWeight.w500,
-                            fontSize:
-                                MediaQuery.of(context).size.width * 0.06)),
+                          fontSize: MediaQuery.of(context).size.width * 0.06,
+                        ),
+                    ),
                     Text(speciality,
                         style: TextStyle(
                           fontFamily: 'Muli',

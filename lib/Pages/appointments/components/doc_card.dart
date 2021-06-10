@@ -31,10 +31,11 @@ class DocCard extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.35,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        image: DecorationImage(
-                          image: AssetImage('images/tmp.jpg'),
-                          fit: BoxFit.fill,
-                        )
+                        color: Colors.grey
+                        // image: DecorationImage(
+                        //   image: AssetImage('images/tmp.jpg'),
+                        //   fit: BoxFit.fill,
+                        // )
                     ),
                   ),
                   SizedBox(

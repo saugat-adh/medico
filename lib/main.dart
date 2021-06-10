@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medico/Pages/appointments/expain_page/doctor_explained.dart';
 import 'package:medico/Pages/bottom_nav.dart';
 import 'package:medico/Forms/info_form.dart';
 import 'package:medico/details/details_screen.dart';
@@ -20,7 +19,7 @@ class MedicoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      // future: _initialization,
+      //future: _initialization,
       builder: (context, snapshot) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -34,7 +33,6 @@ class MedicoApp extends StatelessWidget {
           SignUp.id : (context) => SignUp(),
           BotNavBar.id : (context) => BotNavBar(),
           InfoForm.id : (context) => InfoForm(),
-          //DoctorExp.id : (context) => DoctorExp(),
           DetailsScreen.routeName:(context)=>DetailsScreen(),
 
         },
