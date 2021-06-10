@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/home_page.dart';
+import 'package:medico/Pages/shop/cart/cart_screen.dart';
 import 'package:medico/Wizards/icons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -114,7 +115,9 @@ class _Dash1State extends State<Dash1> {
       child: CircleAvatar(
           backgroundColor: Colors.white,
           radius: 70,
-          backgroundImage: new AssetImage('images/CircleProfile.png')),
+          //backgroundImage: new AssetImage('images/feather/smile.svg'),
+          backgroundImage: new AssetImage('images/CircleProfile.png')
+      ),
     );
   }
 
@@ -190,7 +193,7 @@ class _Dash1State extends State<Dash1> {
                   ),
                 ),
                 IcoBtn(
-                  onClick: () {},
+                  onClick: () => Navigator.pushNamed(context, CartScreen.routeName),
                   ico: Icon(
                     FeatherIcons.shoppingCart,
                   ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:medico/Components/rounded_icon_btn.dart';
 import 'package:medico/Pages/shop/components/Product.dart';
 import 'package:medico/details/Components/product_images.dart';
 class Body extends StatelessWidget {

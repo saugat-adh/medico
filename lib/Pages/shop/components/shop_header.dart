@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:medico/Components/search_field.dart';
+import 'package:medico/Pages/shop/cart/cart_screen.dart';
 
 import 'icon_btn_with_counter.dart';
 
@@ -19,9 +20,10 @@ class ShopHeader extends StatelessWidget {
         children: [
           SearchField(txt: 'Search Meds...',),
           IconButtonWithCounter(
-            svgSrc: "images/male.png",
-            numOfItems: 3,
-            press: (){},
+            svgSrc: "images/feather/shopping-cart.svg",
+            numOfItems: 1,
+            press: ()=> Navigator.pushNamed(context, CartScreen.routeName)
+            ,
           ),
         ],
       ),

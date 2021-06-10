@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:medico/Pages/shop/cart/cart_screen.dart';
 
 class IconButtonWithCounter extends StatelessWidget {
 
@@ -35,7 +36,7 @@ class IconButtonWithCounter extends StatelessWidget {
                 FeatherIcons.shoppingCart,
                 color: Colors.black,
               ),
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(context, CartScreen.routeName)
             ),
 
 
@@ -53,7 +54,7 @@ class IconButtonWithCounter extends StatelessWidget {
                     border: Border.all(width: 1.5,color: Colors.white)
                 ),
                 child: Center(
-                  child: Text("3",
+                  child: Text("1",
                     style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width*0.028,
                       height: 1,
