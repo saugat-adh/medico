@@ -1,8 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:medico/Pages/appointments/book_page/components/headPart.dart';
 
 class BookPage extends StatefulWidget {
+
+  final QueryDocumentSnapshot docs;
+
+  const BookPage(this.docs);
 
   @override
   _BookPageState createState() => _BookPageState();
@@ -17,7 +22,7 @@ class _BookPageState extends State<BookPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildBackButton(),
-            HeadPartBook(),
+            HeadPartBook(name: widget.docs['First name'] + ' ' + widget.docs['Last name'], speciality: widget.docs['speciality'],imageUrl: widget.docs['imageURl'],),
           ],
         ),
       ),
@@ -61,6 +66,7 @@ class _BookPageState extends State<BookPage> {
       ),
     ));
   }
+
   _buildBackButton() {
     return IconButton(
       icon: Icon(FeatherIcons.arrowLeft),

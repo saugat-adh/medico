@@ -22,6 +22,7 @@ class DocList extends StatelessWidget {
             child: Column(
               children: snapshot.data.docs.map((document) {
                 return DocCard(
+                  imageUrl: document['imageURl'],
                   text: document['First name'] + " " + document['Last name'],
                   speciality: document['speciality'],
                   press: () { Navigator.push(

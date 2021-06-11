@@ -26,7 +26,7 @@ class _DoctorExpState extends State<DoctorExp> {
                 crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildBackButton(),
-                HeadPart(fName: widget.docs['First name'],lName: widget.docs['Last name'],speciality: widget.docs['speciality'],),
+                HeadPart(fName: widget.docs['First name'],lName: widget.docs['Last name'],speciality: widget.docs['speciality'],imageUrl: widget.docs['imageURl'],),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.01,
                 ),
@@ -64,7 +64,7 @@ class _DoctorExpState extends State<DoctorExp> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => BookPage()),
+                            builder: (BuildContext context) => BookPage(widget.docs)),
                       );
                     },
                     child: Row(

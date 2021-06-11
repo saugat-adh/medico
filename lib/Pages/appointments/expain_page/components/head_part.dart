@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class HeadPart extends StatelessWidget {
-  HeadPart({this.fName, this.lName, this.speciality});
+  HeadPart({this.fName, this.lName, this.speciality, this.imageUrl});
 
   final String fName;
   final String lName;
   final String speciality;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +32,10 @@ class HeadPart extends StatelessWidget {
                       blurRadius: 20,
                     )
                   ],
-                  // image: DecorationImage(
-                  //   image: NetworkImage('gs://medico-7af3f.appspot.com/doctor-1.jpg'),
-                  //   fit: BoxFit.fill,
-                  // ),
+                  image: DecorationImage(
+                    image: NetworkImage(imageUrl),
+                    fit: BoxFit.cover,
+                  ),
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),

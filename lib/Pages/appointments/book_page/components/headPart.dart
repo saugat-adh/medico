@@ -12,6 +12,11 @@ List<String> days = [
 List<String> time = ['1:00', '2:00', '5:00', '9:00'];
 
 class HeadPartBook extends StatelessWidget {
+  HeadPartBook({this.speciality, this.name, this.imageUrl});
+
+  final String name;
+  final String speciality;
+  final String imageUrl;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,6 +32,10 @@ class HeadPartBook extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.grey,
                     borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                      image: NetworkImage(imageUrl),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -39,14 +48,14 @@ class HeadPartBook extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  'Name',
+                  name,
                   style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'Muli',
                       fontSize: MediaQuery.of(context).size.width * 0.07),
                 ),
                 Text(
-                  'Speciality',
+                  speciality,
                   style: TextStyle(
                       color: Colors.black54,
                       fontFamily: 'Muli',
