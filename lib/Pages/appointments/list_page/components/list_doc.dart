@@ -3,6 +3,7 @@ import 'package:medico/Pages/appointments/expain_page/doctor_explained.dart';
 import '../../components/doc_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class DocList extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:medico/Components/search_field.dart';
 
 
 class AppointmentHeader extends StatelessWidget {
-  const AppointmentHeader({Key key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {

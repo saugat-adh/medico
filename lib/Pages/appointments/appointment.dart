@@ -4,12 +4,16 @@ import 'package:medico/Pages/appointments/components/Schedule.dart';
 import 'package:medico/Pages/appointments/components/categories.dart';
 
 
+
 class Dash2 extends StatefulWidget {
+
+
   @override
   _Dash2State createState() => _Dash2State();
 }
 
 class _Dash2State extends State<Dash2> {
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -32,4 +36,5 @@ class _Dash2State extends State<Dash2> {
       ],
     );
   }
+
 }

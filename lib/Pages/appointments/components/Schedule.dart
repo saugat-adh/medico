@@ -3,7 +3,7 @@ import 'package:medico/Pages/appointments/components/Appintment_Swiper.dart';
 import 'package:medico/Pages/appointments/components/HeaderButton.dart';
 
 class Schedule extends StatelessWidget {
-  const Schedule({Key key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {

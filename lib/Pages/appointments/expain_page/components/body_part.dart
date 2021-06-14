@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:readmore/readmore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class BodyPart extends StatelessWidget {
-  BodyPart({this.number, this.address, this.email});
+  BodyPart({this.number, this.address, this.email, this.id});
 
   final String number;
   final String address;
   final String email;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -37,32 +43,34 @@ class BodyPart extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: MediaQuery.of(context).size.width * 0.05),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               ReadMoreText(
-                  'Singing is the act of producing musical sounds with the voice. A person who sings is called a singer or vocalist (in jazz and popular music). Singers perform music (arias, recitatives, songs, etc.) that can be sung with or without accompaniment by musical instruments. Singing is often done in an ensemble of musicians, such as a choir of singers or a band of instrumentalists.',
+                'Singing is the act of producing musical sounds with the voice. A person who sings is called a singer or vocalist (in jazz and popular music). Singers perform music (arias, recitatives, songs, etc.) that can be sung with or without accompaniment by musical instruments. Singing is often done in an ensemble of musicians, such as a choir of singers or a band of instrumentalists.',
                 trimLines: 3,
                 trimMode: TrimMode.Line,
                 trimCollapsedText: '...Show more',
                 trimExpandedText: 'Show less',
                 moreStyle: TextStyle(
-                  color: Colors.blue,
-                  fontFamily: 'Muli',
-                  fontSize: MediaQuery.of(context).size.width * 0.039,
-                  fontWeight: FontWeight.bold
-                ),
+                    color: Colors.blue,
+                    fontFamily: 'Muli',
+                    fontSize: MediaQuery.of(context).size.width * 0.039,
+                    fontWeight: FontWeight.bold),
                 lessStyle: TextStyle(
                     color: Colors.blue,
                     fontFamily: 'Muli',
                     fontSize: MediaQuery.of(context).size.width * 0.039,
-                    fontWeight: FontWeight.bold
-                ),
+                    fontWeight: FontWeight.bold),
                 style: TextStyle(
                   color: Colors.grey,
                   fontFamily: 'Muli',
                   fontSize: MediaQuery.of(context).size.width * 0.039,
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Text(
                 'Contact',
                 style: TextStyle(
@@ -70,11 +78,18 @@ class BodyPart extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: MediaQuery.of(context).size.width * 0.05),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
-                  Icon(FeatherIcons.mail, color: Colors.grey,),
-                  SizedBox(width: 10,),
+                  Icon(
+                    FeatherIcons.mail,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text(
                     email,
                     style: TextStyle(
@@ -85,11 +100,18 @@ class BodyPart extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Row(
                 children: [
-                  Icon(FeatherIcons.phone, color: Colors.grey,),
-                  SizedBox(width: 10,),
+                  Icon(
+                    FeatherIcons.phone,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text(
                     '+977' + number,
                     style: TextStyle(
@@ -100,11 +122,18 @@ class BodyPart extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Row(
                 children: [
-                  Icon(FeatherIcons.map, color: Colors.grey,),
-                  SizedBox(width: 10,),
+                  Icon(
+                    FeatherIcons.map,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text(
                     address,
                     style: TextStyle(
@@ -115,7 +144,9 @@ class BodyPart extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Text(
                 'Leave a rating',
                 style: TextStyle(
@@ -126,21 +157,85 @@ class BodyPart extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ...List.generate(5, (index) => Icon(FeatherIcons.star, color: Colors.grey,))
+                  ...List.generate(
+                      5,
+                      (index) => Icon(
+                            FeatherIcons.star,
+                            color: Colors.grey,
+                          ))
                 ],
               ),
-              SizedBox(height: 10,),
-              Text(
-                'Reviews',
-                style: TextStyle(
-                    fontFamily: 'Muli',
-                    fontWeight: FontWeight.bold,
-                    fontSize: MediaQuery.of(context).size.width * 0.05),
+              SizedBox(
+                height: 10,
               ),
+              // Text(
+              //   'Reviews',
+              //   style: TextStyle(
+              //       fontFamily: 'Muli',
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: MediaQuery.of(context).size.width * 0.05),
+              // ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Colors.blue,
+                ),
+                child:
+                    IconButton(onPressed: () {
+                      addReg(id);
+                    },
+                        icon: Icon(FeatherIcons.star)),
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future addReg(docId) async{
+    final firebaseUser = _auth.currentUser;
+    String user;
+
+    if (firebaseUser != null)
+      await _firestore
+        .collection('AllUsers')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      user = documentSnapshot.get('User');
+    }).catchError((e) {
+      print(e);
+    });
+
+    if (firebaseUser != null)
+    await _firestore
+        .collection(user)
+        .doc(firebaseUser.uid)
+        .collection('regulars').where('UID', isEqualTo: id).get().then((value) async{
+          if (value.docs.length > 0){
+            return;
+          } else {
+            if (firebaseUser != null && user == 'patients')
+              await _firestore
+                .collection('patients')
+                .doc(firebaseUser.uid)
+                .collection('regulars')
+                .add({
+              "UID" : docId,
+            });
+
+            if (firebaseUser != null && user == 'doctors')
+              await _firestore
+                .collection('doctors')
+                .doc(firebaseUser.uid)
+                .collection('regulars')
+                .add({
+              "UID" : docId,
+            });
+          }
+    });
+
+
   }
 }

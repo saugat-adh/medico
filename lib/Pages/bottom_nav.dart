@@ -3,6 +3,11 @@ import 'package:medico/Pages/Dashboard/dashboard.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'appointments/appointment.dart';
 import 'shop/shop.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final firebaseUser = _auth.currentUser;
 
 
 
@@ -28,6 +33,11 @@ class _BotNavBarState extends State<BotNavBar> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

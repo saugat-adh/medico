@@ -30,7 +30,7 @@ class _DoctorExpState extends State<DoctorExp> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.01,
                 ),
-                BodyPart(address: widget.docs['address'], email: widget.docs['email'], number: widget.docs['cellnumber'],),
+                BodyPart(address: widget.docs['address'], email: widget.docs['email'], number: widget.docs['cellnumber'], id: widget.docs.id,),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),

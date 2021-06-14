@@ -7,14 +7,18 @@ import 'Pages/home_page.dart';
 import 'Forms/log_in.dart';
 import 'Forms/register.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final firebaseUser = _auth.currentUser;
 
 
 void main() async{
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MedicoApp());
 }
+
 
 class MedicoApp extends StatelessWidget {
   @override
@@ -36,7 +40,6 @@ class MedicoApp extends StatelessWidget {
           InfoForm.id : (context) => InfoForm(),
           DetailsScreen.routeName:(context)=>DetailsScreen(),
           CartScreen.routeName: (context)=>CartScreen(),
-
         },
       );}
     );
