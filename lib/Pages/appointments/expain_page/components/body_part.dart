@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:medico/constants.dart';
 import 'package:readmore/readmore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -178,13 +179,12 @@ class BodyPart extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
-                  color: Colors.blue,
                 ),
                 child:
                     IconButton(onPressed: () {
-                      addReg(id);
+                        addReg(id);
                     },
-                        icon: Icon(FeatherIcons.star)),
+                        icon:  Icon(FeatherIcons.plusCircle) ),
               )
             ],
           ),
@@ -235,7 +235,5 @@ class BodyPart extends StatelessWidget {
             });
           }
     });
-
-
   }
 }

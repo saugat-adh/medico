@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:medico/Pages/bottom_nav.dart';
 import 'package:medico/Forms/info_form.dart';
 import 'package:medico/Pages/shop/cart/cart_screen.dart';

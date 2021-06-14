@@ -4,6 +4,11 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:medico/Pages/appointments/book_page/book_page.dart';
 import 'package:medico/Pages/appointments/expain_page/components/body_part.dart';
 import 'package:medico/Pages/appointments/expain_page/components/head_part.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../../constants.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class DoctorExp extends StatefulWidget {
   static const String id = 'doctor_explained';
@@ -16,6 +21,28 @@ class DoctorExp extends StatefulWidget {
 }
 
 class _DoctorExpState extends State<DoctorExp> {
+
+  void containmentCheck() async{
+    final firebaseUser = _auth.currentUser;
+
+    if (firebaseUser != null)
+      await _firestore
+        .collection(userType)
+        .doc(firebaseUser.uid)
+        .collection('regulars').where('UID', isEqualTo: widget.docs.id).get().then((value) async{
+      if (value.docs.length > 0){
+        containment = true;
+        print('a');
+      } else { containment = false; print('b');}
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    containmentCheck();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

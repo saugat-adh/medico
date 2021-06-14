@@ -6,6 +6,7 @@ var isRegister = true;
 bool isUserADoctor = false;
 bool showSpinner = false;
 String userType;
+bool containment;
 
 
 List<Map<String, dynamic>> docCategories=[
