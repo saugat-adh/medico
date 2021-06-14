@@ -5,6 +5,7 @@ var isOTPScreens = false;
 var isRegister = true;
 bool isUserADoctor = false;
 bool showSpinner = false;
+String userType;
 
 
 List<Map<String, dynamic>> docCategories=[
