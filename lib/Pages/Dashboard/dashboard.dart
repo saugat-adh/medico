@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/home_page.dart';
@@ -9,6 +10,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -22,6 +26,7 @@ class _Dash1State extends State<Dash1> {
   String totalRecovered = '';
   String totalDeath = '';
   String totalGrand = '';
+  String imageUrl;
   bool isLoading = false;
   @override
   void initState() {
@@ -73,6 +78,7 @@ class _Dash1State extends State<Dash1> {
                     children: [
                       _buildBackgroundCover(),
                       _buildUserPic(),
+                      _selectUserPic(),
                       _buildUserName(),
                       _buildSettingPanel(),
                     ],
@@ -112,11 +118,33 @@ class _Dash1State extends State<Dash1> {
     return Positioned(
       top: 40,
       right: 20,
-      child: CircleAvatar(
+      child: (imageUrl != null)
+          ? CircleAvatar(
           backgroundColor: Colors.white,
           radius: 70,
-          //backgroundImage: new AssetImage('images/feather/smile.svg'),
-          backgroundImage: new AssetImage('images/CircleProfile.png')
+          backgroundImage: NetworkImage(imageUrl),
+      ) :
+      CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 70,
+            backgroundImage: new AssetImage('images/CircleProfile.png')
+        ),
+    );
+  }
+
+  _selectUserPic() {
+    return  Positioned(
+      bottom: 75,
+      right: 20,
+      child: InkWell(
+        onTap: () {
+          uploadImage();
+        },
+        child: Icon(
+          Icons.camera_alt,
+          color: Colors.white,
+          size: 25.0,
+        ),
       ),
     );
   }
@@ -869,6 +897,37 @@ class _Dash1State extends State<Dash1> {
       });
 
     return bmiFixed;
+  }
+
+  uploadImage() async {
+    final _firebaseStorage = FirebaseStorage.instance;
+    final _imagePicker = ImagePicker();
+    PickedFile image;
+    //Check Permissions
+    await Permission.photos.request();
+
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted){
+      //Select Image
+      image = await _imagePicker.getImage(source: ImageSource.gallery);
+      var file = File(image.path);
+
+      if (image != null){
+        //Upload to Firebase
+        var snapshot = await _firebaseStorage.ref()
+            .child('UserProfile/imageName')
+            .putFile(file);
+        var downloadUrl = await snapshot.ref.getDownloadURL();
+        setState(() {
+          imageUrl = downloadUrl;
+        });
+      } else {
+        print('No Image Path Received');
+      }
+    } else {
+      print('Permission not granted. Try Again with permission access');
+    }
   }
 
   signOut() {
