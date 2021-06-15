@@ -37,6 +37,7 @@ class _Dash1State extends State<Dash1> {
   @override
   void initState() {
     getData();
+    _fetchImage();
     super.initState();
   }
 
@@ -936,6 +937,48 @@ class _Dash1State extends State<Dash1> {
       print('Permission not granted. Try Again with permission access');
     }
   }
+
+  Future<String> _fetchImage() async {
+
+    final firebaseUser = _auth.currentUser;
+
+    if (firebaseUser != null)
+      await _firestore
+          .collection('AllUsers')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        user = documentSnapshot.get('User');
+        print(user);
+      }).catchError((e) {
+        print(e);
+      });
+
+    if (firebaseUser != null && user == 'patients')
+      await _firestore
+          .collection('patients')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        imageUrl = documentSnapshot.get('ImgUrl');
+      }).catchError((e) {
+        print(e);
+      });
+
+    if (firebaseUser != null && user == 'doctors')
+      await _firestore
+          .collection('doctors')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        imageUrl = documentSnapshot.get('ImgUrl');
+      }).catchError((e) {
+        print(e);
+      });
+
+    return imageUrl;
+  }
+
 
   signOut() {
     //redirect
