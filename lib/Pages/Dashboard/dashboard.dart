@@ -16,6 +16,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final firebaseUser = _auth.currentUser;
+
 
 class Dash1 extends StatefulWidget {
   @override
@@ -26,7 +28,11 @@ class _Dash1State extends State<Dash1> {
   String totalRecovered = '';
   String totalDeath = '';
   String totalGrand = '';
-  String imageUrl;
+  String imageUrl ;
+  String user;
+  final _firebaseStorage = FirebaseStorage.instance;
+  final _imagePicker = ImagePicker();
+  PickedFile image;
   bool isLoading = false;
   @override
   void initState() {
@@ -844,7 +850,6 @@ class _Dash1State extends State<Dash1> {
   Future<String> _fetchBMI() async {
     String weight;
     String height;
-    String user;
     String bmiFixed;
     double bmi, h, w;
 
@@ -900,9 +905,7 @@ class _Dash1State extends State<Dash1> {
   }
 
   uploadImage() async {
-    final _firebaseStorage = FirebaseStorage.instance;
-    final _imagePicker = ImagePicker();
-    PickedFile image;
+
     //Check Permissions
     await Permission.photos.request();
 
@@ -912,15 +915,19 @@ class _Dash1State extends State<Dash1> {
       //Select Image
       image = await _imagePicker.getImage(source: ImageSource.gallery);
       var file = File(image.path);
-
       if (image != null){
         //Upload to Firebase
         var snapshot = await _firebaseStorage.ref()
-            .child('UserProfile/imageName')
+            .child('UserProfile').child(firebaseUser.uid).child(firebaseUser.uid)
             .putFile(file);
         var downloadUrl = await snapshot.ref.getDownloadURL();
+        await FirebaseFirestore.instance
+            .collection(user).doc(firebaseUser.uid)
+            .update({"ImgUrl": downloadUrl});
         setState(() {
           imageUrl = downloadUrl;
+          print("Profile Picture Uploaded");
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
         });
       } else {
         print('No Image Path Received');
