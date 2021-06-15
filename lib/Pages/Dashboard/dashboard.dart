@@ -8,16 +8,13 @@ import 'package:medico/Wizards/icons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
+import 'package:medico/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final firebaseUser = _auth.currentUser;
-
 
 class Dash1 extends StatefulWidget {
   @override
@@ -25,50 +22,13 @@ class Dash1 extends StatefulWidget {
 }
 
 class _Dash1State extends State<Dash1> {
-  String totalRecovered = '';
-  String totalDeath = '';
-  String totalGrand = '';
-  String imageUrl ;
-  String user;
   final _firebaseStorage = FirebaseStorage.instance;
   final _imagePicker = ImagePicker();
   PickedFile image;
-  bool isLoading = false;
   @override
   void initState() {
-    getData();
-    _fetchImage();
     super.initState();
   }
-
-  getData() async {
-    await getApiData();
-  }
-
-  getApiData() async {
-    String url = "https://api.covid19api.com/summary";
-    var resposnse = await http.get(Uri.parse(url));
-
-    var jsonData = jsonDecode(resposnse.body);
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      jsonData['Countries'].forEach((country) {
-        if (country['Country'] == "Nepal") {
-          totalRecovered = country['TotalRecovered'].toString();
-          totalDeath = country['TotalDeaths'].toString();
-          totalGrand = country['TotalConfirmed'].toString();
-        }
-      });
-      setState(() {
-        isLoading = false;
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -172,30 +132,14 @@ class _Dash1State extends State<Dash1> {
                     fontSize: 22,
                     fontFamily: 'Droid Sans'),
               ),
-              FutureBuilder(
-                future: _fetchName(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  String username = snapshot.data;
-                  if (snapshot.connectionState != ConnectionState.done)
-                    return Text(
-                      "Fetching data...",
-                      maxLines: 2,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontFamily: 'Roboto'),
-                    );
-                  return Text(
-                    username,
+              Text(
+                    userName!=null?userName:'',
                     maxLines: 2,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontFamily: 'Roboto'),
-                  );
-                },
-              ),
+                  ),
             ])));
   }
 
@@ -447,32 +391,15 @@ class _Dash1State extends State<Dash1> {
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                    FutureBuilder(
-                      future: _fetchHeight(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
-                        String height = snapshot.data;
-                        if (snapshot.connectionState != ConnectionState.done)
-                          return Text(
-                            "Fetching data...",
-                            maxLines: 2,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontFamily: 'Droid Sans',
-                            ),
-                          );
-                        return Text(
-                          height,
+                    Text(
+                      userHeight!=null?userHeight:'',
                           maxLines: 2,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
                             fontFamily: 'Droid Sans',
                           ),
-                        );
-                      },
-                    ),
+                      )
                   ],
                 ),
               ),
@@ -505,32 +432,15 @@ class _Dash1State extends State<Dash1> {
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                    FutureBuilder(
-                      future: _fetchWeight(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
-                        String weight = snapshot.data;
-                        if (snapshot.connectionState != ConnectionState.done)
-                          return Text(
-                            "Fetching data...",
-                            maxLines: 2,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontFamily: 'Droid Sans',
-                            ),
-                          );
-                        return Text(
-                          weight,
+                    Text(
+                          userWeight!=null?userWeight:'',
                           maxLines: 2,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
                             fontFamily: 'Droid Sans',
                           ),
-                        );
-                      },
-                    ),
+                        ),
                   ],
                 ),
               ),
@@ -567,30 +477,13 @@ class _Dash1State extends State<Dash1> {
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                    FutureBuilder(
-                      future: _fetchAge(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
-                        String age = snapshot.data;
-                        if (snapshot.connectionState != ConnectionState.done)
-                          return Text(
-                            "Fetching data...",
-                            maxLines: 2,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontFamily: 'Droid Sans',
-                            ),
-                          );
-                        return Text(
-                          age,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Droid Sans',
-                          ),
-                        );
-                      },
+                    Text(
+                        ageFinal!=null?ageFinal:'',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Droid Sans',
+                        ),
                     ),
                   ],
                 ),
@@ -624,31 +517,14 @@ class _Dash1State extends State<Dash1> {
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                    FutureBuilder(
-                      future: _fetchBMI(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
-                        String bmi = snapshot.data;
-                        if (snapshot.connectionState != ConnectionState.done)
-                          return Text(
-                            "Fetching data...",
-                            maxLines: 2,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontFamily: 'Droid Sans',
-                            ),
-                          );
-                        return Text(
-                          bmi.toString(),
-                          maxLines: 2,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Droid Sans',
-                          ),
-                        );
-                      },
+                    Text(
+                        bmiFixed!=null?bmiFixed:'',
+                        maxLines: 2,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Droid Sans',
+                        ),
                     ),
                   ],
                 ),
@@ -656,253 +532,6 @@ class _Dash1State extends State<Dash1> {
             ]),
       ]),
     );
-  }
-
-  Future<String> _fetchName() async {
-    String username;
-    String user;
-    final firebaseUser = _auth.currentUser;
-
-    if (firebaseUser != null)
-      await _firestore
-          .collection('AllUsers')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        user = documentSnapshot.get('User');
-        print(user);
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'patients')
-      await _firestore
-          .collection('patients')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        username = documentSnapshot.get('First name');
-        print(username);
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'doctors')
-      await _firestore
-          .collection('doctors')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        username = documentSnapshot.get('First name');
-        print(username);
-      }).catchError((e) {
-        print(e);
-      });
-    return username;
-  }
-
-  Future<String> _fetchHeight() async {
-    String height;
-    String user;
-
-    final firebaseUser = _auth.currentUser;
-
-    if (firebaseUser != null)
-      await _firestore
-          .collection('AllUsers')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        user = documentSnapshot.get('User');
-        print(user);
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'patients')
-      await _firestore
-          .collection('patients')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        height = documentSnapshot.get('height');
-        print(height);
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'doctors')
-      await _firestore
-          .collection('doctors')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        height = documentSnapshot.get('height');
-        print(height);
-      }).catchError((e) {
-        print(e);
-      });
-
-    return height;
-  }
-
-  Future<String> _fetchWeight() async {
-    String weight;
-    String user;
-
-    final firebaseUser = _auth.currentUser;
-
-    if (firebaseUser != null)
-      await _firestore
-          .collection('AllUsers')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        user = documentSnapshot.get('User');
-        print(user);
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'patients')
-      await _firestore
-          .collection('patients')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        weight = documentSnapshot.get('weight');
-        print(weight);
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'doctors')
-      await _firestore
-          .collection('doctors')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        weight = documentSnapshot.get('weight');
-        print(weight);
-      }).catchError((e) {
-        print(e);
-      });
-
-    return weight;
-  }
-
-  Future<String> _fetchAge() async {
-    String bornDate;
-    DateTime today = DateTime.now();
-    String ageFinal;
-    String user;
-
-    final firebaseUser = _auth.currentUser;
-
-    if (firebaseUser != null)
-      await _firestore
-          .collection('AllUsers')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        user = documentSnapshot.get('User');
-        print(user);
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'patients')
-      await _firestore
-          .collection('patients')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        bornDate = documentSnapshot.get('DOB');
-        DateTime bd = new DateFormat('dd/MM/yyyy').parse(bornDate);
-        int age = today.year - bd.year;
-        if (today.month < bd.month ||
-            (today.month == bd.month && today.day < bd.day)) age = age - 1;
-        print(age);
-        ageFinal = age.toString();
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'doctors')
-      await _firestore
-          .collection('doctors')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        bornDate = documentSnapshot.get('DOB');
-        DateTime bd = new DateFormat('dd/MM/yyyy').parse(bornDate);
-        int age = today.year - bd.year;
-        if (today.month < bd.month ||
-            (today.month == bd.month && today.day < bd.day)) age = age - 1;
-        print(age);
-        ageFinal = age.toString();
-      }).catchError((e) {
-        print(e);
-      });
-
-    return ageFinal;
-  }
-
-  Future<String> _fetchBMI() async {
-    String weight;
-    String height;
-    String bmiFixed;
-    double bmi, h, w;
-
-    final firebaseUser = _auth.currentUser;
-
-    if (firebaseUser != null)
-      await _firestore
-          .collection('AllUsers')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        user = documentSnapshot.get('User');
-        print(user);
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'patients')
-      await _firestore
-          .collection('patients')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        weight = documentSnapshot.get('weight');
-        height = documentSnapshot.get('height');
-        w = double.parse(weight);
-        h = double.parse(height);
-        bmi = (w / (h * h)) * 10000;
-        bmiFixed = bmi.toStringAsFixed(2);
-        print(bmiFixed);
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'doctors')
-      await _firestore
-          .collection('doctors')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        weight = documentSnapshot.get('weight');
-        height = documentSnapshot.get('height');
-        w = double.parse(weight);
-        h = double.parse(height);
-        bmi = (w / (h * h)) * 10000;
-        bmiFixed = bmi.toStringAsFixed(2);
-        print(bmiFixed);
-      }).catchError((e) {
-        print(e);
-      });
-
-    return bmiFixed;
   }
 
   uploadImage() async {
@@ -923,7 +552,7 @@ class _Dash1State extends State<Dash1> {
             .putFile(file);
         var downloadUrl = await snapshot.ref.getDownloadURL();
         await FirebaseFirestore.instance
-            .collection(user).doc(firebaseUser.uid)
+            .collection(userType).doc(firebaseUser.uid)
             .update({"ImgUrl": downloadUrl});
         setState(() {
           imageUrl = downloadUrl;
@@ -937,48 +566,6 @@ class _Dash1State extends State<Dash1> {
       print('Permission not granted. Try Again with permission access');
     }
   }
-
-  Future<String> _fetchImage() async {
-
-    final firebaseUser = _auth.currentUser;
-
-    if (firebaseUser != null)
-      await _firestore
-          .collection('AllUsers')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        user = documentSnapshot.get('User');
-        print(user);
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'patients')
-      await _firestore
-          .collection('patients')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        imageUrl = documentSnapshot.get('ImgUrl');
-      }).catchError((e) {
-        print(e);
-      });
-
-    if (firebaseUser != null && user == 'doctors')
-      await _firestore
-          .collection('doctors')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        imageUrl = documentSnapshot.get('ImgUrl');
-      }).catchError((e) {
-        print(e);
-      });
-
-    return imageUrl;
-  }
-
 
   signOut() {
     //redirect

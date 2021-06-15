@@ -5,8 +5,23 @@ var isOTPScreens = false;
 var isRegister = true;
 bool isUserADoctor = false;
 bool showSpinner = false;
-String userType;
+String userType='';
+String userName='';
+String userHeight='';
+String userWeight='';
+String userBMI='';
+String userAge='';
+String bornDate='';
+DateTime today = DateTime.now();
+String ageFinal='';
+String bmiFixed='';
+double bmi, h, w ;
 bool containment;
+String totalRecovered = '';
+String totalDeath = '';
+String totalGrand = '';
+String imageUrl='';
+bool isLoading = false;
 
 
 List<Map<String, dynamic>> docCategories=[

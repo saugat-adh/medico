@@ -36,6 +36,7 @@ Future getType() async {
     });
 }
 
+
 class MedicoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
