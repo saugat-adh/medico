@@ -77,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   borderRadius: BorderRadius.circular(16)),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text("saugat mujiiiiiiiiiiii"),
+                child: Text("Kathmandu University Students"),
               ),
             ),
           )
@@ -131,7 +131,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   borderRadius: BorderRadius.circular(16)),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text("Contact Gar Muji"),
+                child: Text("Medico"),
               ),
             ),
           )
