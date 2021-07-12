@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:medico/Notifications/NotificationsPage.dart';
 import 'package:medico/Pages/home_page.dart';
 import 'package:medico/Pages/shop/cart/cart_screen.dart';
+import 'package:medico/Setting/SettingsPage.dart';
 import 'package:medico/Wizards/icons.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,6 +31,7 @@ class _Dash1State extends State<Dash1> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -87,20 +90,19 @@ class _Dash1State extends State<Dash1> {
       right: 20,
       child: (imageUrl != null)
           ? CircleAvatar(
-          backgroundColor: Colors.white,
-          radius: 70,
-          backgroundImage: NetworkImage(imageUrl),
-      ) :
-      CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 70,
-            backgroundImage: new AssetImage('images/CircleProfile.png')
-        ),
+              backgroundColor: Colors.white,
+              radius: 70,
+              backgroundImage: NetworkImage(imageUrl),
+            )
+          : CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 70,
+              backgroundImage: new AssetImage('images/CircleProfile.png')),
     );
   }
 
   _selectUserPic() {
-    return  Positioned(
+    return Positioned(
       bottom: 75,
       right: 20,
       child: InkWell(
@@ -133,13 +135,11 @@ class _Dash1State extends State<Dash1> {
                     fontFamily: 'Droid Sans'),
               ),
               Text(
-                    userName!=null?userName:'',
-                    maxLines: 2,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontFamily: 'Roboto'),
-                  ),
+                userName != null ? userName : '',
+                maxLines: 2,
+                style: TextStyle(
+                    color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
+              ),
             ])));
   }
 
@@ -166,19 +166,30 @@ class _Dash1State extends State<Dash1> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IcoBtn(
-                  onClick: () {},
+                  onClick: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SettingsPage()));
+                  },
                   ico: Icon(
                     FeatherIcons.settings,
                   ),
                 ),
                 IcoBtn(
-                  onClick: () => Navigator.pushNamed(context, CartScreen.routeName),
+                  onClick: () =>
+                      Navigator.pushNamed(context, CartScreen.routeName),
                   ico: Icon(
                     FeatherIcons.shoppingCart,
                   ),
                 ),
                 IcoBtn(
-                  onClick: () {},
+                  onClick: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NotificationPage()));
+                  },
                   ico: Icon(
                     FeatherIcons.bell,
                   ),
@@ -392,14 +403,14 @@ class _Dash1State extends State<Dash1> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.02),
                     Text(
-                      userHeight!=null?userHeight:'',
-                          maxLines: 2,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Droid Sans',
-                          ),
-                      )
+                      userHeight != null ? userHeight : '',
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Droid Sans',
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -433,14 +444,14 @@ class _Dash1State extends State<Dash1> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.02),
                     Text(
-                          userWeight!=null?userWeight:'',
-                          maxLines: 2,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Droid Sans',
-                          ),
-                        ),
+                      userWeight != null ? userWeight : '',
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Droid Sans',
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -478,12 +489,12 @@ class _Dash1State extends State<Dash1> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.02),
                     Text(
-                        ageFinal!=null?ageFinal:'',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Droid Sans',
-                        ),
+                      ageFinal != null ? ageFinal : '',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Droid Sans',
+                      ),
                     ),
                   ],
                 ),
@@ -518,13 +529,13 @@ class _Dash1State extends State<Dash1> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.width * 0.02),
                     Text(
-                        bmiFixed!=null?bmiFixed:'',
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Droid Sans',
-                        ),
+                      bmiFixed != null ? bmiFixed : '',
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Droid Sans',
+                      ),
                     ),
                   ],
                 ),
@@ -535,29 +546,33 @@ class _Dash1State extends State<Dash1> {
   }
 
   uploadImage() async {
-
     //Check Permissions
     await Permission.photos.request();
 
     var permissionStatus = await Permission.photos.status;
 
-    if (permissionStatus.isGranted){
+    if (permissionStatus.isGranted) {
       //Select Image
       image = await _imagePicker.getImage(source: ImageSource.gallery);
       var file = File(image.path);
-      if (image != null){
+      if (image != null) {
         //Upload to Firebase
-        var snapshot = await _firebaseStorage.ref()
-            .child('UserProfile').child(firebaseUser.uid).child(firebaseUser.uid)
+        var snapshot = await _firebaseStorage
+            .ref()
+            .child('UserProfile')
+            .child(firebaseUser.uid)
+            .child(firebaseUser.uid)
             .putFile(file);
         var downloadUrl = await snapshot.ref.getDownloadURL();
         await FirebaseFirestore.instance
-            .collection(userType).doc(firebaseUser.uid)
+            .collection(userType)
+            .doc(firebaseUser.uid)
             .update({"ImgUrl": downloadUrl});
         setState(() {
           imageUrl = downloadUrl;
           print("Profile Picture Uploaded");
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Profile Picture Uploaded')));
         });
       } else {
         print('No Image Path Received');
