@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:medico/Pharma/mainScreen.dart';
 
 class Categories extends StatelessWidget {
   const Categories({Key key}) : super(key: key);
@@ -26,6 +27,7 @@ class Categories extends StatelessWidget {
               icon: categories[index]["icon"],
               text: categories[index]["text"],
               press: (){
+
               }))
         ],
       ),
@@ -68,6 +70,7 @@ class CategoryCard extends StatelessWidget {
                         icon, color: Colors.white70, ),
                       splashRadius: 40,
                       onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Pharma()));
 
                       },
                     ),
