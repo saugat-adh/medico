@@ -1,9 +1,11 @@
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:medico/constants.dart';
 import 'package:readmore/readmore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -91,13 +93,14 @@ class BodyPart extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
+                  AutoSizeText(
                     email,
                     style: TextStyle(
                       color: Colors.grey,
                       fontFamily: 'Muli',
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                      fontSize: MediaQuery.of(context).size.width * 0.035,
                     ),
+                    maxLines: 1,
                   ),
                 ],
               ),
@@ -158,12 +161,22 @@ class BodyPart extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ...List.generate(
-                      5,
-                      (index) => Icon(
-                            FeatherIcons.star,
-                            color: Colors.grey,
-                          ))
+
+          RatingBar.builder(
+            initialRating: 3,
+            minRating: 1,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+            itemBuilder: (context, _) => Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (rating) {
+              print(rating);
+            },
+          ),
                 ],
               ),
               SizedBox(

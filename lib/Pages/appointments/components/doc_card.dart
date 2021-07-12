@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DocCard extends StatelessWidget {
   DocCard({this.text, this.press, this.speciality, this.imageUrl});
@@ -66,14 +67,21 @@ class DocCard extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          ...List.generate(
-                              5,
-                              (index) => Icon(
-                                    FeatherIcons.star,
-                                    size: MediaQuery.of(context).size.width *
-                                        0.04,
-                                    color: Colors.amber,
-                                  )),
+                        RatingBar.builder(
+                        initialRating: 3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: 15,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02,
                           ),
