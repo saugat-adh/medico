@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:medico/Pages/shop/components/Product.dart';
 import 'package:medico/details/Components/product_images.dart';
+import 'package:readmore/readmore.dart';
 class Body extends StatelessWidget {
 
   final Product product;
@@ -50,25 +51,30 @@ class ProductDescription extends StatelessWidget {
                 SizedBox(height: 10,),
                 Padding(
                   padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04),
-                  child: Text(product.description,
-                  style: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 14,
+                  child: ReadMoreText(
+                    product.description,
+                    trimLines: 2,
+                    trimMode: TrimMode.Line,
+                    trimCollapsedText: '...Show more',
+                    trimExpandedText: 'Show less',
+                    moreStyle: TextStyle(
+                        color: Colors.blue,
+                        fontFamily: 'Muli',
+                        fontSize: MediaQuery.of(context).size.width * 0.039,
+                        fontWeight: FontWeight.bold),
+                    lessStyle: TextStyle(
+                        color: Colors.blue,
+                        fontFamily: 'Muli',
+                        fontSize: MediaQuery.of(context).size.width * 0.039,
+                        fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontFamily: 'Muli',
+                      fontSize: MediaQuery.of(context).size.width * 0.039,
+                    ),
                   ),
-
-                  maxLines: 3,),
                 ),
                 SizedBox(height: 10,),
-                Padding(
-                  padding:  EdgeInsets.all( MediaQuery.of(context).size.width*0.04),
-                  child: Text("See More Details",
-                    style: TextStyle(
-                      color: Colors.blue[300],
-                      fontSize: 15,
-                    ),
-
-                    maxLines: 3,),
-                ),
 
               ],
             ),
