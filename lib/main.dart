@@ -15,8 +15,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final firebaseUser = _auth.currentUser;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   getType();
@@ -36,34 +35,26 @@ Future getType() async {
     });
 }
 
-
 class MedicoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      builder: (context, snapshot) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          // theme: ThemeData(
-          //   primarySwatch: Colors.green,
-          // ),
+    return FutureBuilder(builder: (context, snapshot) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: HomePage(),
         routes: {
-          HomePage.id : (context) => HomePage(),
-          LogIn.id : (context) => LogIn(),
-          SignUp.id : (context) => SignUp(),
-          BotNavBar.id : (context) => BotNavBar(),
-          InfoForm.id : (context) => InfoForm(),
-          DetailsScreen.routeName:(context)=>DetailsScreen(),
-          CartScreen.routeName: (context)=>CartScreen(),
+          HomePage.id: (context) => HomePage(),
+          LogIn.id: (context) => LogIn(),
+          SignUp.id: (context) => SignUp(),
+          BotNavBar.id: (context) => BotNavBar(),
+          InfoForm.id: (context) => InfoForm(),
+          DetailsScreen.routeName: (context) => DetailsScreen(),
+          CartScreen.routeName: (context) => CartScreen(),
         },
-      );}
-    );
+      );
+    });
   }
 }
 
 // riwimi007@gmail.com
 // riwimi123
-
-
-
