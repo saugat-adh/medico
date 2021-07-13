@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:medico/Notifications/NotificationsPage.dart';
+import 'package:medico/Pages/Dashboard/docPanel.dart';
 import 'package:medico/Pages/home_page.dart';
 import 'package:medico/Pages/shop/cart/cart_screen.dart';
 import 'package:medico/Setting/SettingsPage.dart';
@@ -69,19 +70,28 @@ class _Dash1State extends State<Dash1> {
   }
 
   _doctorPanel() {
-    return Column(
-      children: [
-        Container(
-          height: 250,
-          width: MediaQuery.of(context).size.width - 20,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => DocPanel()),
+        );
+      },
+      child: Column(
+        children: [
+          Container(
+            height: 250,
+            width: MediaQuery.of(context).size.width - 20,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Colors.white,
+            ),
+            child: Center(child: Text('Doctor panel')),
           ),
-          child: Center(child: Text('Doctor panel')),
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-      ],
+          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+        ],
+      ),
     );
   }
 
