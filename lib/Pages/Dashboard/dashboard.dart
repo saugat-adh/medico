@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:medico/Notifications/NotificationsPage.dart';
 import 'package:medico/Pages/Dashboard/docPanel.dart';
 import 'package:medico/Pages/home_page.dart';
@@ -16,6 +17,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../bottom_nav.dart';
+
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final firebaseUser = _auth.currentUser;
 
@@ -25,12 +29,24 @@ class Dash1 extends StatefulWidget {
 }
 
 class _Dash1State extends State<Dash1> {
+
   final _firebaseStorage = FirebaseStorage.instance;
   final _imagePicker = ImagePicker();
   PickedFile image;
   @override
   void initState() {
     super.initState();
+  }
+
+  final myControllerHeight = TextEditingController();
+  final myControllerWeight = TextEditingController();
+
+  @override
+  void dispose() {
+    //Cleanup Controller when widget is disposed
+    myControllerHeight.dispose();
+    myControllerWeight.dispose();
+    super.dispose();
   }
 
   @override
@@ -268,7 +284,7 @@ class _Dash1State extends State<Dash1> {
                               color: Color.fromARGB(255, 116, 112, 112),
                             ),
                           ],
-                          fontSize: 15,
+                          fontSize: 13,
                           fontFamily: 'RobotoReg'),
                     ),
                   ],
@@ -401,86 +417,238 @@ class _Dash1State extends State<Dash1> {
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height * 0.12,
-                width: MediaQuery.of(context).size.width * 0.45,
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.05,
-                    vertical: MediaQuery.of(context).size.width * 0.04),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      spreadRadius: 0.5,
-                      blurRadius: 11.2,
-                    )
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Height',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: 'RobotoReg',
+              GestureDetector(
+                onLongPress: (){
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content:
+                              Container(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.all(10.0),
+                                      child: Text('Height',
+                                    style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontFamily: 'RobotoReg',
+                                       ),
+                                     ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(RegExp('[0-9]'))
+                                        ],
+                                        decoration: InputDecoration(
+                                            border: new OutlineInputBorder(),
+                                            hintText: 'Enter your height'
+                                        ),
+                                        controller: myControllerHeight,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: <Widget>[
+                                            ElevatedButton(
+                                              child: Text("Save"),
+                                              onPressed: () {
+                                              userHeight = myControllerHeight.text;
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(content: Text('Height Changed Successfully')));
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => BotNavBar()));
+                                              },
+                                              style: ButtonStyle(
+                                                backgroundColor: MaterialStateProperty.all(Colors.teal),
+                                              ),
+                                             ),
+                                            ElevatedButton(
+                                              child: Text("Cancel"),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                                myControllerHeight.clear();
+                                              },
+                                              style: ButtonStyle(
+                                                backgroundColor: MaterialStateProperty.all(Colors.teal),
+                                              ),
+                                            ),
+                                          ]
+                                        )
+                                      ),
+                                  ],
+                                ),
+                              ),
+                        );
+                      });
+
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.05,
+                      vertical: MediaQuery.of(context).size.width * 0.04),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        spreadRadius: 0.5,
+                        blurRadius: 11.2,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Height',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontFamily: 'RobotoReg',
+                        ),
                       ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                    Text(
-                      userHeight != null ? userHeight : '',
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'Droid Sans',
-                      ),
-                    )
-                  ],
+                      SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                      Text(
+                        userHeight != null ? userHeight : '',
+                        maxLines: 2,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Droid Sans',
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.12,
-                width: MediaQuery.of(context).size.width * 0.45,
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.05,
-                    vertical: MediaQuery.of(context).size.width * 0.04),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      spreadRadius: 0.5,
-                      blurRadius: 11.2,
-                    )
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Weight',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: 'RobotoReg',
+              GestureDetector(
+                onLongPress: (){
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content:
+                          Container(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Text('Weight',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontFamily: 'RobotoReg',
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(RegExp('[0-9]'))
+                                    ],
+                                    decoration: InputDecoration(
+                                        border: new OutlineInputBorder(),
+                                        hintText: 'Enter your weight'
+                                    ),
+                                    controller: myControllerWeight,
+                                  ),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          ElevatedButton(
+                                            child: Text("Save"),
+                                            onPressed: () {
+                                              userWeight = myControllerWeight.text;
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(content: Text('Weight Changed Successfully')));
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => BotNavBar()));
+                                            },
+                                            style: ButtonStyle(
+                                              backgroundColor: MaterialStateProperty.all(Colors.teal),
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            child: Text("Cancel"),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              myControllerWeight.clear();
+                                            },
+                                            style: ButtonStyle(
+                                              backgroundColor: MaterialStateProperty.all(Colors.teal),
+                                            ),
+                                          ),
+                                        ]
+                                    )
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.05,
+                      vertical: MediaQuery.of(context).size.width * 0.04),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        spreadRadius: 0.5,
+                        blurRadius: 11.2,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Weight',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontFamily: 'RobotoReg',
+                        ),
                       ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                    Text(
-                      userWeight != null ? userWeight : '',
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'Droid Sans',
+                      SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                      Text(
+                        userWeight != null ? userWeight : '',
+                        maxLines: 2,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'Droid Sans',
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ]),
