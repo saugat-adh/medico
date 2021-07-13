@@ -55,7 +55,6 @@ class _Dash1State extends State<Dash1> {
                     ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-
                   isLoading
                       ? Center(child: CircularProgressIndicator())
                       : _covidTracker(),
