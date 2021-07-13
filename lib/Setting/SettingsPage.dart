@@ -14,7 +14,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       backgroundColor: Colors.grey[400],
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
         title: Text(
           "Settings",
           style: TextStyle(color: Colors.white),
@@ -154,7 +154,7 @@ class _SettingsPageState extends State<SettingsPage> {
               width: MediaQuery.of(context).size.width / 2,
               height: 40,
               child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.green),
+                  style: ElevatedButton.styleFrom(primary: Colors.teal),
                   onPressed: () {
                     showPopUp = false;
                     setState(() {});
