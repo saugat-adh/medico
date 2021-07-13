@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medico/Pages/shop/components/Product.dart';
 import 'package:medico/details/Components/custom_app_bar.dart';
 import 'package:medico/details/Components/body.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DetailsScreen extends StatelessWidget {
   static String routeName="/details";
@@ -16,6 +17,8 @@ class DetailsScreen extends StatelessWidget {
       backgroundColor: Color(0xFFF5F6F9),
       appBar:CustomAppBar(arguments.product.rating),
       body: Body(product: arguments.product,),
+
+
     );
   }
 }

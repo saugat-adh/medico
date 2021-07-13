@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:medico/Pages/shop/components/Product.dart';
 import 'package:medico/details/Components/product_images.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readmore/readmore.dart';
 class Body extends StatelessWidget {
 
@@ -74,7 +75,25 @@ class ProductDescription extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 20,),
+                Center(child: Text("Give us a rating")),
+                Center(
+                  child: RatingBar.builder(
+                    initialRating: 3,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      print(rating);
+                    },
+                  ),
+                ),
 
               ],
             ),
@@ -108,7 +127,8 @@ class ProductDescription extends StatelessWidget {
 
             ),
           ),
-        ), //Add to cart option
+        ),
+        //Add to cart option
       ],
     );
   }
