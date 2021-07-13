@@ -39,6 +39,16 @@ class BodyPart extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child:
+                IconButton(onPressed: () {
+                  addReg(id);
+                },
+                    icon:  Icon(FeatherIcons.heart) ),
+              ),
               Text(
                 'Biography',
                 style: TextStyle(
@@ -182,23 +192,7 @@ class BodyPart extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              // Text(
-              //   'Reviews',
-              //   style: TextStyle(
-              //       fontFamily: 'Muli',
-              //       fontWeight: FontWeight.bold,
-              //       fontSize: MediaQuery.of(context).size.width * 0.05),
-              // ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child:
-                    IconButton(onPressed: () {
-                        addReg(id);
-                    },
-                        icon:  Icon(FeatherIcons.plusCircle) ),
-              )
+
             ],
           ),
         ),

@@ -53,7 +53,7 @@ class _DoctorExpState extends State<DoctorExp> {
                 crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildBackButton(),
-                HeadPart(fName: widget.docs['First name'],lName: widget.docs['Last name'],speciality: widget.docs['speciality'],imageUrl: widget.docs['imageURl'],),
+                HeadPart(fName: widget.docs['First name'],lName: widget.docs['Last name'],speciality: widget.docs['speciality'],imageUrl: widget.docs['ImgUrl'],),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.01,
                 ),

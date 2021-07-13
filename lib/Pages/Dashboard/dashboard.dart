@@ -54,14 +54,33 @@ class _Dash1State extends State<Dash1> {
                     ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+
                   isLoading
                       ? Center(child: CircularProgressIndicator())
                       : _covidTracker(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  userType == 'doctors' ? _doctorPanel() : SizedBox(height: 1,),
                   _patientDetails(),
                 ],
               ),
             )),
+      ],
+    );
+  }
+
+  _doctorPanel() {
+    return Column(
+      children: [
+        Container(
+          height: 250,
+          width: MediaQuery.of(context).size.width - 20,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.white,
+          ),
+          child: Center(child: Text('Doctor panel')),
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.02),
       ],
     );
   }

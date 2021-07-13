@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 
 List<String> days = [
-  'Sun',
-  'Mon',
   'Tue',
-  'Wed',
-  'Thu',
-  'Fri',
 ];
 
-List<String> time = ['1:00', '2:00', '5:00', '9:00'];
+List<String> time = ['1:00', '9:00', '12:00', '2:00'];
 
 class HeadPartBook extends StatelessWidget {
   HeadPartBook({this.speciality, this.name, this.imageUrl});
@@ -140,7 +135,7 @@ class DateContainer extends StatelessWidget {
               height: 20,
             ),
             Text(
-              '999',
+              '12',
               style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Muli',

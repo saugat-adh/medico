@@ -22,7 +22,7 @@ class _BookPageState extends State<BookPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildBackButton(),
-            HeadPartBook(name: widget.docs['First name'] + ' ' + widget.docs['Last name'], speciality: widget.docs['speciality'],imageUrl: widget.docs['imageURl'],),
+            HeadPartBook(name: widget.docs['First name'] + ' ' + widget.docs['Last name'], speciality: widget.docs['speciality'],imageUrl: widget.docs['ImgUrl'],),
           ],
         ),
       ),
