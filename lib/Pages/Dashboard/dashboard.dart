@@ -22,6 +22,8 @@ import '../bottom_nav.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final firebaseUser = _auth.currentUser;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
 
 class Dash1 extends StatefulWidget {
   @override
@@ -460,7 +462,8 @@ class _Dash1State extends State<Dash1> {
                                             ElevatedButton(
                                               child: Text("Save"),
                                               onPressed: () {
-                                              userHeight = myControllerHeight.text;
+                                                userHeight = myControllerHeight.text;
+                                                _changeHeight();
                                               ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(content: Text('Height Changed Successfully')));
                                               Navigator.push(
@@ -578,8 +581,10 @@ class _Dash1State extends State<Dash1> {
                                             child: Text("Save"),
                                             onPressed: () {
                                               userWeight = myControllerWeight.text;
+                                              _changeWeight();
                                               ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(content: Text('Weight Changed Successfully')));
+
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -777,6 +782,34 @@ class _Dash1State extends State<Dash1> {
       print('Permission not granted. Try Again with permission access');
     }
   }
+
+  _changeHeight() async {
+
+    if (firebaseUser != null && userType == 'patients')
+      await _firestore
+          .collection('patients')
+          .doc(firebaseUser.uid)
+          .update({'height': myControllerHeight.text});
+
+    if (firebaseUser != null && userType == 'doctors')
+      await _firestore
+          .collection("doctors").doc(firebaseUser.uid).update({'height': myControllerHeight.text});
+  }
+
+
+  _changeWeight() async {
+
+    if (firebaseUser != null && userType == 'patients')
+      await _firestore
+          .collection('patients')
+          .doc(firebaseUser.uid)
+          .update({'weight': myControllerWeight.text});
+
+    if (firebaseUser != null && userType == 'doctors')
+      await _firestore
+          .collection("doctors").doc(firebaseUser.uid).update({'weight': myControllerWeight.text});
+  }
+
 
   signOut() {
     //redirect
