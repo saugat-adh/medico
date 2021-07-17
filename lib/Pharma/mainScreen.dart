@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:medico/Pharma/AdminShuftOrder.dart';
 import 'package:medico/Pages/home_page.dart';
+
+import 'addnewitems.dart';
 class Pharma extends StatefulWidget {
 
   @override
@@ -33,7 +35,7 @@ class _PharmaState extends State<Pharma> {
             Navigator.pushReplacement(context, route);
           },
               child: Text("Logout", style: TextStyle(
-                color: Colors.redAccent, fontSize: 16.0,
+                color: Colors.teal, fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               ),))
         ],
@@ -51,7 +53,13 @@ class _PharmaState extends State<Pharma> {
             Icon(Icons.shop_two, size: 200,),
             Padding(padding: EdgeInsets.only(top: 20.0),
             child: TextButton(
-              child: Text("Add New Items", style: TextStyle(fontSize: 20.0, color: Colors.red),),
+              onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                  builder: (BuildContext context) => AddNewItem()));
+            },
+              child: Text("Add New Items", style: TextStyle(fontSize: 20.0, color: Colors.teal)),
             ),)
           ],
         ),

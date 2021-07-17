@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Components/snackbar.dart';
 import 'package:medico/Forms/OtpLogin.dart';
+import 'package:medico/Pharma/mainScreen.dart';
 import '../models/userModel.dart';
 import '../constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +26,6 @@ Future login(numberController, context, scafkey) async {
       type = userdata.category;
     }
   });
-
   if (type.isEmpty) {
     displaySnackBar('Number not found, please sign up first', scafkey);
     return;
@@ -47,7 +47,7 @@ Future login(numberController, context, scafkey) async {
         verificationCompleted: (phoneAuthCredential) {
           //auto code complete (not manually)
           _auth.signInWithCredential(phoneAuthCredential).then((user) async => {
-                if (user != null)
+                if (user != null )
                   {
                     //redirect
                     showSpinner = false,
@@ -57,9 +57,10 @@ Future login(numberController, context, scafkey) async {
                       MaterialPageRoute(
                         builder: (BuildContext context) => BotNavBar(),
                       ),
-                      (route) => false,
+                          (route) => false,
                     )
                   }
+
               });
         },
         verificationFailed: (FirebaseAuthException error) {
