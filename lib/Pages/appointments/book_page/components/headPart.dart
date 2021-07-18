@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+var temp;
+int count = 0;
 
 List<String> days = [
   'Tue',
@@ -81,7 +83,7 @@ class HeadPartBook extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'Select Day',
+                  'Select Appointment',
                   style: TextStyle(color: Colors.grey),
                 ),
                 SizedBox(
@@ -92,35 +94,14 @@ class HeadPartBook extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: snapshot.data.docs.map((document) {
-                        return DateContainer(date: document['date'],day: document['day'],);
-        }).toList(),
+                        return DateContainer(date: document['date'],day: document['day'],time: document['time']);
+                        }).toList(),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Select Time',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: snapshot.data.docs.map((document) {
-                      return TimeContainer(time: document['time'],);
-                    }).toList(),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
               ],
             ),
-          );;
+          );
         }
       },
     );
@@ -128,38 +109,54 @@ class HeadPartBook extends StatelessWidget {
 }
 
 class DateContainer extends StatelessWidget {
-  DateContainer({this.date, this.day});
+  DateContainer({this.date, this.day, this.time});
 
   final String date;
   final String day;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(10),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              day,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Muli',
-                  fontSize: MediaQuery.of(context).size.width * 0.037),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              date,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Muli',
-                  fontSize: MediaQuery.of(context).size.width * 0.05),
-            )
-          ],
+    return GestureDetector(
+      onTap: (){
+
+      },
+      child: Card(
+        margin: EdgeInsets.all(10),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                day,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Muli',
+                    fontSize: MediaQuery.of(context).size.width * 0.037),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                date,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Muli',
+                    fontSize: MediaQuery.of(context).size.width * 0.05),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                time,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Muli',
+                    fontSize: MediaQuery.of(context).size.width * 0.05),
+              ),
+            ],
+          ),
         ),
       ),
     );
