@@ -14,15 +14,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medico/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:medico/models/userModel.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../bottom_nav.dart';
 
-
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final firebaseUser = _auth.currentUser;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
 
 class Dash1 extends StatefulWidget {
   @override
@@ -30,7 +29,6 @@ class Dash1 extends StatefulWidget {
 }
 
 class _Dash1State extends State<Dash1> {
-
   final _firebaseStorage = FirebaseStorage.instance;
   final _imagePicker = ImagePicker();
   PickedFile image;
@@ -76,7 +74,11 @@ class _Dash1State extends State<Dash1> {
                       ? Center(child: CircularProgressIndicator())
                       : _covidTracker(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  userType == 'doctors' ? _doctorPanel() : SizedBox(height: 1,),
+                  userType == 'doctors'
+                      ? _doctorPanel()
+                      : SizedBox(
+                          height: 1,
+                        ),
                   _patientDetails(),
                 ],
               ),
@@ -87,11 +89,10 @@ class _Dash1State extends State<Dash1> {
 
   _doctorPanel() {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => DocPanel()),
+          MaterialPageRoute(builder: (BuildContext context) => DocPanel()),
         );
       },
       child: Column(
@@ -415,247 +416,256 @@ class _Dash1State extends State<Dash1> {
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <
               Widget>[
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              GestureDetector(
-                onLongPress: (){
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          content:
-                              Container(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.all(10.0),
-                                      child: Text('Height',
-                                    style: TextStyle(
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <
+            Widget>[
+          GestureDetector(
+            onLongPress: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Container(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text(
+                                'Height',
+                                style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 15,
                                   fontFamily: 'RobotoReg',
-                                       ),
-                                     ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: TextField(
-                                        keyboardType: TextInputType.number,
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(RegExp('[0-9]'))
-                                        ],
-                                        decoration: InputDecoration(
-                                            border: new OutlineInputBorder(),
-                                            hintText: 'Enter your height'
-                                        ),
-                                        controller: myControllerHeight,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: <Widget>[
-                                            ElevatedButton(
-                                              child: Text("Save"),
-                                              onPressed: () {
-                                                userHeight = myControllerHeight.text;
-                                                _changeHeight();
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Height Changed Successfully')));
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => BotNavBar()));
-                                              },
-                                              style: ButtonStyle(
-                                                backgroundColor: MaterialStateProperty.all(Colors.teal),
-                                              ),
-                                             ),
-                                            ElevatedButton(
-                                              child: Text("Cancel"),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                                myControllerHeight.clear();
-                                              },
-                                              style: ButtonStyle(
-                                                backgroundColor: MaterialStateProperty.all(Colors.teal),
-                                              ),
-                                            ),
-                                          ]
-                                        )
-                                      ),
-                                  ],
                                 ),
                               ),
-                        );
-                      });
-
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.12,
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05,
-                      vertical: MediaQuery.of(context).size.width * 0.04),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        spreadRadius: 0.5,
-                        blurRadius: 11.2,
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Height',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontFamily: 'RobotoReg',
-                        ),
-                      ),
-                      SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                      Text(
-                        userHeight != null ? userHeight : '',
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Droid Sans',
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onLongPress: (){
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          content:
-                          Container(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Text('Weight',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontFamily: 'RobotoReg',
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(RegExp('[0-9]'))
-                                    ],
-                                    decoration: InputDecoration(
-                                        border: new OutlineInputBorder(),
-                                        hintText: 'Enter your weight'
-                                    ),
-                                    controller: myControllerWeight,
-                                  ),
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: <Widget>[
-                                          ElevatedButton(
-                                            child: Text("Save"),
-                                            onPressed: () {
-                                              userWeight = myControllerWeight.text;
-                                              _changeWeight();
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Weight Changed Successfully')));
-
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => BotNavBar()));
-                                            },
-                                            style: ButtonStyle(
-                                              backgroundColor: MaterialStateProperty.all(Colors.teal),
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            child: Text("Cancel"),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              myControllerWeight.clear();
-                                            },
-                                            style: ButtonStyle(
-                                              backgroundColor: MaterialStateProperty.all(Colors.teal),
-                                            ),
-                                          ),
-                                        ]
-                                    )
-                                ),
-                              ],
                             ),
-                          ),
-                        );
-                      });
-
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.12,
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05,
-                      vertical: MediaQuery.of(context).size.width * 0.04),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        spreadRadius: 0.5,
-                        blurRadius: 11.2,
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Weight',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontFamily: 'RobotoReg',
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp('[0-9]'))
+                                ],
+                                decoration: InputDecoration(
+                                    border: new OutlineInputBorder(),
+                                    hintText: 'Enter your height'),
+                                controller: myControllerHeight,
+                              ),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: <Widget>[
+                                      ElevatedButton(
+                                        child: Text("Save"),
+                                        onPressed: () {
+                                          userHeight = myControllerHeight.text;
+                                          _changeHeight();
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Height Changed Successfully')));
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      BotNavBar()));
+                                        },
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.teal),
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        child: Text("Cancel"),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          myControllerHeight.clear();
+                                        },
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.teal),
+                                        ),
+                                      ),
+                                    ])),
+                          ],
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                      Text(
-                        userWeight != null ? userWeight : '',
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Droid Sans',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                    );
+                  });
+            },
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.12,
+              width: MediaQuery.of(context).size.width * 0.45,
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.05,
+                  vertical: MediaQuery.of(context).size.width * 0.04),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    spreadRadius: 0.5,
+                    blurRadius: 11.2,
+                  )
+                ],
               ),
-            ]),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Height',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: 'RobotoReg',
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                  Text(
+                    userHeight != null ? userHeight : '',
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontFamily: 'Droid Sans',
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            onLongPress: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Container(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text(
+                                'Weight',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontFamily: 'RobotoReg',
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp('[0-9]'))
+                                ],
+                                decoration: InputDecoration(
+                                    border: new OutlineInputBorder(),
+                                    hintText: 'Enter your weight'),
+                                controller: myControllerWeight,
+                              ),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: <Widget>[
+                                      ElevatedButton(
+                                        child: Text("Save"),
+                                        onPressed: () {
+                                          userWeight = myControllerWeight.text;
+                                          _changeWeight();
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Weight Changed Successfully')));
+
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      BotNavBar()));
+                                        },
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.teal),
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        child: Text("Cancel"),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          myControllerWeight.clear();
+                                        },
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.teal),
+                                        ),
+                                      ),
+                                    ])),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+            },
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.12,
+              width: MediaQuery.of(context).size.width * 0.45,
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.05,
+                  vertical: MediaQuery.of(context).size.width * 0.04),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    spreadRadius: 0.5,
+                    blurRadius: 11.2,
+                  )
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Weight',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: 'RobotoReg',
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+                  Text(
+                    userWeight != null ? userWeight : '',
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontFamily: 'Droid Sans',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ]),
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -783,7 +793,6 @@ class _Dash1State extends State<Dash1> {
   }
 
   _changeHeight() async {
-
     if (firebaseUser != null && userType == 'patients')
       await _firestore
           .collection('patients')
@@ -792,12 +801,12 @@ class _Dash1State extends State<Dash1> {
 
     if (firebaseUser != null && userType == 'doctors')
       await _firestore
-          .collection("doctors").doc(firebaseUser.uid).update({'height': myControllerHeight.text});
+          .collection("doctors")
+          .doc(firebaseUser.uid)
+          .update({'height': myControllerHeight.text});
   }
 
-
   _changeWeight() async {
-
     if (firebaseUser != null && userType == 'patients')
       await _firestore
           .collection('patients')
@@ -806,11 +815,12 @@ class _Dash1State extends State<Dash1> {
 
     if (firebaseUser != null && userType == 'doctors')
       await _firestore
-          .collection("doctors").doc(firebaseUser.uid).update({'weight': myControllerWeight.text});
+          .collection("doctors")
+          .doc(firebaseUser.uid)
+          .update({'weight': myControllerWeight.text});
   }
 
-
-  Future< void > signOut() async {
+  Future<void> signOut() async {
     //redirect
     await _auth.signOut().then((value) => Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext context) => HomePage())));

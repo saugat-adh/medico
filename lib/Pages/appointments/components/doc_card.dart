@@ -3,12 +3,18 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DocCard extends StatelessWidget {
-  DocCard({this.text, this.press, this.speciality, this.imageUrl});
+  DocCard(
+      {this.text,
+      this.press,
+      this.speciality,
+      @required this.docUid,
+      this.imageUrl});
 
   final String text;
   final Function press;
   final String speciality;
   final String imageUrl;
+  final String docUid;
 
   @override
   Widget build(BuildContext context) {
@@ -67,21 +73,21 @@ class DocCard extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                        RatingBar.builder(
-                        initialRating: 3,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemSize: 15,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      ),
+                          RatingBar.builder(
+                            initialRating: 3,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemSize: 15,
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (rating) {
+                              print(rating);
+                            },
+                          ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02,
                           ),

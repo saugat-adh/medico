@@ -61,14 +61,14 @@ class AppointmentSwiper extends StatelessWidget {
                                     .snapshots(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> abc) {
-                                  if (!abc.hasData ||
-                                      abc.data.docs.isEmpty) {
+                                  if (!abc.hasData || abc.data.docs.isEmpty) {
                                     return Container();
                                   } else {
                                     return Row(
                                       children: abc.data.docs.map((xyz) {
                                         if (document['UID'] == xyz.id) {
                                           return DocCard(
+                                            docUid: xyz.id,
                                             imageUrl: xyz['imageURl'],
                                             text: xyz['First name'] +
                                                 " " +
@@ -98,7 +98,7 @@ class AppointmentSwiper extends StatelessWidget {
                   ));
             }
           });
-    } else if (userType == 'patients'){
+    } else if (userType == 'patients') {
       return StreamBuilder(
           stream: _firestore
               .collection('patients')
@@ -147,14 +147,14 @@ class AppointmentSwiper extends StatelessWidget {
                                     .snapshots(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> abc) {
-                                  if (!abc.hasData ||
-                                      abc.data.docs.isEmpty) {
+                                  if (!abc.hasData || abc.data.docs.isEmpty) {
                                     return Container();
                                   } else {
                                     return Row(
                                       children: abc.data.docs.map((xyz) {
                                         if (document['UID'] == xyz.id) {
                                           return DocCard(
+                                            docUid: xyz.id,
                                             imageUrl: xyz['imageURl'],
                                             text: xyz['First name'] +
                                                 " " +
@@ -165,7 +165,7 @@ class AppointmentSwiper extends StatelessWidget {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (BuildContext
-                                                    context) =>
+                                                            context) =>
                                                         DoctorExp(xyz)),
                                               );
                                             },
@@ -184,6 +184,8 @@ class AppointmentSwiper extends StatelessWidget {
                   ));
             }
           });
-    } else { return Container();}
+    } else {
+      return Container();
+    }
   }
 }

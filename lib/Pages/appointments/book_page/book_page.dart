@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:medico/Database/Appointment.dart';
 import 'package:medico/Pages/appointments/book_page/components/headPart.dart';
+import 'package:medico/Database/Appointment.dart';
 
 class BookPage extends StatefulWidget {
-
   final QueryDocumentSnapshot docs;
 
   const BookPage(this.docs);
@@ -14,15 +15,23 @@ class BookPage extends StatefulWidget {
 }
 
 class _BookPageState extends State<BookPage> {
+  final _appointmentService = AppointmentService.instance;
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildBackButton(),
-            HeadPartBook(name: widget.docs['First name'] + ' ' + widget.docs['Last name'], speciality: widget.docs['speciality'],imageUrl: widget.docs['ImgUrl'],docx: widget.docs,),
+            HeadPartBook(
+              name: widget.docs['First name'] + ' ' + widget.docs['Last name'],
+              speciality: widget.docs['speciality'],
+              imageUrl: widget.docs['ImgUrl'],
+              docx: widget.docs,
+            ),
           ],
         ),
       ),
@@ -49,17 +58,18 @@ class _BookPageState extends State<BookPage> {
               width: MediaQuery.of(context).size.width - 90,
               child: Center(
                   child: TextButton(
-                    onPressed: () {
-                    },
-                    child: Text(
-                      'Book',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Muli',
-                          fontSize:
-                          MediaQuery.of(context).size.width * 0.05),
-                    ),
-                  )),
+                onPressed: () {
+                  _appointmentService.makePateintAppointment(
+                      doctorInformation: widget.docs);
+                },
+                child: Text(
+                  'Book',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Muli',
+                      fontSize: MediaQuery.of(context).size.width * 0.05),
+                ),
+              )),
             ),
           ),
         ),
