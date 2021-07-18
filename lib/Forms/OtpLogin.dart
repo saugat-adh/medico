@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medico/Pharma/mainScreen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Wizards/forms.dart';
@@ -101,7 +102,7 @@ class _OtpScreenLoginState extends State<OtpScreenLogin> {
                                         MaterialPageRoute(
                                           builder:
                                               (BuildContext context) =>
-                                              BotNavBar(),
+                                              userType == 'admin' ? Pharma() : BotNavBar(),
                                         ),
                                             (route) => false,
                                       );

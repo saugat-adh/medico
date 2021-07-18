@@ -1,4 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:medico/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 List<String> days = [
   'Tue',
@@ -7,114 +13,126 @@ List<String> days = [
 List<String> time = ['1:00', '9:00', '12:00', '2:00'];
 
 class HeadPartBook extends StatelessWidget {
-  HeadPartBook({this.speciality, this.name, this.imageUrl});
+  HeadPartBook({this.speciality, this.name, this.imageUrl, this.docx});
 
   final String name;
   final String speciality;
   final String imageUrl;
+
+  final QueryDocumentSnapshot docx;
+  
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: Center(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      image: NetworkImage(imageUrl),
-                      fit: BoxFit.cover,
+    return StreamBuilder(stream: _firestore
+        .collection('doctors')
+        .doc(docx.id)
+        .collection('time')
+        .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
+          return Text('');
+        } else {
+          return Container(
+            child: Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: Center(
+                    child: Padding(
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: NetworkImage(imageUrl),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width - 50,
-            height: MediaQuery.of(context).size.height * 0.09,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Muli',
-                      fontSize: MediaQuery.of(context).size.width * 0.07),
+                Container(
+                  width: MediaQuery.of(context).size.width - 50,
+                  height: MediaQuery.of(context).size.height * 0.09,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Muli',
+                            fontSize: MediaQuery.of(context).size.width * 0.07),
+                      ),
+                      Text(
+                        speciality,
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontFamily: 'Muli',
+                            fontSize: MediaQuery.of(context).size.width * 0.05),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 Text(
-                  speciality,
-                  style: TextStyle(
-                      color: Colors.black54,
-                      fontFamily: 'Muli',
-                      fontSize: MediaQuery.of(context).size.width * 0.05),
+                  'Select Day',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: snapshot.data.docs.map((document) {
+                        return DateContainer(date: document['date'],day: document['day'],);
+        }).toList(),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Select Time',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: snapshot.data.docs.map((document) {
+                      return TimeContainer(time: document['time'],);
+                    }).toList(),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
               ],
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Select Day',
-            style: TextStyle(color: Colors.grey),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  ...List.generate(
-                      days.length, (index) => DateContainer(day: days[index])),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Select Time',
-            style: TextStyle(color: Colors.grey),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ...List.generate(
-                    time.length,
-                    (index) => TimeContainer(
-                          time: time[index],
-                        )),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
+          );;
+        }
+      },
     );
   }
 }
 
 class DateContainer extends StatelessWidget {
-  DateContainer({this.day});
+  DateContainer({this.date, this.day});
 
+  final String date;
   final String day;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -135,7 +153,7 @@ class DateContainer extends StatelessWidget {
               height: 20,
             ),
             Text(
-              '12',
+              date,
               style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Muli',
@@ -169,3 +187,4 @@ class TimeContainer extends StatelessWidget {
     );
   }
 }
+

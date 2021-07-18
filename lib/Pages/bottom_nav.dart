@@ -120,6 +120,7 @@ class _BotNavBarState extends State<BotNavBar> {
           .then((DocumentSnapshot documentSnapshot) {
         userName = documentSnapshot.get('First name');
         print(userName);
+        print(userType);
       }).catchError((e) {
         print(e);
       });

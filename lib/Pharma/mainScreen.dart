@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:medico/Pharma/AdminShuftOrder.dart';
 import 'package:medico/Pages/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'addnewitems.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final firebaseUser = _auth.currentUser;
 class Pharma extends StatefulWidget {
 
   @override
@@ -31,9 +35,9 @@ class _PharmaState extends State<Pharma> {
         ),
         actions: [
           TextButton(onPressed: (){
-            Route route= MaterialPageRoute(builder: (context)=> HomePage());
-            Navigator.pushReplacement(context, route);
-          },
+    _auth.signOut().then((value) => Navigator.pushReplacement(context,
+    MaterialPageRoute(builder: (BuildContext context) => HomePage())));
+    },
               child: Text("Logout", style: TextStyle(
                 color: Colors.teal, fontSize: 16.0,
                 fontWeight: FontWeight.bold,

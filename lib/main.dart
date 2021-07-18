@@ -30,7 +30,6 @@ Future getType() async {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       userType = documentSnapshot.get('User');
-
     }).catchError((e) {
       print(e);
     });

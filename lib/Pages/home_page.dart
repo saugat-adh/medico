@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:medico/Forms/log_in.dart';
 import 'package:medico/Forms/register.dart';
 import 'package:medico/Pages/bottom_nav.dart';
+import 'package:medico/Pharma/mainScreen.dart';
 import '../Wizards/buttons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:medico/constants.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -22,7 +24,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => BotNavBar(),
+            builder: (BuildContext context) => userType == 'admin' ? Pharma() : BotNavBar(),
           ),
           (route) => false,
         );

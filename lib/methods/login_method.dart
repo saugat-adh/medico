@@ -55,7 +55,7 @@ Future login(numberController, context, scafkey) async {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => BotNavBar(),
+                        builder: (BuildContext context) => userType == 'admin' ? Pharma() : BotNavBar(),
                       ),
                           (route) => false,
                     )
