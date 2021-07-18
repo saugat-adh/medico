@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:medico/Pharma/mainScreen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -15,6 +16,7 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final _firebaseStorage = FirebaseStorage.instance;
 final _imagePicker = ImagePicker();
 PickedFile image;
+var file;
 String productImageUrl;
 
 String pName;
@@ -135,6 +137,7 @@ class _AddState extends State<AddNewItem> {
             pQuantity = productQuantity.text;
             pPrice = productPrice.text;
             _upload();
+            _clear();
           },
         ),
 
@@ -145,7 +148,11 @@ class _AddState extends State<AddNewItem> {
             backgroundColor: MaterialStateProperty.all(Colors.teal),
           ),
           onPressed: () {
-
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Pharma()));
+            _clear();
           },
         ),
 
@@ -163,8 +170,10 @@ class _AddState extends State<AddNewItem> {
     if (permissionStatus.isGranted) {
       //Select Image
       image = await _imagePicker.getImage(source: ImageSource.gallery);
-      var file = File(image.path);
-      if (image != null) {
+      file = File(image.path);
+      if (image != null ) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Wait, Image is being uploading ...')));
         //Upload to Firebase
         var snapshot = await _firebaseStorage
             .ref()
@@ -176,7 +185,7 @@ class _AddState extends State<AddNewItem> {
         setState(() {
           productImageUrl = downloadUrl;
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Image Uploaded')));
+              SnackBar(content: Text('Product Image Uploaded')));
         });
       } else {
         print('No Image Path Received');
@@ -195,7 +204,19 @@ class _AddState extends State<AddNewItem> {
       'Quantity' : pQuantity,
       'Price' : pPrice,
       'ProductImageUrl' : productImageUrl,
+            }).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Item Uploaded Successfully'))));
+  }
+
+  _clear() {
+    productName.clear();
+    productDescription.clear();
+    productQuantity.clear();
+    productPrice.clear();
+    setState(() {
+      productImageUrl = null;
     });
+
   }
 
 
