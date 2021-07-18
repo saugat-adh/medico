@@ -1,5 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final firebaseUser = _auth.currentUser;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+String pName;
+String pDescription;
+String pQuantity;
+String pPrice;
+
 
 class AddNewItem extends StatefulWidget {
 
@@ -12,6 +24,7 @@ class _AddState extends State<AddNewItem> {
   final productName = TextEditingController();
   final productDescription = TextEditingController();
   final productQuantity = TextEditingController();
+  final productPrice = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +51,33 @@ class _AddState extends State<AddNewItem> {
                         .of(context)
                         .size
                         .height * 0.03),
-                    _productName(),
-                    _productDescription(),
-                    _productQuantity(),
+                    _item(
+                      name: 'Name',
+                      controller: productName,
+                      hintText: 'Name of your product',
+                      type: TextInputType.text,
+                    ),
+                    _item(
+                      name: 'Description',
+                      controller: productDescription,
+                      hintText: 'Description of your product',
+                      type: TextInputType.text,
+                    ),
+                    _item(
+                      name: 'Quantity',
+                      controller: productQuantity,
+                      hintText: 'Quantity of your product',
+                      type: TextInputType.number,
+                    ),
+                    _item(
+                      name: 'Price',
+                      controller: productPrice,
+                      hintText: 'Price of your product',
+                      type: TextInputType.number,
+                    ),
+                    // _productName(),
+                    // _productDescription(),
+                    // _productQuantity(),
                     SizedBox(height: MediaQuery.of(context).size.height*0.02,),
                     _productImage(),
                     SizedBox(height: MediaQuery.of(context).size.height*0.05,),
@@ -54,102 +91,6 @@ class _AddState extends State<AddNewItem> {
   }
 
 
-  _productName() {
-    return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width - 5,
-      padding: EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-
-        children: [
-          Text('Name', style: TextStyle(fontSize: 16),),
-          new Flexible(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: productName,
-                style: TextStyle(fontSize: 14),
-                decoration: InputDecoration(
-                  border: new OutlineInputBorder(),
-                  hintText: "Enter the name of your product",
-                ),
-
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-
-  _productDescription(){
-    return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width - 5,
-      padding: EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-
-        children: [
-          Text('Description', style: TextStyle(fontSize: 16),),
-          new Flexible(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: productDescription,
-                style: TextStyle(fontSize: 14),
-                decoration: InputDecoration(
-                  border: new OutlineInputBorder(),
-                  hintText: "Enter the description of your product",
-                ),
-
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
-  }
-
-  _productQuantity(){
-    return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width - 5,
-      padding: EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-
-        children: [
-          Text('Quantity', style: TextStyle(fontSize: 16),),
-          new Flexible(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: productQuantity,
-                keyboardType: TextInputType.number,
-                style: TextStyle(fontSize: 14),
-                decoration: InputDecoration(
-                  border: new OutlineInputBorder(),
-                  hintText: "Enter the quantity of your product",
-                ),
-
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
-  }
 
   _productImage(){
     return  Container(
@@ -172,7 +113,11 @@ class _AddState extends State<AddNewItem> {
             backgroundColor: MaterialStateProperty.all(Colors.teal),
           ),
           onPressed: () {
-
+            pName = productName.text;
+            pDescription = productDescription.text;
+            pQuantity = productQuantity.text;
+            pPrice = productPrice.text;
+            _upload();
           },
         ),
 
@@ -191,4 +136,64 @@ class _AddState extends State<AddNewItem> {
     );
   }
 
+}
+
+class _item extends StatelessWidget {
+
+  final String name;
+  final String hintText;
+  final TextEditingController controller;
+  final TextInputType type;
+
+  const _item({
+  Key key,
+  this.name,
+  this.hintText,
+  this.controller,
+  this.type,
+  }) : super (key : key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery
+          .of(context)
+          .size
+          .width - 5,
+      padding: EdgeInsets.all(10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+
+        children: [
+          new Flexible(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: TextFormField(
+                keyboardType: type,
+                controller: controller,
+                style: TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  border: new OutlineInputBorder(),
+                  hintText: hintText,
+                ),
+
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+}
+
+_upload() async {
+  await _firestore
+      .collection('products')
+      .add({
+            'Name': pName,
+            'Description' : pDescription,
+            'Quantity' : pQuantity,
+            'Price' : pPrice,
+          });
 }

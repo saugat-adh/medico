@@ -810,9 +810,9 @@ class _Dash1State extends State<Dash1> {
   }
 
 
-  signOut() {
+  Future< void > signOut() async {
     //redirect
-    _auth.signOut().then((value) => Navigator.pushReplacement(context,
+    await _auth.signOut().then((value) => Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext context) => HomePage())));
   }
 }

@@ -70,7 +70,7 @@ class CategoryCard extends StatelessWidget {
                         icon, color: Colors.white70, ),
                       splashRadius: 40,
                       onPressed: (){
-                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>Pharma()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Pharma()));
 
                       },
                     ),

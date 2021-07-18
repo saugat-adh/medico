@@ -24,6 +24,8 @@ Future login(numberController, context, scafkey) async {
     UserModel userdata = UserModel.deserialize(user);
     if (userdata.phNumber == numberController.text.trim()) {
       type = userdata.category;
+      print(type);
+      print(userType);
     }
   });
   if (type.isEmpty) {
