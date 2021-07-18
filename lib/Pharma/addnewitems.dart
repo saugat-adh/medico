@@ -1,11 +1,21 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final firebaseUser = _auth.currentUser;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+final _firebaseStorage = FirebaseStorage.instance;
+final _imagePicker = ImagePicker();
+PickedFile image;
+String productImageUrl;
 
 String pName;
 String pDescription;
@@ -96,8 +106,15 @@ class _AddState extends State<AddNewItem> {
     return  Container(
       color: Colors.teal,
       height: MediaQuery.of(context).size.width*0.3,
-      child: Image(
-        image: new AssetImage('images/upload.jpg'),
+      child: InkWell(
+        onTap: () {
+          uploadImage();
+        },
+        child: (productImageUrl != null) ?
+          Image(image: new NetworkImage(productImageUrl))
+          :Image(
+          image: new AssetImage('images/upload.jpg'),
+        ),
       ),
     );
   }
@@ -135,6 +152,52 @@ class _AddState extends State<AddNewItem> {
       ]
     );
   }
+
+
+  uploadImage() async {
+    //Check Permissions
+    await Permission.photos.request();
+
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted) {
+      //Select Image
+      image = await _imagePicker.getImage(source: ImageSource.gallery);
+      var file = File(image.path);
+      if (image != null) {
+        //Upload to Firebase
+        var snapshot = await _firebaseStorage
+            .ref()
+            .child('ProductImage')
+            .child(productName.text)
+            .child(productName.text)
+            .putFile(file);
+        var downloadUrl = await snapshot.ref.getDownloadURL();
+        setState(() {
+          productImageUrl = downloadUrl;
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Image Uploaded')));
+        });
+      } else {
+        print('No Image Path Received');
+      }
+    } else {
+      print('Permission not granted. Try Again with permission access');
+    }
+  }
+
+  _upload() async {
+    await _firestore
+        .collection('products')
+        .add({
+      'Name': pName,
+      'Description' : pDescription,
+      'Quantity' : pQuantity,
+      'Price' : pPrice,
+      'ProductImageUrl' : productImageUrl,
+    });
+  }
+
 
 }
 
@@ -187,13 +250,3 @@ class _item extends StatelessWidget {
 
 }
 
-_upload() async {
-  await _firestore
-      .collection('products')
-      .add({
-            'Name': pName,
-            'Description' : pDescription,
-            'Quantity' : pQuantity,
-            'Price' : pPrice,
-          });
-}
