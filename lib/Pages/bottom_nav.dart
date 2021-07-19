@@ -59,14 +59,16 @@ class _BotNavBarState extends State<BotNavBar> {
   }
 
   _gotoNavigate() {
+    Future.delayed(Duration.zero, () {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder:
-              (BuildContext context) => Pharma()
+            builder:
+                (BuildContext context) => Pharma()
         ),
             (route) => false,
       );
+    });
   }
 
   @override
