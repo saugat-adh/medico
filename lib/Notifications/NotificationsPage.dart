@@ -1,14 +1,116 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:medico/Pages/appointments/expain_page/doctor_explained.dart';
+import 'package:medico/constants.dart';
+
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final firebaseUser = _auth.currentUser;
 
 class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: _firestore
+          .collection(userType == 'doctors' ? 'doctors' : 'patients')
+          .doc(firebaseUser.uid)
+          .collection('docAppointment')
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-          title: Text("Notification"),
-          automaticallyImplyLeading: true,
-          backgroundColor: Colors.green),
+    backgroundColor: Colors.grey[200],
+    appBar: AppBar(
+    title: Text("Notification"),
+    automaticallyImplyLeading: true,
+    backgroundColor: Colors.green),
+    );
+    } else {
+      return Scaffold(
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+            title: Text("Notification"),
+            automaticallyImplyLeading: true,
+            backgroundColor: Colors.green),
+        body: SingleChildScrollView(
+          child: Column(
+            children: snapshot.data.docs.map((document){
+              return DocScheduleCard(id: document.id, time: document['appointmentTime'],);
+        }).toList(),
+          ),
+        ),
+      );
+    }
+      }
+    );
+  }
+}
+
+class DocScheduleCard extends StatelessWidget {
+  DocScheduleCard({this.id, this.time});
+
+  final String id;
+  final Timestamp time;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: _firestore
+          .collection( 'doctors').where(FieldPath.documentId, isEqualTo: id).snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width - 20,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: snapshot.data.docs.map((document){
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  DoctorExp(document)),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(document['First name']),
+                              SizedBox(width: 3,),
+                              Text(document['Last name']),
+                            ],
+                          ),
+                          SizedBox(height: 20,),
+                          Text(document['speciality']),
+                          SizedBox(height: 20,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text('Time: '),
+                              Text(time.seconds.toString()),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
     );
   }
 }
