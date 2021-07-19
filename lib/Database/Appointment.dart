@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:medico/constants.dart';
 
 class AppointmentService {
   AppointmentService._();
@@ -11,15 +12,28 @@ class AppointmentService {
     String currentUserId = FirebaseAuth.instance.currentUser.uid;
     DateTime appointmentTime = DateTime.now();
     print(doctorInformation['nmcID']);
-    FirebaseFirestore.instance
-        .collection('patients')
-        .doc(currentUserId)
-        .collection("Appointment")
-        .doc(doctorInformation.id)
-        .set({
-      "Doctor": doctorInformation['First name'],
-      "appointmentTime": appointmentTime,
-    });
+    if (userType == 'patients') {
+      FirebaseFirestore.instance
+          .collection('patients')
+          .doc(currentUserId)
+          .collection("docAppointment")
+          .doc(doctorInformation.id)
+          .set({
+        "Doctor": doctorInformation['First name'],
+        "appointmentTime": appointmentTime,
+      });
+    } else {
+      FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(currentUserId)
+          .collection("docAppointment")
+          .doc(doctorInformation.id)
+          .set({
+        "Doctor": doctorInformation['First name'],
+        "appointmentTime": appointmentTime,
+      });
+    }
+
     makeDoctorAppointment(
         doctorInformation: doctorInformation, appointmentTime: appointmentTime);
   }
@@ -29,7 +43,7 @@ class AppointmentService {
       DateTime appointmentTime}) async {
     String currentUserId = FirebaseAuth.instance.currentUser.uid;
     DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('patients')
+        .collection(userType == 'patients' ? 'patients' : 'doctors')
         .doc(currentUserId)
         .get();
     FirebaseFirestore.instance
