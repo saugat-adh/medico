@@ -45,6 +45,9 @@ class _DocPanelState extends State<DocPanel> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               _buildAddButton(),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              Divider(color: Colors.black, thickness: 2,indent: MediaQuery.of(context).size.width *0.15, endIndent: MediaQuery.of(context).size.width * 0.15,),
+              Center(child: Text('Upcoming Schedules'),),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               _upcomingSchedules(),
             ],
           ),
@@ -91,16 +94,27 @@ class _DocPanelState extends State<DocPanel> {
   }
 
   _upcomingSchedules() {
-    return Center(
-      child: Container(
-        width: MediaQuery.of(context).size.width - 20,
-        child: Column(
-          children: [
-            ...List.generate(
-                6, (index) => ScheduleCard(),)
-          ],
-        ),
-      ),
+    return StreamBuilder(
+      stream: _firestore
+          .collection('doctors')
+          .doc(firebaseUser.uid)
+          .collection('Appointment')
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
+          return Text('');
+        } else {
+          return Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width - 20,
+              child: Column(
+                children: snapshot.data.docs.map((document) {
+                  return ScheduleCard(name: document['patientName'], appointmentTime: document['appointementTime'],);
+                }).toList(),
+              ),
+            ),
+          );}
+      }
     );
   }
 
@@ -201,7 +215,7 @@ class _DocPanelState extends State<DocPanel> {
             });
       },
       child: Container(
-        width: MediaQuery.of(context).size.width - 20,
+        width: MediaQuery.of(context).size.width - 150,
         decoration: BoxDecoration(
           color: Colors.grey,
           borderRadius: BorderRadius.circular(20),
@@ -226,6 +240,10 @@ class _DocPanelState extends State<DocPanel> {
 }
 
 class ScheduleCard extends StatelessWidget {
+  ScheduleCard({this.name, this.appointmentTime});
+
+  final String name;
+  final String appointmentTime;
 
   @override
   Widget build(BuildContext context) {
@@ -243,8 +261,8 @@ class ScheduleCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text('Name of Patient'),
-                Text('Time: 99'),
+                Text(name),
+                Text(appointmentTime),
 
               ],
             ),

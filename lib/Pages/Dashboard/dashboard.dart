@@ -98,13 +98,16 @@ class _Dash1State extends State<Dash1> {
       child: Column(
         children: [
           Container(
-            height: 250,
+            //height: 150,
             width: MediaQuery.of(context).size.width - 20,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               color: Colors.white,
             ),
-            child: Center(child: Text('Doctor panel')),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(child: Text('Doctor panel')),
+            ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
         ],
