@@ -355,7 +355,8 @@ class _InfoFormState extends State<InfoForm> {
       "email": emailController.text,
       "gender": infoGender,
       "height": heightController.text,
-      "weight": weightController.text
+      "weight": weightController.text,
+      "desc": '',
     });
     setState(() {
       isLoading = false;

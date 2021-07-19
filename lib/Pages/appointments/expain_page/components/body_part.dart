@@ -10,12 +10,13 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class BodyPart extends StatelessWidget {
-  BodyPart({this.number, this.address, this.email, this.id});
+  BodyPart({this.number, this.address, this.email, this.id, this.desc});
 
   final String number;
   final String address;
   final String email;
   final String id;
+  final String desc;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class BodyPart extends StatelessWidget {
                 height: 10,
               ),
               ReadMoreText(
-                'Singing is the act of producing musical sounds with the voice. A person who sings is called a singer or vocalist (in jazz and popular music). Singers perform music (arias, recitatives, songs, etc.) that can be sung with or without accompaniment by musical instruments. Singing is often done in an ensemble of musicians, such as a choir of singers or a band of instrumentalists.',
+                desc,
                 trimLines: 3,
                 trimMode: TrimMode.Line,
                 trimCollapsedText: '...Show more',

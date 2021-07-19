@@ -84,13 +84,7 @@ class DocScheduleCard extends StatelessWidget {
                       },
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Text(document['First name']),
-                              SizedBox(width: 3,),
-                              Text(document['Last name']),
-                            ],
-                          ),
+                          Text(document['First name'] + ' ' + document['Last name']),
                           SizedBox(height: 20,),
                           Text(document['speciality']),
                           SizedBox(height: 20,),
