@@ -184,9 +184,6 @@ class _DocPanelState extends State<DocPanel> {
                                     _addAppointment();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(content: Text('Appointment Added Successfully')));
-                                    dateController.clear();
-                                    dayController.clear();
-                                    timeController.clear();
                                     Navigator.pop(context);
                                   },
                                   style: ButtonStyle(
@@ -236,6 +233,9 @@ class _DocPanelState extends State<DocPanel> {
       'day' : dayController.text,
       'time' : timeController.text,
     });
+    dateController.clear();
+    dayController.clear();
+    timeController.clear();
   }
 }
 
@@ -243,7 +243,7 @@ class ScheduleCard extends StatelessWidget {
   ScheduleCard({this.name, this.appointmentTime});
 
   final String name;
-  final String appointmentTime;
+  final Timestamp appointmentTime;
 
   @override
   Widget build(BuildContext context) {
@@ -262,7 +262,7 @@ class ScheduleCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(name),
-                Text(appointmentTime),
+                Text(appointmentTime.seconds.toString()),
 
               ],
             ),

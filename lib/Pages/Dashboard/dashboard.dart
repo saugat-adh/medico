@@ -823,9 +823,10 @@ class _Dash1State extends State<Dash1> {
           .update({'weight': myControllerWeight.text});
   }
 
-  Future<void> signOut() async {
-    //redirect
-    await _auth.signOut().then((value) => Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (BuildContext context) => HomePage())));
+  signOut() async {
+    await _auth.signOut();
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) =>HomePage()),
+            (Route<dynamic> route) => false);
   }
 }

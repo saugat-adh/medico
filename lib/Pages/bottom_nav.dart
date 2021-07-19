@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/Dashboard/dashboard.dart';
+import 'package:medico/Pharma/mainScreen.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'appointments/appointment.dart';
 import 'shop/shop.dart';
@@ -42,6 +43,11 @@ class _BotNavBarState extends State<BotNavBar> {
 
   @override
   void initState() {
+    userType == 'admin' ? _gotoNavigate() : _getElseData();
+    super.initState();
+  }
+
+  _getElseData() {
     getData();
     _fetchName();
     _fetchHeight();
@@ -49,7 +55,18 @@ class _BotNavBarState extends State<BotNavBar> {
     _fetchBMI();
     _fetchAge();
     _fetchImage();
-    super.initState();
+    //print(userType);
+  }
+
+  _gotoNavigate() {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder:
+              (BuildContext context) => Pharma()
+        ),
+            (route) => false,
+      );
   }
 
   @override
