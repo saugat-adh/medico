@@ -73,7 +73,7 @@ class _BookPageState extends State<BookPage> {
               } else if (appointmentData.date.length == 0 ||
                   appointmentData.year.length == 0) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Make a appointment first")));
+                    SnackBar(content: Text("Make an appointment first")));
               } else {
                 try {
                   print("Doneee");
