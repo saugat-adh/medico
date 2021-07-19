@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => userType == 'admin' ? Pharma() : BotNavBar(),
+            builder: (BuildContext context) => BotNavBar(),
           ),
           (route) => false,
         );

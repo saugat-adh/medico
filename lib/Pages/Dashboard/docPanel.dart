@@ -19,6 +19,14 @@ class _DocPanelState extends State<DocPanel> {
   final timeController = TextEditingController();
 
   @override
+  void dispose() {
+    //Cleanup Controller when widget is disposed
+    dateController.dispose();
+    dayController.dispose();
+    timeController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
       appBar: AppBar(
@@ -162,6 +170,9 @@ class _DocPanelState extends State<DocPanel> {
                                     _addAppointment();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(content: Text('Appointment Added Successfully')));
+                                    dateController.clear();
+                                    dayController.clear();
+                                    timeController.clear();
                                     Navigator.pop(context);
                                   },
                                   style: ButtonStyle(
@@ -252,6 +263,7 @@ class DayCard extends StatelessWidget {
   final String time;
 
   @override
+
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(10),
