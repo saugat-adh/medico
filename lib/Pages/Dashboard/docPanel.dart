@@ -1,72 +1,59 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:medico/Pages/appointments/book_page/components/headPart.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final firebaseUser = _auth.currentUser;
 
 class DocPanel extends StatefulWidget {
-
   @override
   _DocPanelState createState() => _DocPanelState();
 }
 
 class _DocPanelState extends State<DocPanel> {
-  final dayController = TextEditingController();
-  final dateController = TextEditingController();
-  final timeController = TextEditingController();
+  DateTime _appointmentTime = DateTime.now();
 
   @override
   void dispose() {
-    //Cleanup Controller when widget is disposed
-    dateController.dispose();
-    dayController.dispose();
-    timeController.dispose();
     super.dispose();
   }
+
+  GlobalKey<FormState> _oFormKey = GlobalKey<FormState>();
+  TextEditingController _controller1;
+  // List<String> dateData = ["July 5","2021"];
+  //   List<String> timeData =
+
+  //String _initialValue = '';
+
+  String _valueSaved1 = '';
+
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-      ),
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-              _buildAppointmentPanel(),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-              _buildAddButton(),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-              Divider(color: Colors.black, thickness: 2,indent: MediaQuery.of(context).size.width *0.15, endIndent: MediaQuery.of(context).size.width * 0.15,),
-              Center(child: Text('Upcoming Schedules'),),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-              _upcomingSchedules(),
-            ],
-          ),
-        ),
-      ),
-    ));
+  void initState() {
+    super.initState();
+    //_initialValue = DateTime.now().toString();
+    _controller1 = TextEditingController(text: DateTime.now().toString());
+    _getValue();
   }
 
-  _buildAppointmentPanel() {
-    return Center(
-      child: Container(
-        width: MediaQuery.of(context).size.width - 20,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: _appointmentScheduler(),
-      ),
-    );
+  Future<void> _getValue() async {
+    await Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _controller1.text = '2000-09-20 14:30';
+      });
+    });
+  }
+
+  dateProcessor(DateTime now) {
+    print(now.toString());
+
+    // String formattedDate = DateFormat("yyyy-MM-dd HH:mm:ss").format(now);
+
+    // List<String> dateData = formattedDate.split("-");
+    // List<String> timeData =
   }
 
   _appointmentScheduler() {
@@ -76,24 +63,43 @@ class _DocPanelState extends State<DocPanel> {
           .doc(firebaseUser.uid)
           .collection('time')
           .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
-        return Text('');
-      } else {
-      return Container(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: snapshot.data.docs.map((document) {
-              return DayCard(date: document['date'],day: document['day'],time: document['time']);
-            }).toList(),
-          ),
-        ),
-      );}},
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
+          return Text('');
+        } else {
+          return Container(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: snapshot.data.docs.map((document) {
+                  String date = "00";
+                  String month = "34";
+                  String year = "2002";
+                  String timeHour = "34";
+                  String timeSec = "34:";
+                  Timestamp dateFromDb = document['appointmentTime'];
+                  String timestamp = dateFromDb.toDate().toString();
+                  date = timestamp.split("-")[2];
+                  month = timestamp.split("-")[1];
+                  year = timestamp.split("-")[0];
+                  String laterHalf = timestamp.split(" ")[1];
+                  timeHour = laterHalf.split(":")[0];
+                  timeSec = laterHalf.split(":")[1];
+
+                  return DayCard(
+                      date: "${date.split(" ")[0]} ${numberMonth(month)} ",
+                      year: year,
+                      time: "$timeHour:$timeSec ${amPm(timeHour)}");
+                }).toList(),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 
-  _upcomingSchedules() {
+  _appointmentsMade() {
     return StreamBuilder(
       stream: _firestore
           .collection('doctors')
@@ -104,168 +110,174 @@ class _DocPanelState extends State<DocPanel> {
         if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
           return Text('');
         } else {
-          return Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width - 20,
-              child: Column(
+          return Container(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
                 children: snapshot.data.docs.map((document) {
-                  return ScheduleCard(name: document['patientName'], appointmentTime: document['appointementTime'],);
+                  String date = "00";
+                  String month = "34";
+                  String year = "2002";
+                  String timeHour = "34";
+                  String timeSec = "34:";
+                  String patientName = "exapmle";
+                  String docDatabase = document['appointementTime'];
+                  patientName = document['patientName'] != null
+                      ? document['patientName']
+                      : "";
+
+                  date = docDatabase.split(" ")[0];
+                  month = docDatabase.split(" ")[1];
+                  year = docDatabase.split(" ")[2];
+                  String laterHalf = docDatabase.split(" ")[3];
+                  timeHour = laterHalf.split(":")[0];
+                  timeSec = laterHalf.split(":")[1];
+
+                  return DayCard(
+                      name: patientName,
+                      date: "${date.split(" ")[0]} $month ",
+                      year: year,
+                      time: "$timeHour:$timeSec ${amPm(timeHour)}");
                 }).toList(),
               ),
             ),
-          );}
-      }
-    );
-  }
-
-  _buildAddButton() {
-    return GestureDetector(
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                content:
-                Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Text('Add Appointment',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontFamily: 'RobotoReg',
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextField(
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                              border: new OutlineInputBorder(),
-                              hintText: 'Enter Date'
-                          ),
-                          controller: dateController,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextField(
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                              border: new OutlineInputBorder(),
-                              hintText: 'Enter time'
-                          ),
-                          controller: timeController,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextField(
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                              border: new OutlineInputBorder(),
-                              hintText: 'Enter Day'
-                          ),
-                          controller: dayController,
-                        ),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                ElevatedButton(
-                                  child: Text("Save"),
-                                  onPressed: () {
-                                    _addAppointment();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text('Appointment Added Successfully')));
-                                    Navigator.pop(context);
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(Colors.teal),
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  child: Text("Cancel"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    dateController.clear();
-                                    dayController.clear();
-                                    timeController.clear();
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(Colors.teal),
-                                  ),
-                                ),
-                              ]
-                          )
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            });
+          );
+        }
       },
-      child: Container(
-        width: MediaQuery.of(context).size.width - 150,
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Center(
-            child: Text('Add Appointments'),
-          ),
-        ),
-      )
     );
   }
 
-  _addAppointment() async{
-    await _firestore..collection("doctors").doc(firebaseUser.uid).collection('time').add({
-      'date' : dateController.text,
-      'day' : dayController.text,
-      'time' : timeController.text,
-    });
-    dateController.clear();
-    dayController.clear();
-    timeController.clear();
+  _formatter(String datetime) {
+    DateTime trialDate = DateTime.parse(datetime);
+    _addAppointment(trialDate);
   }
-}
 
-class ScheduleCard extends StatelessWidget {
-  ScheduleCard({this.name, this.appointmentTime});
+  amPm(String hour) {
+    if (int.parse(hour) >= 12) {
+      return "PM";
+    } else {
+      return "AM";
+    }
+  }
 
-  final String name;
-  final Timestamp appointmentTime;
+  numberMonth(String monthNumber) {
+    switch (monthNumber) {
+      case ("01"):
+        return "January";
+        break;
+      case ("02"):
+        return "February";
+        break;
+      case ("03"):
+        return "March";
+        break;
+      case ("04"):
+        return "April";
+        break;
+      case ("05"):
+        return "May";
+        break;
+      case ("06"):
+        return "June";
+        break;
+      case ("07"):
+        return "July";
+        break;
+      case ("08"):
+        return "August";
+        break;
+      case ("09"):
+        return "September";
+        break;
+      case ("10"):
+        return "October";
+        break;
+      case ("11"):
+        return "November";
+        break;
+      case ("12"):
+        return "December";
+        break;
+      default:
+    }
+  }
+
+  Future<void> _addAppointment(DateTime _appointmentTime) async {
+    _firestore
+      ..collection("doctors")
+          .doc(firebaseUser.uid)
+          .collection('time')
+          .add({"appointmentTime": _appointmentTime});
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          width: MediaQuery.of(context).size.width - 20,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(name),
-                Text(appointmentTime.seconds.toString()),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Appointment'),
+        backgroundColor: Colors.green,
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+        child: Form(
+          key: _oFormKey,
+          child: Column(
+            children: <Widget>[
+              Text("Appointment Schedule"),
+              _appointmentScheduler(),
+              DateTimePicker(
+                type: DateTimePickerType.dateTimeSeparate,
+                dateMask: 'dd/ MM/ yyyy',
+                controller: _controller1,
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
+                icon: Icon(Icons.event),
+                dateLabelText: 'Date',
+                timeLabelText: "Hour",
+                selectableDayPredicate: (date) {
+                  if (date.weekday == 6 || date.weekday == 7) {
+                    return false;
+                  }
+                  return true;
+                },
+                onSaved: (val) => setState(() => _valueSaved1 = val ?? ''),
+              ),
+              SizedBox(height: 10),
+              Container(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.green),
+                  onPressed: () {
+                    final loForm = _oFormKey.currentState;
 
-              ],
-            ),
+                    if (loForm?.validate() == true) {
+                      loForm?.save();
+                      _formatter(_valueSaved1);
+                    }
+                  },
+                  child: Text('Submit'),
+                ),
+              ),
+              Divider(),
+              Container(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.red),
+                  onPressed: () {
+                    final loForm = _oFormKey.currentState;
+                    loForm?.reset();
+
+                    setState(() {
+                      _valueSaved1 = '';
+                    });
+
+                    _controller1.clear();
+                  },
+                  child: Text('Reset'),
+                ),
+              ),
+              _appointmentsMade()
+            ],
           ),
         ),
       ),
@@ -273,15 +285,14 @@ class ScheduleCard extends StatelessWidget {
   }
 }
 
-
 class DayCard extends StatelessWidget {
-  DayCard({this.day, this.date, this.time});
-  final String day;
+  DayCard({this.name, this.year, this.date, this.time});
+  final String year;
   final String date;
   final String time;
+  String name = "";
 
   @override
-
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(10),
@@ -290,34 +301,38 @@ class DayCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            name != null
+                ? Text(
+                    " To: $name",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Muli',
+                        fontSize: MediaQuery.of(context).size.width * 0.05),
+                  )
+                : Text(""),
             Text(
-              day,
+              " Time: $time",
               style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Muli',
                   fontSize: MediaQuery.of(context).size.width * 0.05),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
-              date,
+              "Date: $date$year",
               style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Muli',
                   fontSize: MediaQuery.of(context).size.width * 0.05),
             ),
-            SizedBox(height: 10,),
-            Text(
-              time,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Muli',
-                  fontSize: MediaQuery.of(context).size.width * 0.05),
+            SizedBox(
+              height: 10,
             ),
-            SizedBox(height: 10,),
           ],
         ),
       ),
     );
   }
 }
-
