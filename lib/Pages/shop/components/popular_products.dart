@@ -1,10 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:medico/Pages/shop/components/product_card.dart';
 import 'package:medico/Pages/shop/components/section_title.dart';
 import 'package:medico/details/details_screen.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'Product.dart';
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class PopUpProducts extends StatelessWidget {
   const PopUpProducts({
@@ -31,25 +35,45 @@ class PopUpProducts extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              ...List.generate(
-                demoProducts.length,
-                    (index) {
-                   if (demoProducts[index].isPopular|| !demoProducts[index].isPopular)
-                    return ProductCard(product: demoProducts[index],
-                      press:()=>
-                      Navigator.pushNamed(context, '/details',
-                      arguments: ProductDetailsArguments(product: demoProducts[index])
-                      ),
-                    );
+              Column(
+                children: [
+                  StreamBuilder<QuerySnapshot>
+                    (stream: _firestore.collection("products").snapshots(),
+                      builder: (BuildContext context, AsyncSnapshot <QuerySnapshot> dataSnapshot) {
+                        if (!dataSnapshot.hasData) {
+                          return CircularProgressIndicator();
+                        } else {
+                          return SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: dataSnapshot.data.docs.map((document) {
+                                return ProductCard(
+                                  imgURL: document['ProductImageUrl'],
+                                  productPrice: document['Price'],
+                                  title: document['Name'],
+                                  quantity: document['Quantity'],
+                                  description: document['Description'],
+                                  // press: () { Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (BuildContext context) => DoctorExp(document)),
+                                  // );
+                                  // },
+                                );
+                              }).toList(),
+                            ),
+                          );
+                        }
+                      }
+                  ),
 
-                  return SizedBox
-                      .shrink(); // here by default width and height is 0
-                },
+                ],
               ),
               SizedBox(width: MediaQuery
                   .of(context)
                   .size
                   .height * 0.04),
+
             ],
           ),
         )

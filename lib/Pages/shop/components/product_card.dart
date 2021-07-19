@@ -1,21 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:medico/Pages/shop/components/Product.dart';
 
-import 'Product.dart';
+bool isFavourite= false;
+
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
     Key key,
     this.width=140,
     this.aspectRation=1.02,
-    @required this.product,
-    @required this.press,
+    @required this.press, this.title, this.description, this.quantity, this.productPrice, this.imgURL, Product product,
   }) : super(key: key);
 
 
+
   final double width, aspectRation;
-  final Product product;
+  final String title;
+  final String description;
+  final String quantity;
+  final String productPrice;
+  final String imgURL;
+
   final GestureTapCallback press;
 
   @override
@@ -42,14 +49,21 @@ class ProductCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
 
                       ),
-                      child: FittedBox(
-                        child: Image.asset(product.images[0],
-                          fit: BoxFit.fill,),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.grey,
+                          image: DecorationImage(
+                            image: NetworkImage(imgURL),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(product.title,
+                  Text(title,
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
@@ -59,7 +73,7 @@ class ProductCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Rs ${product.price}",
+                      Text("Rs ${productPrice}",
                         style: TextStyle(
                             color: Colors.orange[700],
                             fontWeight: FontWeight.w600),
@@ -74,7 +88,7 @@ class ProductCard extends StatelessWidget {
                           width: MediaQuery.of(context).size.width*0.06,
                           height: MediaQuery.of(context).size.height*0.06,
                           decoration: BoxDecoration(
-                            color: product.isFavourite
+                            color: isFavourite
                                 ?Colors.white30.withOpacity(0.4)
                                 :Colors.redAccent[100].withOpacity(0.2),
                             shape: BoxShape.circle,
