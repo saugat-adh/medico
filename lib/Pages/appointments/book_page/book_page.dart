@@ -59,7 +59,7 @@ class _BookPageState extends State<BookPage> {
           child: Center(
               child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: Colors.green,
+                primary: Color(0xff0118B5),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0)),
                 padding: EdgeInsets.all(0)),
