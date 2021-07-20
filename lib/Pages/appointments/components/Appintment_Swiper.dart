@@ -68,6 +68,7 @@ class AppointmentSwiper extends StatelessWidget {
                                       children: abc.data.docs.map((xyz) {
                                         if (document['UID'] == xyz.id) {
                                           return DocCard(
+                                            docx: xyz,
                                             docUid: xyz.id,
                                             imageUrl: xyz['imageURl'],
                                             text: xyz['First name'] +
@@ -154,6 +155,7 @@ class AppointmentSwiper extends StatelessWidget {
                                       children: abc.data.docs.map((xyz) {
                                         if (document['UID'] == xyz.id) {
                                           return DocCard(
+                                            docx: xyz,
                                             docUid: xyz.id,
                                             imageUrl: xyz['imageURl'],
                                             text: xyz['First name'] +

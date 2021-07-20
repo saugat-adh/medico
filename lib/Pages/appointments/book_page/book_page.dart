@@ -4,6 +4,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:medico/Database/Appointment.dart';
 import 'package:medico/Pages/appointments/book_page/components/headPart.dart';
 import 'package:medico/Database/Appointment.dart';
+import 'package:medico/Pages/home_page.dart';
 
 class BookPage extends StatefulWidget {
   final QueryDocumentSnapshot docs;
@@ -15,6 +16,12 @@ class BookPage extends StatefulWidget {
 }
 
 class _BookPageState extends State<BookPage> {
+  @override
+  void dispose() {
+    super.dispose();
+    appointmentData.disposeAppointmentData();
+  }
+
   final _appointmentService = AppointmentService.instance;
 
   @override
@@ -47,21 +54,42 @@ class _BookPageState extends State<BookPage> {
           color: Colors.white,
         ),
         height: 80,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xff0118B5),
-                borderRadius: BorderRadius.circular(25),
-              ),
-              width: MediaQuery.of(context).size.width - 90,
-              child: Center(
-                  child: TextButton(
-                onPressed: () {
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: Center(
+              child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                primary: Color(0xff0118B5),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+                padding: EdgeInsets.all(0)),
+            onPressed: () {
+              if (appointmentData.date.length > 1 ||
+                  appointmentData.year.length > 1) {
+                print("Greater Scenario");
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content:
+                        Text("You cannot select multiple appointment time")));
+              } else if (appointmentData.date.length == 0 ||
+                  appointmentData.year.length == 0) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Make an appointment first")));
+              } else {
+                try {
+                  print("Doneee");
                   _appointmentService.makePateintAppointment(
                       doctorInformation: widget.docs);
-                },
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Appointment Made")));
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Something went wrong")));
+                }
+              }
+            },
+            child: Container(
+              width: double.infinity,
+              child: Center(
                 child: Text(
                   'Book',
                   style: TextStyle(
@@ -69,9 +97,9 @@ class _BookPageState extends State<BookPage> {
                       fontFamily: 'Muli',
                       fontSize: MediaQuery.of(context).size.width * 0.05),
                 ),
-              )),
+              ),
             ),
-          ),
+          )),
         ),
       ),
     ));

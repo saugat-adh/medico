@@ -53,11 +53,11 @@ class _DoctorExpState extends State<DoctorExp> {
                 crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildBackButton(),
-                HeadPart(fName: widget.docs['First name'],lName: widget.docs['Last name'],speciality: widget.docs['speciality'],imageUrl: widget.docs['ImgUrl'],),
+                HeadPart(fName: widget.docs['First name'],lName: widget.docs['Last name'],speciality: widget.docs['speciality'],imageUrl: widget.docs['ImgUrl'], docx: widget.docs,),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.01,
                 ),
-                BodyPart(address: widget.docs['address'], email: widget.docs['email'], number: widget.docs['cellnumber'], id: widget.docs.id, desc: widget.docs['desc'],),
+                BodyPart(address: widget.docs['address'], email: widget.docs['email'], number: widget.docs['cellnumber'], id: widget.docs.id, desc: widget.docs['desc'], docx: widget.docs,),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),

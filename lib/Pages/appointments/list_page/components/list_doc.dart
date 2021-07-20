@@ -29,6 +29,7 @@ class DocList extends StatelessWidget {
               children: snapshot.data.docs.map((document) {
                 if (document.id != firebaseUser.uid){
                   return DocCard(
+                    docx: document,
                     docUid: document.id,
                     imageUrl: document['ImgUrl'],
                     text: document['First name'] + " " + document['Last name'],

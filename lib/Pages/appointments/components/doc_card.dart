@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -8,13 +9,15 @@ class DocCard extends StatelessWidget {
       this.press,
       this.speciality,
       @required this.docUid,
-      this.imageUrl});
+      this.imageUrl,
+      this.docx});
 
   final String text;
   final Function press;
   final String speciality;
   final String imageUrl;
   final String docUid;
+  final QueryDocumentSnapshot docx;
 
   @override
   Widget build(BuildContext context) {
@@ -73,26 +76,21 @@ class DocCard extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          RatingBar.builder(
-                            initialRating: 3,
-                            minRating: 1,
+                          RatingBarIndicator(
+                            rating: double.parse(docx['rating']),
                             direction: Axis.horizontal,
-                            allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 15,
                             itemBuilder: (context, _) => Icon(
                               Icons.star,
                               color: Colors.amber,
                             ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02,
                           ),
                           Text(
-                            '4.5',
+                            docx['rating'],
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontFamily: 'Muli',

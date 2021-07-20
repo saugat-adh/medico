@@ -10,13 +10,14 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class BodyPart extends StatelessWidget {
-  BodyPart({this.number, this.address, this.email, this.id, this.desc});
+  BodyPart({this.number, this.address, this.email, this.id, this.desc, this.docx});
 
   final String number;
   final String address;
   final String email;
   final String id;
   final String desc;
+  final QueryDocumentSnapshot docx;
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +174,7 @@ class BodyPart extends StatelessWidget {
                 children: [
 
           RatingBar.builder(
-            initialRating: 3,
+            initialRating:  double.parse(docx['rating']),
             minRating: 1,
             direction: Axis.horizontal,
             allowHalfRating: true,
@@ -184,7 +185,8 @@ class BodyPart extends StatelessWidget {
               color: Colors.amber,
             ),
             onRatingUpdate: (rating) {
-              print(rating);
+              String rate = rating.toString();
+              _updateRating(rate);
             },
           ),
                 ],
@@ -243,4 +245,10 @@ class BodyPart extends StatelessWidget {
           }
     });
   }
+
+   _updateRating(rating) async{
+    await _firestore.collection('doctors').doc(docx.id).update({
+      "rating" : rating,
+    });
+   }
 }

@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class HeadPart extends StatelessWidget {
-  HeadPart({this.fName, this.lName, this.speciality, this.imageUrl});
+  HeadPart({this.fName, this.lName, this.speciality, this.imageUrl, this.docx});
 
   final String fName;
   final String lName;
   final String speciality;
   final String imageUrl;
+  final QueryDocumentSnapshot docx;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +96,7 @@ class HeadPart extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '4.5 out of 5',
+                              docx['rating'] + ' out of 5',
                               style: TextStyle(
                                 fontFamily: 'Muli',
                                 fontSize:

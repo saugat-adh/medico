@@ -36,7 +36,21 @@ class NotificationPage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: snapshot.data.docs.map((document){
-              return DocScheduleCard(id: document.id, time: document['appointmentTime'],);
+              String date = "00";
+              String month = "34";
+              String year = "2002";
+              String timeHour = "34";
+              String timeSec = "34:";
+              String patientName = "exapmle";
+              String docDatabase = document['appointmentTime'];
+              date = docDatabase.split(" ")[0];
+              month = docDatabase.split(" ")[1];
+              year = docDatabase.split(" ")[2];
+              String laterHalf = docDatabase.split(" ")[3];
+              timeHour = laterHalf.split(":")[0];
+              timeSec = laterHalf.split(":")[1];
+
+              return DocScheduleCard(id: document.id, time: "$timeHour:$timeSec ${amPm(timeHour)}", date: "${date.split(" ")[0]} $month ", year: year);
         }).toList(),
           ),
         ),
@@ -45,13 +59,23 @@ class NotificationPage extends StatelessWidget {
       }
     );
   }
+
+  amPm(String hour) {
+    if (int.parse(hour) >= 12) {
+      return "PM";
+    } else {
+      return "AM";
+    }
+  }
 }
 
 class DocScheduleCard extends StatelessWidget {
-  DocScheduleCard({this.id, this.time});
+  DocScheduleCard({this.id, this.time, this.year, this.date});
 
   final String id;
-  final Timestamp time;
+  final String time;
+  final String year;
+  final String date;
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +112,13 @@ class DocScheduleCard extends StatelessWidget {
                           SizedBox(height: 20,),
                           Text(document['speciality']),
                           SizedBox(height: 20,),
+                          Text(date + ' ' + year),
+                          SizedBox(height: 20,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text('Time: '),
-                              Text(time.seconds.toString()),
+                              Text(time),
                             ],
                           ),
                         ],

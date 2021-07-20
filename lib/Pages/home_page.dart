@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medico/Database/AppointData.dart';
 import 'package:medico/Forms/log_in.dart';
 import 'package:medico/Forms/register.dart';
 import 'package:medico/Pages/bottom_nav.dart';
@@ -8,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:medico/constants.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+AppointData appointmentData = AppointData();
+bool enableAppointButton = false;
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
@@ -35,7 +38,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     TextStyle topTxt = TextStyle(
       fontSize: MediaQuery.of(context).size.width * 0.17,
       fontWeight: FontWeight.bold,
@@ -71,7 +73,9 @@ class _HomePageState extends State<HomePage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height *0.2,),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                ),
                 Text(
                   'Welcome To',
                   style: topTxt,
