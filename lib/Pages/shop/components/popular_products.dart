@@ -53,12 +53,12 @@ class PopUpProducts extends StatelessWidget {
                                   title: document['Name'],
                                   quantity: document['Quantity'],
                                   description: document['Description'],
-                                  // press: () { Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (BuildContext context) => DoctorExp(document)),
-                                  // );
-                                  // },
+                                  press: () { Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) => DetailsScreen()),
+                                  );
+                                  },
                                 );
                               }).toList(),
                             ),

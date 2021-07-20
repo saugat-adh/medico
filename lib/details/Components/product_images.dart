@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medico/Pages/shop/components/Product.dart';
 
 class ProductImages extends StatelessWidget {
   const ProductImages({
     Key key,
-    @required this.product,
+    @required  this.imgURL,
   }) : super(key: key);
 
-  final Product product;
+  final String imgURL;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +39,17 @@ class ProductImages extends StatelessWidget {
                     boundaryMargin: EdgeInsets.all(100),
                     minScale: 0.5,
                     maxScale: 1,
-                    child: Image.asset(product.images[0],
-                      fit: BoxFit.cover,),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Colors.grey,
+                        image: DecorationImage(
+                          image: NetworkImage(imgURL),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   )),
             ),),
         ),
