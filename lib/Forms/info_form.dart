@@ -357,6 +357,7 @@ class _InfoFormState extends State<InfoForm> {
       "height": heightController.text,
       "weight": weightController.text,
       "desc": '',
+      'rating' : '0',
     });
     setState(() {
       isLoading = false;
