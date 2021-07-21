@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:medico/Notifications/NotificationsPage.dart';
 import 'package:medico/Pages/Dashboard/docPanel.dart';
 import 'package:medico/Pages/home_page.dart';
@@ -23,6 +24,11 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final firebaseUser = _auth.currentUser;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+
+final myControllerHeight = TextEditingController();
+final myControllerWeight = TextEditingController();
+
+
 class Dash1 extends StatefulWidget {
   @override
   _Dash1State createState() => _Dash1State();
@@ -34,56 +40,55 @@ class _Dash1State extends State<Dash1> {
   PickedFile image;
   @override
   void initState() {
+    _fetchName();
+    _fetchData( 'height' , userHeight );
+    _fetchData( 'weight' , userWeight );
+    _fetchBMI();
+    _fetchAge();
+    _fetchImage();
     super.initState();
   }
 
-  final myControllerHeight = TextEditingController();
-  final myControllerWeight = TextEditingController();
-
-  @override
-  void dispose() {
-    //Cleanup Controller when widget is disposed
-    myControllerHeight.dispose();
-    myControllerWeight.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-            backgroundColor: Color(0xffF0F2F8),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    alignment: AlignmentDirectional.topCenter,
-                    children: [
-                      _buildBackgroundCover(),
-                      _buildUserPic(),
-                      _selectUserPic(),
-                      _buildUserName(),
-                      _buildSettingPanel(),
-                    ],
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-                  isLoading
-                      ? Center(child: CircularProgressIndicator())
-                      : _covidTracker(),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  userType == 'doctors'
-                      ? _doctorPanel()
-                      : SizedBox(
-                          height: 1,
-                        ),
-                  _patientDetails(),
-                ],
-              ),
-            )),
-      ],
+    return RefreshIndicator(
+      child: Stack(
+        children: [
+          Scaffold(
+              backgroundColor: Color(0xffF0F2F8),
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: AlignmentDirectional.topCenter,
+                      children: [
+                        _buildBackgroundCover(),
+                        _buildUserPic(),
+                        _selectUserPic(),
+                        _buildUserName(),
+                        _buildSettingPanel(),
+                      ],
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+                    isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : _covidTracker(),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    userType == 'doctors'
+                        ? _doctorPanel()
+                        : SizedBox(
+                            height: 1,
+                          ),
+                    _patientDetails(),
+                  ],
+                ),
+              )),
+        ],
+      ),
+      onRefresh: _refreshData,
     );
   }
 
@@ -299,113 +304,10 @@ class _Dash1State extends State<Dash1> {
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.05,
-                          vertical: MediaQuery.of(context).size.width * 0.04),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            'Total',
-                            maxLines: 1,
-                            style: TextStyle(
-                                color: Colors.amber,
-                                fontSize: 14,
-                                fontFamily: 'RobotoReg',
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.4, 2.4),
-                                    blurRadius: 8.7,
-                                    color: Color.fromARGB(100, 245, 217, 82),
-                                  ),
-                                ]),
-                          ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            totalGrand,
-                            maxLines: 1,
-                            style: TextStyle(
-                              color: Colors.amber,
-                              fontSize: 14,
-                              fontFamily: 'Droid Sans',
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.05,
-                          vertical: MediaQuery.of(context).size.width * 0.04),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            'Recovered',
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 14,
-                                fontFamily: 'RobotoReg',
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.4, 2.4),
-                                    blurRadius: 8.7,
-                                    color: Color.fromARGB(100, 158, 238, 93),
-                                  ),
-                                ]),
-                          ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            totalRecovered,
-                            maxLines: 1,
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 14,
-                                fontFamily: 'Droid Sans'),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.05,
-                          vertical: MediaQuery.of(context).size.width * 0.04),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            'Death',
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 14,
-                                fontFamily: 'RobotoReg',
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.4, 2.4),
-                                    blurRadius: 8.7,
-                                    color: Color.fromARGB(100, 245, 84, 84),
-                                  ),
-                                ]),
-                          ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            totalDeath,
-                            maxLines: 1,
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 14,
-                                fontFamily: 'Droid Sans'),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                  _containerCovid( name : 'Total' , data: totalGrand, color1 : Colors.amber , color2: Color.fromARGB(00, 245, 217, 82), ),
+                  _containerCovid( name : 'Recovered' , data: totalRecovered, color1 : Colors.green , color2: Color.fromARGB(100, 158, 238, 93), ),
+                  _containerCovid( name : 'Death' , data: totalDeath, color1 : Colors.red , color2: Color.fromARGB(100, 245, 84, 84), ),
+
                 ]),
           ]),
     );
@@ -419,341 +321,17 @@ class _Dash1State extends State<Dash1> {
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <
               Widget>[
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <
-            Widget>[
-          GestureDetector(
-            onLongPress: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text(
-                                'Height',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontFamily: 'RobotoReg',
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: TextField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp('[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                    border: new OutlineInputBorder(),
-                                    hintText: 'Enter your height'),
-                                controller: myControllerHeight,
-                              ),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      ElevatedButton(
-                                        child: Text("Save"),
-                                        onPressed: () {
-                                          userHeight = myControllerHeight.text;
-                                          _changeHeight();
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  content: Text(
-                                                      'Height Changed Successfully')));
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BotNavBar()));
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.teal),
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        child: Text("Cancel"),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          myControllerHeight.clear();
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.teal),
-                                        ),
-                                      ),
-                                    ])),
-                          ],
-                        ),
-                      ),
-                    );
-                  });
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.12,
-              width: MediaQuery.of(context).size.width * 0.45,
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05,
-                  vertical: MediaQuery.of(context).size.width * 0.04),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    spreadRadius: 0.5,
-                    blurRadius: 11.2,
-                  )
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Height',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontFamily: 'RobotoReg',
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                  Text(
-                    userHeight != null ? userHeight : '',
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontFamily: 'Droid Sans',
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          GestureDetector(
-            onLongPress: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text(
-                                'Weight',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontFamily: 'RobotoReg',
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: TextField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp('[0-9]'))
-                                ],
-                                decoration: InputDecoration(
-                                    border: new OutlineInputBorder(),
-                                    hintText: 'Enter your weight'),
-                                controller: myControllerWeight,
-                              ),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      ElevatedButton(
-                                        child: Text("Save"),
-                                        onPressed: () {
-                                          userWeight = myControllerWeight.text;
-                                          _changeWeight();
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  content: Text(
-                                                      'Weight Changed Successfully')));
-
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BotNavBar()));
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.teal),
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        child: Text("Cancel"),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          myControllerWeight.clear();
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.teal),
-                                        ),
-                                      ),
-                                    ])),
-                          ],
-                        ),
-                      ),
-                    );
-                  });
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.12,
-              width: MediaQuery.of(context).size.width * 0.45,
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05,
-                  vertical: MediaQuery.of(context).size.width * 0.04),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    spreadRadius: 0.5,
-                    blurRadius: 11.2,
-                  )
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Weight',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontFamily: 'RobotoReg',
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                  Text(
-                    userWeight != null ? userWeight : '',
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontFamily: 'Droid Sans',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ]),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height * 0.12,
-                width: MediaQuery.of(context).size.width * 0.45,
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.05,
-                    vertical: MediaQuery.of(context).size.width * 0.04),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      spreadRadius: 0.5,
-                      blurRadius: 11.2,
-                    )
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Age',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: 'RobotoReg',
-                      ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                    Text(
-                      ageFinal != null ? ageFinal : '',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'Droid Sans',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.12,
-                width: MediaQuery.of(context).size.width * 0.45,
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.05,
-                    vertical: MediaQuery.of(context).size.width * 0.04),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      spreadRadius: 0.5,
-                      blurRadius: 11.2,
-                    )
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'BMI',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: 'RobotoReg',
-                      ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-                    Text(
-                      bmiFixed != null ? bmiFixed : '',
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'Droid Sans',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ]),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <
+                  Widget>[
+                    _containerPatientG(name: 'Height' , data: userHeight , dataSnack: "Height Changed Successfully", hintText: 'Enter the height in cm', myController: myControllerHeight, ),
+                    _containerPatientG(name: 'Weight' , data: userWeight , dataSnack: "Weight Changed Successfully", hintText: 'Enter the weight in kg', myController: myControllerWeight, ),
+                    ]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: <Widget>[
+                      _containerPatient(name: 'Age' , data: ageFinal),
+                      _containerPatient(name: 'BMI' , data: bmiFixed )
+                    ]),
       ]),
     );
   }
@@ -795,33 +373,7 @@ class _Dash1State extends State<Dash1> {
     }
   }
 
-  _changeHeight() async {
-    if (firebaseUser != null && userType == 'patients')
-      await _firestore
-          .collection('patients')
-          .doc(firebaseUser.uid)
-          .update({'height': myControllerHeight.text});
 
-    if (firebaseUser != null && userType == 'doctors')
-      await _firestore
-          .collection("doctors")
-          .doc(firebaseUser.uid)
-          .update({'height': myControllerHeight.text});
-  }
-
-  _changeWeight() async {
-    if (firebaseUser != null && userType == 'patients')
-      await _firestore
-          .collection('patients')
-          .doc(firebaseUser.uid)
-          .update({'weight': myControllerWeight.text});
-
-    if (firebaseUser != null && userType == 'doctors')
-      await _firestore
-          .collection("doctors")
-          .doc(firebaseUser.uid)
-          .update({'weight': myControllerWeight.text});
-  }
 
   signOut() async {
     await _auth.signOut();
@@ -829,4 +381,461 @@ class _Dash1State extends State<Dash1> {
         MaterialPageRoute(builder: (context) =>HomePage()),
             (Route<dynamic> route) => false);
   }
+
+  Future<void> _refreshData() async{
+    setState(() {
+      _fetchName();
+      _fetchData( 'height' , userHeight );
+      _fetchData( 'weight' , userWeight );
+      _fetchBMI();
+      _fetchAge();
+      _fetchImage();
+    });
+  }
 }
+
+
+class _containerCovid extends StatelessWidget {
+
+  final String name;
+  final String data;
+  final Color color1;
+  final Color color2;
+
+  const _containerCovid({
+    Key key,
+    this.name,
+    this.data,
+    this.color1,
+    this.color2
+  }) : super (key : key);
+
+  @override
+  Widget build(BuildContext context) {
+   return Expanded(
+     child: Container(
+       padding: EdgeInsets.symmetric(
+           horizontal: MediaQuery.of(context).size.width * 0.05,
+           vertical: MediaQuery.of(context).size.width * 0.04),
+       child: Column(
+         children: <Widget>[
+           Text(
+             name,
+             maxLines: 1,
+             style: TextStyle(
+                 color: color1,
+                 fontSize: 14,
+                 fontFamily: 'RobotoReg',
+                 shadows: <Shadow>[
+                   Shadow(
+                     offset: Offset(2.4, 2.4),
+                     blurRadius: 8.7,
+                     color: color2
+                   ),
+                 ]),
+           ),
+           SizedBox(
+               height: MediaQuery.of(context).size.width * 0.02),
+           Text(
+             data,
+             maxLines: 1,
+             style: TextStyle(
+               color: color1,
+               fontSize: 14,
+               fontFamily: 'Droid Sans',
+             ),
+           )
+         ],
+       ),
+     ),
+   );
+  }
+
+}
+
+
+class _containerPatientG extends StatelessWidget {
+
+  final String name;
+  String data;
+  final String dataSnack;
+  final String hintText;
+  final TextEditingController myController;
+
+  _containerPatientG({
+    Key key,
+    this.name,
+    this.data,
+    this.dataSnack,
+    this.hintText,
+    this.myController
+  }) : super (key : key);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onLongPress: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                content: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontFamily: 'RobotoReg',
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp('[0-9]'))
+                          ],
+                          decoration: InputDecoration(
+                              border: new OutlineInputBorder(),
+                              hintText: hintText),
+                          controller: myController,
+                        ),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                ElevatedButton(
+                                  child: Text("Save"),
+                                  onPressed: () {
+                                    data = myController.text;
+                                    _changeData( name , myController);
+                                    myController.clear();
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                        content: Text(
+                                            dataSnack)));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BotNavBar()));
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                    MaterialStateProperty.all(
+                                        Colors.teal),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  child: Text("Cancel"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    myController.clear();
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                    MaterialStateProperty.all(
+                                        Colors.teal),
+                                  ),
+                                ),
+                              ])),
+                    ],
+                  ),
+                ),
+              );
+            });
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.12,
+        width: MediaQuery.of(context).size.width * 0.45,
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.05,
+            vertical: MediaQuery.of(context).size.width * 0.04),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              spreadRadius: 0.5,
+              blurRadius: 11.2,
+            )
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              name,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+                fontFamily: 'RobotoReg',
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+            Text(
+              data != null ? data : '',
+              maxLines: 2,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+                fontFamily: 'Droid Sans',
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+}
+
+class _containerPatient extends StatelessWidget {
+
+  final String name;
+  final String data;
+
+  const _containerPatient({
+    Key key,
+    this.name,
+    this.data,
+  }) : super (key : key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.12,
+      width: MediaQuery.of(context).size.width * 0.45,
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05,
+          vertical: MediaQuery.of(context).size.width * 0.04),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            spreadRadius: 0.5,
+            blurRadius: 11.2,
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            name,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+              fontFamily: 'RobotoReg',
+            ),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+          Text(
+            data != null ? data : '',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontFamily: 'Droid Sans',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+}
+
+
+_changeData( String name, TextEditingController controllerData  ) async {
+  String fName = name.toLowerCase();
+  if (firebaseUser != null && userType == 'patients')
+    await _firestore
+        .collection('patients')
+        .doc(firebaseUser.uid)
+        .update({fName: controllerData.text});
+
+  if (firebaseUser != null && userType == 'doctors')
+    await _firestore
+        .collection("doctors")
+        .doc(firebaseUser.uid)
+        .update({fName: controllerData.text});
+}
+
+Future<String> _fetchName() async {
+
+  if (firebaseUser != null && userType == 'patients')
+    await _firestore
+        .collection('patients')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      userName = documentSnapshot.get('First name');
+      print(userName);
+      print(userType);
+    }).catchError((e) {
+      print(e);
+    });
+
+  if (firebaseUser != null && userType == 'doctors')
+    await _firestore
+        .collection('doctors')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      userName = documentSnapshot.get('First name');
+      print(userName);
+    }).catchError((e) {
+      print(e);
+    });
+  return userName;
+}
+
+Future<String> _fetchData(String name, String data) async {
+
+
+  if (firebaseUser != null && userType == 'patients')
+    await _firestore
+        .collection('patients')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      data = documentSnapshot.get(name);
+      print(data);
+    }).catchError((e) {
+      print(e);
+    });
+
+  if (firebaseUser != null && userType == 'doctors')
+    await _firestore
+        .collection('doctors')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      data = documentSnapshot.get(name);
+      print(data);
+    }).catchError((e) {
+      print(e);
+    });
+
+  return userHeight;
+}
+
+Future<String> _fetchAge() async {
+
+  if (firebaseUser != null && userType == 'patients')
+    await _firestore
+        .collection('patients')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      bornDate = documentSnapshot.get('DOB');
+      DateTime bd = new DateFormat('dd/MM/yyyy').parse(bornDate);
+      int age = today.year - bd.year;
+      if (today.month < bd.month ||
+          (today.month == bd.month && today.day < bd.day)) age = age - 1;
+      print(age);
+      ageFinal = age.toString();
+    }).catchError((e) {
+      print(e);
+    });
+
+  if (firebaseUser != null && userType == 'doctors')
+    await _firestore
+        .collection('doctors')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      bornDate = documentSnapshot.get('DOB');
+      DateTime bd = new DateFormat('dd/MM/yyyy').parse(bornDate);
+      int age = today.year - bd.year;
+      if (today.month < bd.month ||
+          (today.month == bd.month && today.day < bd.day)) age = age - 1;
+      print(age);
+      ageFinal = age.toString();
+    }).catchError((e) {
+      print(e);
+    });
+
+  return ageFinal;
+}
+
+Future<String> _fetchBMI() async {
+
+  if (firebaseUser != null && userType == 'patients')
+    await _firestore
+        .collection('patients')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      userWeight = documentSnapshot.get('weight');
+      userHeight = documentSnapshot.get('height');
+      w = double.parse(userWeight);
+      h = double.parse(userHeight);
+      bmi = (w / (h * h)) * 10000;
+      bmiFixed = bmi.toStringAsFixed(2);
+      print(bmiFixed);
+    }).catchError((e) {
+      print(e);
+    });
+
+  if (firebaseUser != null && userType == 'doctors')
+    await _firestore
+        .collection('doctors')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      userWeight = documentSnapshot.get('weight');
+      userHeight = documentSnapshot.get('height');
+      w = double.parse(userWeight);
+      h = double.parse(userHeight);
+      bmi = (w / (h * h)) * 10000;
+      bmiFixed = bmi.toStringAsFixed(2);
+      print(bmiFixed);
+    }).catchError((e) {
+      print(e);
+    });
+
+  return bmiFixed;
+}
+
+Future<String> _fetchImage() async {
+
+  if (firebaseUser != null && userType == 'patients')
+    await _firestore
+        .collection('patients')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      imageUrl = documentSnapshot.get('ImgUrl');
+    }).catchError((e) {
+      print(e);
+    });
+
+  if (firebaseUser != null && userType == 'doctors')
+    await _firestore
+        .collection('doctors')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      imageUrl = documentSnapshot.get('ImgUrl');
+    }).catchError((e) {
+      print(e);
+    });
+
+  return imageUrl;
+}
+
