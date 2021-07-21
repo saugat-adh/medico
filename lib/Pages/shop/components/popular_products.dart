@@ -56,7 +56,7 @@ class PopUpProducts extends StatelessWidget {
                                   press: () { Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (BuildContext context) => DetailsScreen()),
+                                        builder: (BuildContext context) => DetailsScreen(document)),
                                   );
                                   },
                                 );

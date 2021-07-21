@@ -1,37 +1,42 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:medico/Pages/shop/cart/cart_screen.dart';
 import 'package:medico/details/Components/product_images.dart';
 import 'package:readmore/readmore.dart';
 
 class ProductDescription extends StatefulWidget {
-  const ProductDescription({
-    Key key,
-    this.title, this.productDescription, this.productPrice,
-  }) : super(key: key);
-  final String title;
-  final String productDescription;
-  final String productPrice;
+  final QueryDocumentSnapshot docs;
+
+  const ProductDescription(this.docs);
+
+
+
+
 
   @override
   _ProductDescriptionState createState() => _ProductDescriptionState();
 }
 
+
 class _ProductDescriptionState extends State<ProductDescription> {
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ProductImages(
-
-        ),
-        SizedBox(height: 20,),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width*0.04,
+    return Expanded(
+      child: Column(
+        children: [
+          Padding(
+            padding:EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.14,),
+            child: ProductImages(
+              imgURL: widget.docs['ProductImageUrl'],
+            ),
           ),
-          child: TopRoundedContainer(
+
+          SizedBox(height: 10,),
+          TopRoundedContainer(
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,10 +45,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width*0.04,
-                    vertical: MediaQuery.of(context).size.height*0.019,
                   ),
                   child: Text(
-                    widget.title,
+                    widget.docs['Name'],
                     style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
@@ -51,7 +55,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 Padding(
                   padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*0.04),
                   child: ReadMoreText(
-                    widget.productDescription,
+                    widget.docs['Description'],
                     trimLines: 2,
                     trimMode: TrimMode.Line,
                     trimCollapsedText: '...Show more',
@@ -95,39 +99,42 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
               ],
             ),
-          ),
-        ), //Product Description
-        SizedBox(height: 40,),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.08),
-          child: SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton.icon(
-              icon: Icon(FeatherIcons.shoppingCart),
-              label: Text(
-                "Add to Cart".toUpperCase(),
-                style: TextStyle(fontSize: 15),
-              ),
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(color: Colors.red)
-                    )
+          ), //Product Description
+          SizedBox(height: 40,),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.08),
+            child: SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton.icon(
+                icon: Icon(FeatherIcons.shoppingCart),
+                label: Text(
+                  "Add to Cart".toUpperCase(),
+                  style: TextStyle(fontSize: 15),
                 ),
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(color: Colors.red)
+                      )
+                  ),
+                ),
+
+                onPressed: (){
+
+                  Navigator.pushNamed(context, CartScreen.routeName);
+                },
+
+
               ),
-
-              onPressed: (){},
-
-
             ),
           ),
-        ),
-        //Add to cart option
-      ],
+          //Add to cart option
+        ],
+      ),
     );
   }
 }

@@ -48,7 +48,6 @@ class MedicoApp extends StatelessWidget {
           SignUp.id: (context) => SignUp(),
           BotNavBar.id: (context) => BotNavBar(),
           InfoForm.id: (context) => InfoForm(),
-          DetailsScreen.routeName: (context) => DetailsScreen(),
           CartScreen.routeName: (context) => CartScreen(),
         },
       );
