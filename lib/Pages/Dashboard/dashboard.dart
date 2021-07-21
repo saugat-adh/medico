@@ -42,7 +42,7 @@ class _Dash1State extends State<Dash1> {
   void initState() {
     _fetchName();
     _fetchData( 'height' , userHeight );
-    _fetchData( 'weight' , userWeight) ;
+    _fetchData( 'weight' , userWeight );
     _fetchBMI();
     _fetchAge();
     _fetchImage();
@@ -52,40 +52,43 @@ class _Dash1State extends State<Dash1> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-            backgroundColor: Color(0xffF0F2F8),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    alignment: AlignmentDirectional.topCenter,
-                    children: [
-                      _buildBackgroundCover(),
-                      _buildUserPic(),
-                      _selectUserPic(),
-                      _buildUserName(),
-                      _buildSettingPanel(),
-                    ],
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-                  isLoading
-                      ? Center(child: CircularProgressIndicator())
-                      : _covidTracker(),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  userType == 'doctors'
-                      ? _doctorPanel()
-                      : SizedBox(
-                          height: 1,
-                        ),
-                  _patientDetails(),
-                ],
-              ),
-            )),
-      ],
+    return RefreshIndicator(
+      child: Stack(
+        children: [
+          Scaffold(
+              backgroundColor: Color(0xffF0F2F8),
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: AlignmentDirectional.topCenter,
+                      children: [
+                        _buildBackgroundCover(),
+                        _buildUserPic(),
+                        _selectUserPic(),
+                        _buildUserName(),
+                        _buildSettingPanel(),
+                      ],
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+                    isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : _covidTracker(),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    userType == 'doctors'
+                        ? _doctorPanel()
+                        : SizedBox(
+                            height: 1,
+                          ),
+                    _patientDetails(),
+                  ],
+                ),
+              )),
+        ],
+      ),
+      onRefresh: _refreshData,
     );
   }
 
@@ -377,6 +380,17 @@ class _Dash1State extends State<Dash1> {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) =>HomePage()),
             (Route<dynamic> route) => false);
+  }
+
+  Future<void> _refreshData() async{
+    setState(() {
+      _fetchName();
+      _fetchData( 'height' , userHeight );
+      _fetchData( 'weight' , userWeight );
+      _fetchBMI();
+      _fetchAge();
+      _fetchImage();
+    });
   }
 }
 
