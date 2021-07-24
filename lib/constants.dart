@@ -24,6 +24,7 @@ String imageUrl='';
 bool isLoading = false;
 List<dynamic> docData = [];
 List recentDocData = [];
+List productData = [];
 
 
 

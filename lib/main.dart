@@ -20,6 +20,7 @@ void main() async {
   await Firebase.initializeApp();
   getType();
   _getDocData();
+  _getProductData();
   runApp(MedicoApp());
 }
 
@@ -28,6 +29,13 @@ _getDocData() async {
   for (var i = 0; i < querySnapshot.size; i++) {
     docData.add(querySnapshot.docs[i]['First name']);
     //print(querySnapshot.docs[i]['First name']);
+  }
+}
+
+_getProductData () async{
+  QuerySnapshot querySnapshot = await _firestore.collection("products").get();
+  for (var i = 0; i < querySnapshot.size; i++) {
+    productData.add(querySnapshot.docs[i]['Name']);
   }
 }
 
