@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:medico/Pages/appointments/components/HeaderButton.dart';
+import 'package:medico/Pages/shop/components/shop_header.dart';
 
 class SearchField extends StatelessWidget {
   SearchField({this.txt});
@@ -7,29 +10,48 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width:MediaQuery.of(context).size.width*0.70,
-      height:50,
-      decoration:BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(15),
-
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 10,
       ),
-      child: TextField(
-        onChanged: (value){
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          HeaderButton(text: 'Shop',size: 30,),
+          SizedBox(width: MediaQuery.of(context).size.width*0.2,),
+          InkWell(
+            onTap: (){},
+            borderRadius: BorderRadius.circular(50),
+            child: Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.001),
+                  height: MediaQuery.of(context).size.height*0.11,
+                  width: MediaQuery.of(context).size.width*0.11,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    shape: BoxShape.circle,
+                  ) ,
+                  child: IconButton(
+                    icon: Icon(
+                      FeatherIcons.search,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      showSearch(context: context, delegate: ProductDataSearch());
+                    },
+                  ),
 
-        },
-        decoration: InputDecoration(
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          hintText: txt,
-          prefixIcon: Icon(Icons.search),
-          contentPadding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width*0.05,
-              vertical: MediaQuery.of(context).size.width*0.04),
-        ),
-      ) ,
 
+                ),
+
+
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
