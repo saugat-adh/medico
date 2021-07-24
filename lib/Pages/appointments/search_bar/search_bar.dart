@@ -41,6 +41,12 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     //show results
+    for(var i =0 ; i < recentDocData.length ; i++){
+      if(recentDocData[i] == query){
+        recentDocData.remove(recentDocData[i]);
+      }
+    }
+    recentDocData.add(query);
     return DocListSearch(title: query);
   }
 
@@ -48,7 +54,7 @@ class DataSearch extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     //show suggestions
     final suggestionList = query.isEmpty
-        ? recentDocData
+        ? recentDocData.reversed.toList()
         : docData.where((element) => element.startsWith(query)).toList();
 //
     return ListView.builder(

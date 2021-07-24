@@ -25,7 +25,7 @@ class DocListSearch extends StatelessWidget {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(child: Container(child: Text(''))),
+              Center(child: Container(child: Text('No results found'))),
             ],
           );
         } else {
