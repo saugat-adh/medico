@@ -31,7 +31,7 @@ class AppointmentSwiper extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.25,
                   child: Card(
                     margin: EdgeInsets.only(
-                        bottom: 20, left: 10, top: 10, right: 10),
+                        bottom: 20, left: 10, top: 0, right: 10),
                     elevation: 20,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -118,7 +118,7 @@ class AppointmentSwiper extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.25,
                   child: Card(
                     margin: EdgeInsets.only(
-                        bottom: 20, left: 10, top: 10, right: 10),
+                        bottom: 20, left: 10, top: 0, right: 10),
                     elevation: 20,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),

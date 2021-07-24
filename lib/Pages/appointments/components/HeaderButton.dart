@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class HeaderButton extends StatelessWidget {
-  HeaderButton({this.text, this.press});
+  HeaderButton({this.text, this.press, this.size});
   final String text;
   final Function press;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +16,12 @@ class HeaderButton extends StatelessWidget {
         children: [
           Text(text,
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.width*0.04,
+              fontSize: size ?? MediaQuery.of(context).size.width*0.04,
               fontStyle: FontStyle.normal,
             ),),
           GestureDetector(
             onTap: press,
-            child:  Text("See More",
+            child:  Text("",
               style:TextStyle(
                 color: Colors.black38,
               ) ,),

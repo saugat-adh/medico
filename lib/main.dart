@@ -19,7 +19,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   getType();
+  _getDocData();
   runApp(MedicoApp());
+}
+
+_getDocData() async {
+  QuerySnapshot querySnapshot = await _firestore.collection("doctors").get();
+  for (var i = 0; i < querySnapshot.size; i++) {
+    docData.add(querySnapshot.docs[i]['First name']);
+    //print(querySnapshot.docs[i]['First name']);
+  }
 }
 
 Future getType() async {

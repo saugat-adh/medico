@@ -11,7 +11,6 @@ class Schedule extends StatelessWidget {
       child: Column(
         children: [
           HeaderButton(text: 'Your Favourites',),
-          SizedBox(height: 20,),
           AppointmentSwiper(),
         ],
       ),

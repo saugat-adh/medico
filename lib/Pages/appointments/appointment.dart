@@ -24,9 +24,9 @@ class _Dash2State extends State<Dash2> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  // SizedBox(height: MediaQuery.of(context).size.height*0.01),
                   AppointmentHeader(),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.01),
+                  // SizedBox(height: MediaQuery.of(context).size.height*0.01),
                   Schedule(),
                   SizedBox(height: MediaQuery.of(context).size.height*0.01),
                   CategoriesAppointment(),

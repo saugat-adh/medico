@@ -22,6 +22,9 @@ String totalDeath = '';
 String totalGrand = '';
 String imageUrl='';
 bool isLoading = false;
+List<dynamic> docData = [];
+List recentDocData = [];
+
 
 
 List<Map<String, dynamic>> docCategories=[
