@@ -229,7 +229,7 @@ class _EditState extends State<EditItem> {
               backgroundColor: MaterialStateProperty.all(Colors.teal),
             ),
             onPressed: () {
-              pName = productName.text;
+              pName = productName.text ?? pName;
               pDescription = productDescription.text;
               pQuantity = productQuantity.text;
               pPrice = productPrice.text;
