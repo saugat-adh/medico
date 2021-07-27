@@ -5,6 +5,7 @@ import 'package:medico/Pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'addnewitems.dart';
+import 'edititem.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final firebaseUser = _auth.currentUser;
@@ -64,7 +65,17 @@ class _PharmaState extends State<Pharma> {
                   builder: (BuildContext context) => AddNewItem()));
             },
               child: Text("Add New Items", style: TextStyle(fontSize: 20.0, color: Colors.teal)),
-            ),)
+            ),),
+            Padding(padding: EdgeInsets.only(top: 20.0),
+              child: TextButton(
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => EditItem()));
+                },
+                child: Text("Edit Products", style: TextStyle(fontSize: 20.0, color: Colors.teal)),
+              ),)
           ],
         ),
       ),
