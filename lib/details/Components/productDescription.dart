@@ -1,11 +1,16 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:medico/Pages/shop/cart/cart_screen.dart';
 import 'package:medico/details/Components/product_images.dart';
 import 'package:readmore/readmore.dart';
+
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class ProductDescription extends StatefulWidget {
   final QueryDocumentSnapshot docs;
@@ -124,8 +129,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 ),
 
                 onPressed: (){
-
-                  Navigator.pushNamed(context, CartScreen.routeName);
+                  addProd(widget.docs.id);
                 },
 
 
@@ -170,4 +174,50 @@ class TopRoundedContainer extends StatelessWidget {
 
     );
   }
+}
+
+Future addProd(prodId) async{
+  final firebaseUser = _auth.currentUser;
+  String user;
+
+  if (firebaseUser != null)
+    await _firestore
+        .collection('AllUsers')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      user = documentSnapshot.get('User');
+    }).catchError((e) {
+      print(e);
+    });
+
+  if (firebaseUser != null)
+    await _firestore
+        .collection(user)
+        .doc(firebaseUser.uid)
+        .collection('cart').where('UID', isEqualTo: prodId).get().then((value) async{
+      if (value.docs.length > 0){
+        return;
+      } else {
+        if (firebaseUser != null && user == 'patients')
+          await _firestore
+              .collection('patients')
+              .doc(firebaseUser.uid)
+              .collection('cart')
+              .add({
+            "UID" : prodId,
+            "quanitiy": '1',
+          });
+
+        if (firebaseUser != null && user == 'doctors')
+          await _firestore
+              .collection('doctors')
+              .doc(firebaseUser.uid)
+              .collection('cart')
+              .add({
+            "UID" : prodId,
+            "quanitiy": '1',
+          });
+      }
+    });
 }
