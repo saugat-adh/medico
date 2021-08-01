@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:medico/Pages/appointments/book_page/components/headPart.dart';
 
@@ -10,6 +11,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final firebaseUser = _auth.currentUser;
 
 class DocPanel extends StatefulWidget {
+
   @override
   _DocPanelState createState() => _DocPanelState();
 }
@@ -30,10 +32,12 @@ class _DocPanelState extends State<DocPanel> {
   //String _initialValue = '';
 
   String _valueSaved1 = '';
+  TextEditingController myController;
 
   @override
   void initState() {
     super.initState();
+    myController = new TextEditingController();
     //_initialValue = DateTime.now().toString();
     _controller1 = TextEditingController(text: DateTime.now().toString());
     _getValue();
@@ -276,14 +280,132 @@ class _DocPanelState extends State<DocPanel> {
                   child: Text('Reset'),
                 ),
               ),
-              _appointmentsMade()
+              _appointmentsMade(),
+              SizedBox(height: 30,),
+              _changeDesc(),
             ],
           ),
         ),
       ),
     );
   }
+
+  _changeDesc() {
+    return StreamBuilder(
+      stream: _firestore
+          .collection('doctors')
+          .doc(firebaseUser.uid)
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot snapshot){
+        return GestureDetector(
+          onTap: (){
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text(
+                              'Change Your Description',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontFamily: 'RobotoReg',
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: TextField(
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                  border: new OutlineInputBorder(),
+                                  //hintText: hintText
+                                ),
+                              controller: myController,
+                            ),
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    ElevatedButton(
+                                      child: Text("Save"),
+                                      onPressed: () {
+                                        _changeData(myController);
+                                        myController.clear();
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                            content: Text(
+                                                'Chnaged Sucessfully')));
+                                        Navigator.pop(context);
+                                      },
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                        MaterialStateProperty.all(
+                                            Colors.teal),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      child: Text("Cancel"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        myController.clear();
+                                      },
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                        MaterialStateProperty.all(
+                                            Colors.teal),
+                                      ),
+                                    ),
+                                  ])),
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          },
+          child: Column(
+            children:[
+              Container(
+                width: MediaQuery.of(context).size.width - 20,
+                //height: 30,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Your Description'),
+                      SizedBox(height: 20),
+                      Text(snapshot.data['desc']),
+                    ],
+                  ),
+                ),
+              )
+            ]
+          ),
+        );
+      }
+    );
+  }
+  _changeData(TextEditingController controllerData  ) async {
+      await _firestore
+          .collection("doctors")
+          .doc(firebaseUser.uid)
+          .update({'desc': controllerData.text});
+  }
 }
+
 
 class DayCard extends StatelessWidget {
   DayCard({this.name, this.year, this.date, this.time});

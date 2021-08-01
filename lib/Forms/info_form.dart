@@ -358,6 +358,7 @@ class _InfoFormState extends State<InfoForm> {
       "weight": weightController.text,
       "desc": '',
       'rating' : '0',
+      'ImgUrl' : 'https://firebasestorage.googleapis.com/v0/b/medico-7af3f.appspot.com/o/150-1503945_transparent-user-png-default-user-image-png-png.png?alt=media&token=41f12d96-3b95-4427-8b0d-d576f6665b7d'
     });
     setState(() {
       isLoading = false;
