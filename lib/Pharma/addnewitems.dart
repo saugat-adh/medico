@@ -138,6 +138,7 @@ class _AddState extends State<AddNewItem> {
             pPrice = productPrice.text;
             _upload();
             _clear();
+            Navigator.of(context).pop();
           },
         ),
 
@@ -201,6 +202,7 @@ class _AddState extends State<AddNewItem> {
         .add({
       'Name': pName,
       'Description' : pDescription,
+      "productOwner":FirebaseAuth.instance.currentUser.uid.toString(),
       'Quantity' : pQuantity,
       'Price' : pPrice,
       'ProductImageUrl' : productImageUrl,

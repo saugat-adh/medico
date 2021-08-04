@@ -70,6 +70,7 @@ class CheckoutCard extends StatelessWidget {
                       style: TextStyle(fontSize: 15),
                     ),
                     onPressed: (){
+                      notifyOwners();
 
                     },
                   ),
@@ -81,4 +82,61 @@ class CheckoutCard extends StatelessWidget {
       ),
     );
   }
+  
+  notifyOwners()async{
+    final firebaseUser = _auth.currentUser;
+    String user;
+
+    if (firebaseUser != null)
+      await _firestore
+          .collection('AllUsers')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        user = documentSnapshot.get('User');
+      }).catchError((e) {
+        print(e);
+      });
+
+    QuerySnapshot productSnapshot = await FirebaseFirestore.instance
+        .collection(user.toString())
+        .doc(firebaseUser.uid)
+    .collection('cart').get();
+
+
+    productSnapshot.docs.forEach((productId) async{
+      Map data = productId.data();
+      String productUid = data['UID'];
+      DocumentSnapshot singleProductSnapshot = await FirebaseFirestore.instance
+          .collection('products')
+          .doc(productUid).get();
+      Map owner = singleProductSnapshot.data();
+      sendNotification(
+          productOwnerUid: owner['productOwner'],
+        buyerName: data['username'],
+        buyerAddress: data['address'],
+        buyerPNo: data['cellNumber'],
+        productNames: owner['Name']
+      );
+      // sendNotification();
+
+    });
+  }
+
+  sendNotification({
+    @required String productOwnerUid,
+    @required String buyerName,
+    @required String buyerPNo,
+    @required String buyerAddress,
+    @required String productNames
+  }){
+    FirebaseFirestore.instance.collection("StoreAdmin").doc(productOwnerUid).collection('item').add({
+      "buyerName":buyerName,
+      "address":buyerAddress,
+      "cellNumber":buyerPNo,
+      "product":productNames
+    });
+
+  }
+
 }

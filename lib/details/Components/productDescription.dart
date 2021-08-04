@@ -181,14 +181,23 @@ class TopRoundedContainer extends StatelessWidget {
 Future addProd(prodId) async{
   final firebaseUser = _auth.currentUser;
   String user;
+  String userName;
+  String address;
+  String cellNumber ;
 
   if (firebaseUser != null)
     await _firestore
         .collection('AllUsers')
         .doc(firebaseUser.uid)
         .get()
-        .then((DocumentSnapshot documentSnapshot) {
+        .then((DocumentSnapshot documentSnapshot) async{
       user = documentSnapshot.get('User');
+
+        DocumentSnapshot username = await FirebaseFirestore.instance.collection(user).doc(firebaseUser.uid).get();
+        Map nameData = username.data();
+        userName = "${nameData['First name']} ${ nameData['Last name']}";
+        cellNumber = nameData['cellnumber'];
+        address = nameData['address'];
     }).catchError((e) {
       print(e);
     });
@@ -219,6 +228,9 @@ Future addProd(prodId) async{
               .add({
             "UID" : prodId,
             "quanitiy": '1',
+            "username":userName,
+            "cellNumber":cellNumber,
+            "address":address
           });
 
         if (firebaseUser != null && user == 'doctors')
@@ -229,6 +241,9 @@ Future addProd(prodId) async{
               .add({
             "UID" : prodId,
             "quanitiy": '1',
+            "username":userName,
+            "cellNumber":cellNumber,
+            "address":address
           });
       }
     });
