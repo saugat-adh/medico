@@ -209,6 +209,7 @@ Future addProd(prodId) async{
             "quanitiy": '1',
           });
 
+
         if (firebaseUser != null && user == 'doctors')
           await _firestore
               .collection('doctors')
@@ -218,6 +219,16 @@ Future addProd(prodId) async{
             "UID" : prodId,
             "quanitiy": '1',
           });
+
+        await _firestore
+            .collection('products')
+            .doc(prodId)
+            .collection('Buyer')
+            .add({
+              "UID": firebaseUser.uid,
+              "quanitiy": "1",
+        });
       }
     });
+
 }
