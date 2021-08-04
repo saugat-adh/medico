@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:medico/Components/snackbar.dart';
 import 'package:medico/Forms/OtpLogin.dart';
+import 'package:medico/Pages/home_page.dart';
 import 'package:medico/Pharma/mainScreen.dart';
+import 'package:medico/main.dart';
 import '../models/userModel.dart';
 import '../constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,7 +59,7 @@ Future login(numberController, context, scafkey) async {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => userType == 'admin' ? Pharma() : BotNavBar(),
+                        builder: (BuildContext context) => userType == 'admin' ? Pharma() : MedicoApp(),
                       ),
                           (route) => false,
                     )

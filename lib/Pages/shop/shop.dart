@@ -14,6 +14,10 @@ class Dash3 extends StatefulWidget {
 
 class _Dash3State extends State<Dash3> {
   @override
+  void dispose() {
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [

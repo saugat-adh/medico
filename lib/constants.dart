@@ -26,6 +26,7 @@ List<dynamic> docData = [];
 List recentDocData = [];
 List recentProductData=[];
 List productData = [];
+var total_price = 0;
 
 
 

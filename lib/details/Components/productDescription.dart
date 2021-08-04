@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:medico/Pages/shop/cart/cart_screen.dart';
+import 'package:medico/Pages/shop/price_calculator.dart';
+import 'package:medico/constants.dart';
 import 'package:medico/details/Components/product_images.dart';
 import 'package:readmore/readmore.dart';
 
@@ -197,7 +199,17 @@ Future addProd(prodId) async{
         .doc(firebaseUser.uid)
         .collection('cart').where('UID', isEqualTo: prodId).get().then((value) async{
       if (value.docs.length > 0){
-        return;
+        value.docs.forEach((document) async{
+          var t = int.parse(document['quanitiy']);
+          t++;
+          await _firestore
+              .collection(userType)
+              .doc(firebaseUser.uid)
+              .collection('cart').doc(document.id)
+              .update({
+            "quanitiy": t.toString(),
+          });
+        });
       } else {
         if (firebaseUser != null && user == 'patients')
           await _firestore
@@ -209,7 +221,6 @@ Future addProd(prodId) async{
             "quanitiy": '1',
           });
 
-
         if (firebaseUser != null && user == 'doctors')
           await _firestore
               .collection('doctors')
@@ -219,16 +230,7 @@ Future addProd(prodId) async{
             "UID" : prodId,
             "quanitiy": '1',
           });
-
-        await _firestore
-            .collection('products')
-            .doc(prodId)
-            .collection('Buyer')
-            .add({
-              "UID": firebaseUser.uid,
-              "quanitiy": "1",
-        });
       }
     });
-
+  price();
 }

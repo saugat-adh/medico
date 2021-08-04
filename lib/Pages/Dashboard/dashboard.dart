@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:medico/Notifications/NotificationsPage.dart';
 import 'package:medico/Pages/Dashboard/docPanel.dart';
-import 'package:medico/Pages/home_page.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:medico/Pages/shop/cart/cart_screen.dart';
 import 'package:medico/Setting/SettingsPage.dart';
 import 'package:medico/Wizards/icons.dart';
@@ -17,6 +17,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../main.dart';
 import '../bottom_nav.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -46,6 +47,10 @@ class _Dash1State extends State<Dash1> {
     _fetchAge();
     _fetchImage();
     super.initState();
+  }
+  @override
+  void dispose() {
+    super.dispose();
   }
 
 
@@ -374,11 +379,12 @@ class _Dash1State extends State<Dash1> {
 
 
 
-  signOut() async {
-    await _auth.signOut();
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) =>HomePage()),
-            (Route<dynamic> route) => false);
+  signOut() {
+    _auth.signOut();
+    _deleteAppDir();
+    _deleteCacheDir();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) =>MedicoApp()));
   }
 
   Future<void> _refreshData() async{
@@ -838,3 +844,18 @@ Future<String> _fetchImage() async {
   return imageUrl;
 }
 
+Future<void> _deleteCacheDir() async {
+  Directory tempDir = await getTemporaryDirectory();
+
+  if (tempDir.existsSync()) {
+    tempDir.deleteSync(recursive: true);
+  }
+}
+
+Future<void> _deleteAppDir() async {
+  Directory appDocDir = await getApplicationDocumentsDirectory();
+
+  if (appDocDir.existsSync()) {
+    appDocDir.deleteSync(recursive: true);
+  }
+}

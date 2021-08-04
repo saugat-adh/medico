@@ -1,14 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/shop/cart/components/Cart.dart';
 
 
 class CartCard extends StatelessWidget {
-  const CartCard({
-    Key key,
-    @required this.cart,
-  }) : super(key: key);
+  final QueryDocumentSnapshot docs;
+  final String quantity;
 
-  final Cart cart;
+  const CartCard({Key key, this.docs, this.quantity});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class CartCard extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.asset(cart.product.images[0],),
+              child: Image.network(docs['ProductImageUrl'],),
             ),
           ),
         ),
@@ -36,19 +35,20 @@ class CartCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              cart.product.title,
+              docs['Name'],
               style: TextStyle(color: Colors.black, fontSize: 16),
               maxLines: 2,
             ),
             SizedBox(height: 10),
-            Text.rich(
-              TextSpan(
-                text: "\$${cart.product.price}",
+            RichText(
+              overflow: TextOverflow.ellipsis,
+              text: TextSpan(
+                // text: docs['Description'],
                 style: TextStyle(
                     fontWeight: FontWeight.w600, color: Colors.grey),
                 children: [
                   TextSpan(
-                      text: " x${cart.numOfItem}",
+                      text: quantity,
                       style: Theme
                           .of(context)
                           .textTheme

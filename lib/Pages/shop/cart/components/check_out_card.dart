@@ -1,14 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:medico/constants.dart';
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final firebaseUser = _auth.currentUser;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 
 class CheckoutCard extends StatelessWidget {
-  const CheckoutCard({
-    Key key,
-  }) : super(key: key);
+
+
+
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: MediaQuery.of(context).size.width*0.05,
@@ -43,7 +50,7 @@ class CheckoutCard extends StatelessWidget {
                     text: "Total:\n",
                     children: [
                       TextSpan(
-                        text: "\$337.15",
+                        text: total_price.toString(),
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ],

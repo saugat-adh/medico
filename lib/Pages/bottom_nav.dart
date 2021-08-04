@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/Dashboard/dashboard.dart';
 import 'package:medico/Pharma/mainScreen.dart';
@@ -45,6 +47,11 @@ class _BotNavBarState extends State<BotNavBar> {
   void initState() {
     userType == 'admin' ? _gotoNavigate() : _getElseData();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   _getElseData() {

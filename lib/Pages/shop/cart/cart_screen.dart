@@ -1,17 +1,33 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medico/Pages/shop/cart/components/Cart.dart';
 import 'package:medico/Pages/shop/cart/components/body.dart';
 import 'package:medico/Pages/shop/cart/components/check_out_card.dart';
+import 'package:medico/constants.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final firebaseUser = _auth.currentUser;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+
 class CartScreen extends StatelessWidget {
  static String routeName="/cart";
 
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFF5F6F9),
-      appBar: buildAppBar(context),
-      body: Body(),
-      bottomNavigationBar: CheckoutCard(),
+    return StreamBuilder<Object>(
+      stream: null,
+      builder: (context, snapshot) {
+        return Scaffold(
+          backgroundColor: Color(0xFFF5F6F9),
+          appBar: buildAppBar(context),
+          body: Body(),
+          bottomNavigationBar: CheckoutCard(),
+        );
+      }
     );
 
   }

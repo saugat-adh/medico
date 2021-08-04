@@ -8,11 +8,17 @@ import 'package:medico/Pages/appointments/components/categories.dart';
 class Dash2 extends StatefulWidget {
 
 
+
   @override
   _Dash2State createState() => _Dash2State();
 }
 
 class _Dash2State extends State<Dash2> {
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

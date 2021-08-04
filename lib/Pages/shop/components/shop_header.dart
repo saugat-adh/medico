@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:medico/Components/search_field.dart';
 import 'package:medico/Pages/shop/cart/cart_screen.dart';
 import 'package:medico/constants.dart';
+import '../price_calculator.dart';
 import 'product_list.dart';
 
 
@@ -88,6 +89,7 @@ class ProductDataSearch extends SearchDelegate<String> {
 class ShopHeader extends StatelessWidget {
   ShopHeader({this.title});
 
+
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -105,7 +107,9 @@ class ShopHeader extends StatelessWidget {
               IconButtonWithCounter(
                 svgSrc: "images/feather/shopping-cart.svg",
                 numOfItems: 1,
-                press: ()=> Navigator.pushNamed(context, CartScreen.routeName)
+                press: (){
+                  price();
+                  Navigator.pushNamed(context, CartScreen.routeName);}
                 ,
               ),
 
