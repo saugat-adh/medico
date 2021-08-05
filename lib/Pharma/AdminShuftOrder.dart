@@ -12,7 +12,7 @@ class AdminShiftOrders extends StatefulWidget {
 class _AdminShiftOrdersState extends State<AdminShiftOrders> {
   Stream<List<productModel>> getNotifications() {
     final snapshots = FirebaseFirestore.instance.collection('StoreAdmin')
-        .doc(FirebaseAuth.instance.currentUser.uid).collection('item')
+        .doc('nuBhe6wKPZNpfHNNvGG0HolM6Fe2').collection('item')
         .snapshots();
 
     return snapshots.map((event) => event.docs

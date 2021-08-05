@@ -46,7 +46,7 @@ class _PharmaState extends State<Pharma> {
   }
 
   notificationData()async{
-    QuerySnapshot query = await FirebaseFirestore.instance.collection('StoreAdmin').doc(FirebaseAuth.instance.currentUser.uid).collection('item').get();
+    QuerySnapshot query = await FirebaseFirestore.instance.collection('StoreAdmin').doc('nuBhe6wKPZNpfHNNvGG0HolM6Fe2').collection('item').get();
     query.docs.forEach((element) {
       print(element.id);
     });
