@@ -6,6 +6,7 @@ import 'package:medico/Pages/shop/components/categories.dart';
 import 'package:medico/Pages/shop/components/shop_header.dart';
 import 'package:medico/Pages/shop/components/section_title.dart';
 import 'package:medico/Pages/shop/components/special_offer_card.dart';
+import 'package:medico/Pages/shop/price_calculator.dart';
 
 class Dash3 extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _Dash3State extends State<Dash3> {
   }
   @override
   Widget build(BuildContext context) {
+    price();
     return Stack(
       children: [
         Scaffold(

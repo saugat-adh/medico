@@ -13,7 +13,7 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: _firestore
-          .collection(userType == 'doctors' ? 'doctors' : 'patients')
+          .collection(userType)
           .doc(firebaseUser.uid)
           .collection('docAppointment')
           .snapshots(),
@@ -81,7 +81,7 @@ class DocScheduleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: _firestore
-          .collection( 'doctors').where(FieldPath.documentId, isEqualTo: id).snapshots(),
+          .collection('doctors').where(FieldPath.documentId, isEqualTo: id).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
         return Center(
           child: Padding(
